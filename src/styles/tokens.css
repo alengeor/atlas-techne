@@ -1,0 +1,25 @@
+:root {
+  --background: #102540;
+  --surface: #213f5e;
+  --surface-glass: rgba(28, 61, 94, .94);
+  --text: #f7f9fc;
+  --muted: #d0dae6;
+  --accent: #dfb45e;
+  --focus: #ffe43b;
+  --ink: #111b28;
+  --success: #88e4bb;
+  --info: #43c6ed;
+  --border: rgba(203, 218, 234, .3);
+  --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --radius-control: 7px;
+  --radius-panel: 14px;
+  --control: 44px;
+  --blur: 12px;
+  --shadow-panel: 0 12px 38px #00000028;
+  --shadow-modal: 0 24px 80px #00000066;
+  --z-markers: 10;
+  --z-controls: 20;
+  --z-panels: 30;
+  --z-notice: 60;
+  color-scheme: dark;
+}

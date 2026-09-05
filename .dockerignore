@@ -1,0 +1,12 @@
+node_modules
+dist
+dist-server
+.git
+.env*
+maps-data
+maps-multimedia
+config-private
+test-results
+playwright-report
+docs/capturas_referencia
+*.log
