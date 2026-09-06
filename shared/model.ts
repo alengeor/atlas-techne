@@ -15,9 +15,13 @@ export const mediaSchema = z.discriminatedUnion('kind', [
   z.object({ id, kind: z.literal('image'), assetId: id, title: localizedSchema.optional(), alt: localizedSchema.optional() }),
   z.object({ id, kind: z.literal('video'), assetId: id, title: localizedSchema.optional() }),
 ]);
+export const markerCategorySchema = z.object({
+  id, title: localizedSchema, color: z.string().regex(/^#[0-9a-fA-F]{6}$/).default('#e6b65e'), visibleByDefault: z.boolean(),
+});
+export type MarkerCategory = z.infer<typeof markerCategorySchema>;
 export const markerSchema = z.object({
   id, position: z.object({ x: unit, y: unit }), title: localizedSchema, description: localizedSchema,
-  appearance: appearanceSchema, visible: z.boolean(), layerIds: z.array(id), media: z.array(mediaSchema).max(3),
+  appearance: appearanceSchema, visible: z.boolean(), layerIds: z.array(id), categoryId: id.optional(), media: z.array(mediaSchema).max(3),
 });
 export type Marker = z.infer<typeof markerSchema>;
 export type Appearance = z.infer<typeof appearanceSchema>;
@@ -35,17 +39,20 @@ export type MapAsset = z.infer<typeof assetSchema>;
 export const mapSchema = z.object({
   schemaVersion: z.literal(1), id, title: localizedSchema, description: localizedSchema,
   width: z.number().positive().max(20000), height: z.number().positive().max(20000),
-  layers: z.array(layerSchema).min(1).max(30), markers: z.array(markerSchema).max(500), assets: z.array(assetSchema).max(2000),
+  layers: z.array(layerSchema).min(1).max(30), markerCategories: z.array(markerCategorySchema).max(50).default([]),
+  markers: z.array(markerSchema).max(500), assets: z.array(assetSchema).max(2000),
 }).superRefine((map, ctx) => {
   const fail = (message: string) => ctx.addIssue({ code: 'custom', message });
   const assetIds = new Set(map.assets.map(a => a.id));
   const layerIds = new Set(map.layers.map(l => l.id));
-  if (assetIds.size !== map.assets.length || layerIds.size !== map.layers.length || new Set(map.markers.map(m => m.id)).size !== map.markers.length) fail('Duplicate IDs');
+  const categoryIds = new Set(map.markerCategories.map(category => category.id));
+  if (assetIds.size !== map.assets.length || layerIds.size !== map.layers.length || categoryIds.size !== map.markerCategories.length || new Set(map.markers.map(m => m.id)).size !== map.markers.length) fail('Duplicate IDs');
   if (!map.layers.some(l => l.kind === 'base')) fail('A reference layer is required');
   if (map.layers.filter(l => l.kind === 'base' && l.visibleByDefault).length !== 1) fail('Exactly one initial base layer is required');
   for (const layer of map.layers) if (!assetIds.has(layer.assetId)) fail('Missing layer asset');
   for (const marker of map.markers) {
     if (marker.layerIds.some(l => !layerIds.has(l))) fail('Missing marker layer');
+    if (marker.categoryId && !categoryIds.has(marker.categoryId)) fail('Missing marker category');
     if (marker.appearance.kind === 'custom' && !assetIds.has(marker.appearance.assetId)) fail('Missing icon');
     for (const media of marker.media) if (!assetIds.has(media.assetId)) fail('Missing media asset');
   }

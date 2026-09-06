@@ -11,7 +11,7 @@ function stop(code) {
   for (const child of children) child.kill('SIGTERM');
   process.exitCode = code;
 }
-const api = spawn(process.execPath, ['--env-file-if-exists=.env', ...(preview ? ['dist-server/index.js'] : ['--import', 'tsx', 'server/index.ts'])], { cwd: root, stdio: 'inherit', windowsHide: true });
+const api = spawn(process.execPath, ['--env-file-if-exists=.env', ...(preview ? ['dist-server/index.js'] : ['--watch', '--import', 'tsx', 'server/index.ts'])], { cwd: root, stdio: 'inherit', windowsHide: true });
 children.push(api);
 const vite = spawn(process.execPath, ['node_modules/vite/bin/vite.js', ...(preview ? ['preview'] : []), '--host', 'localhost'], { cwd: root, stdio: 'inherit', windowsHide: true });
 children.push(vite);

@@ -27,8 +27,9 @@ El comando pide usuario y contraseña sin mostrar esta última. Guarda sólo un 
 2. Elegir **Agregar mapa**, escribir el título y cargar la primera imagen.
 3. Agregar capas desde el panel: imágenes alternativas o superposiciones independientes. Se aceptan distintas proporciones; **Ajustar imagen** permite escala y desplazamientos sin deformarla.
 4. Elegir un icono/color y colocar un marcador; su formulario se abre inmediatamente. También puede colocarse por coordenadas. Cancelar descarta el marcador provisional.
-5. Aplicar los cambios de formularios y pulsar **Guardar cambios** en el panel. El estado distingue cambios pendientes, guardando, guardado y error. Aplicar un formulario no equivale a guardar el mapa en disco.
-6. Completar ES/PT/EN y pulsar **Publicar**. El visitante sólo ve la copia publicada. Cambios posteriores permanecen en el borrador hasta publicar nuevamente.
+5. Crear categorías desde **Categorías** y asignarlas opcionalmente en la ficha de cada marcador. El visitante puede encender o apagar cada grupo; los marcadores sin categoría siempre permanecen visibles ante esos filtros.
+6. Aplicar los cambios de formularios y pulsar **Guardar cambios** en el panel. El estado distingue cambios pendientes, guardando, guardado y error. Aplicar un formulario no equivale a guardar el mapa en disco.
+7. Completar ES/PT/EN y pulsar **Publicar**. El visitante sólo ve la copia publicada. Cambios posteriores permanecen en el borrador hasta publicar nuevamente.
 
 El catálogo empieza vacío, sin mapas de demostración. No es una versión de prueba en memoria: crear mapas, cargar archivos y guardar cambios escribe en las carpetas reales. Al recargar se leen sus JSON. Los cambios aún no guardados en el panel sí se pierden al recargar; se muestra la advertencia del navegador.
 

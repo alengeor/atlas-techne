@@ -1,5 +1,5 @@
 import { useEffect, useReducer, useRef, useState } from 'react';
-import { initialLayers, localized, orderedLayers, removeMapLayer, toggleLayer, type Appearance, type MapAsset, type MapDocument, type Marker } from '../../../shared/model';
+import { initialLayers, localized, orderedLayers, removeMapLayer, toggleLayer, type Appearance, type MapAsset, type MapDocument, type Marker, type MarkerCategory } from '../../../shared/model';
 import { Icon } from '../../components/Icon';
 import { Dialog } from '../../components/Dialog';
 import { LocalizedFields } from '../../components/LocalizedFields';
@@ -8,11 +8,12 @@ import { MapCanvas } from './MapCanvas';
 import { MarkerDetails } from './MarkerDetails';
 import { AppearancePicker } from '../editor/AppearancePicker';
 import { MarkerEditor } from '../editor/MarkerEditor';
+import { MarkerCategoryForm } from '../editor/MarkerCategoryForm';
 import { LayerForm } from '../editor/LayerForm';
 import { toolReducer } from '../editor/tool';
 import type { LocalImage } from '../assets/readImage';
 
-type Panel = 'base' | 'layers' | 'edit' | 'markers';
+type Panel = 'base' | 'layers' | 'categories' | 'edit' | 'markers';
 export function MapScreen({ map, editing, onEdit, onChange, onImage, assetUrl, onBack, saveState, published, onSave, onPublish, onReload, isEditor }: {
   map: MapDocument; editing: boolean; onEdit: (value: boolean) => void;
   onChange: (map: MapDocument) => void; onImage: (image: LocalImage, kind: 'layers' | 'icons' | 'markers', progress?: (percent: number) => void) => Promise<MapAsset>;
@@ -22,12 +23,14 @@ export function MapScreen({ map, editing, onEdit, onChange, onImage, assetUrl, o
 }) {
   const { locale, t } = useLanguage();
   const [active, setActive] = useState(() => initialLayers(map));
+  const [activeCategories, setActiveCategories] = useState(() => map.markerCategories.filter(category => category.visibleByDefault).map(category => category.id));
   const [panel, setPanel] = useState<Panel | null>(editing ? 'edit' : null);
   const [tool, dispatch] = useReducer(toolReducer, { mode: 'select' });
   const [appearance, setAppearance] = useState<Appearance>({ kind: 'system', icon: 'pin', color: '#e6b65e' });
   const [selected, setSelected] = useState<string | null>(null);
   const [layerForm, setLayerForm] = useState(false);
   const [metadata, setMetadata] = useState(false);
+  const [categoryForm, setCategoryForm] = useState<MarkerCategory | 'new' | null>(null);
   const [infoOpen, setInfoOpen] = useState(true);
   const panelButton = useRef<HTMLButtonElement>(null);
   const previousEditing = useRef(editing);
@@ -58,7 +61,13 @@ export function MapScreen({ map, editing, onEdit, onChange, onImage, assetUrl, o
     id: 'provisional', position: tool.position, appearance: tool.appearance, title: localized(), description: localized(), media: [], visible: true, layerIds: [],
   } : undefined;
   const editorMarker = provisional ?? (editing ? marker : undefined);
-  const tabs: Panel[] = editing ? ['base', 'layers', 'edit', 'markers'] : ['base', 'layers', 'markers'];
+  const hasAlternativeBases = map.layers.filter(layer => layer.kind === 'base').length > 1;
+  const hasOverlays = map.layers.some(layer => layer.kind === 'overlay');
+  const tabs: Panel[] = editing ? ['base', 'layers', 'categories', 'edit', 'markers'] : [
+    ...(hasAlternativeBases ? ['base' as const] : []),
+    ...(hasOverlays ? ['layers' as const] : []),
+    ...(map.markerCategories.length ? ['categories' as const] : []),
+  ];
   const closeEditor = () => { dispatch({ type: 'cancel' }); setSelected(null); };
   const reorder = (id: string, delta: number) => {
     const layers = orderedLayers(map.layers); const index = layers.findIndex(l => l.id === id); const other = layers[index + delta]; const current = layers[index];
@@ -67,7 +76,7 @@ export function MapScreen({ map, editing, onEdit, onChange, onImage, assetUrl, o
     commit({ ...map, layers: layers.map((l, order) => ({ ...l, order })) });
   };
   return <main className="map-screen" id="main-content" tabIndex={-1}>
-    <MapCanvas map={map} active={active} assetUrl={assetUrl} placing={editing && tool.mode === 'placing'}
+    <MapCanvas map={map} active={active} activeCategories={activeCategories} assetUrl={assetUrl} placing={editing && tool.mode === 'placing'}
       editing={editing}
       onPlace={position => dispatch({ type: 'place', position, dragged: false })}
       provisional={provisional} onMarker={m => { if (tool.mode === 'placing') return; setSelected(m.id); }}
@@ -82,10 +91,10 @@ export function MapScreen({ map, editing, onEdit, onChange, onImage, assetUrl, o
         {infoOpen && <><h1>{map.title[locale]}</h1><p>{map.description[locale]}</p><div className="map-summary"><span><Icon name="layers" />{map.layers.length} {t.layerCount}</span><span><Icon name="pin" />{map.markers.length} {t.markerCount}</span></div></>}
       </section>
     </aside>
-    {!panel && <button ref={panelButton} className="panel-trigger surface" onClick={() => setPanel(editing ? 'edit' : 'base')}><Icon name="layers" />{t.layers}</button>}
+    {!panel && (editing || tabs.length > 0) && <button ref={panelButton} className="panel-trigger surface" onClick={() => setPanel(editing ? 'edit' : tabs[0] ?? null)}><Icon name="layers" />{t.layers}</button>}
     {panel && <aside className="map-panel surface" aria-label={t.layers}>
       <div className="panel-header"><div className="panel-tabs">
-        {tabs.map(tab => <button key={tab} aria-pressed={panel === tab} onClick={() => setPanel(tab)}>{tab === 'base' ? t.baseLayers : tab === 'layers' ? t.overlays : tab === 'edit' ? t.edit : t.markers}</button>)}
+        {tabs.map(tab => <button key={tab} aria-pressed={panel === tab} onClick={() => setPanel(tab)}>{tab === 'base' ? t.baseLayers : tab === 'layers' ? t.overlays : tab === 'categories' ? t.markerCategories : tab === 'edit' ? t.edit : t.markers}</button>)}
       </div><button className="icon-button" aria-label={t.close} onClick={() => { setPanel(null); panelButton.current?.focus(); }}><Icon name="close" /></button></div>
       <div className="panel-body">
         {(panel === 'base' || panel === 'layers') && <>
@@ -119,6 +128,18 @@ export function MapScreen({ map, editing, onEdit, onChange, onImage, assetUrl, o
           {panel === 'layers' && !map.layers.some(l => l.kind === 'overlay') && <p>{t.emptyLayers}</p>}
           {editing && <button className="wide-button" onClick={() => setLayerForm(true)}><Icon name="plus" />{t.addLayer}</button>}
         </>}
+        {panel === 'categories' && <>
+          <p className="muted panel-intro">{t.categoriesHelp}</p>
+          {map.markerCategories.map(category => <div className="layer-row category-row" key={category.id}>
+            <label className="layer-choice category-choice"><input type="checkbox" checked={activeCategories.includes(category.id)} onChange={() => setActiveCategories(current => current.includes(category.id) ? current.filter(id => id !== category.id) : [...current, category.id])} /><span className="category-dot" style={{ backgroundColor: category.color }} aria-hidden="true" /><span>{category.title[locale] || category.title.es}</span></label>
+            {editing && <div className="layer-edit"><button className="icon-button" title={t.editCategory} aria-label={`${t.editCategory}: ${category.title[locale] || category.title.es}`} onClick={() => setCategoryForm(category)}><Icon name="edit" /></button><button className="icon-button danger-quiet" title={t.delete} aria-label={`${t.delete}: ${category.title[locale] || category.title.es}`} onClick={() => {
+              commit({ ...map, markerCategories: map.markerCategories.filter(item => item.id !== category.id), markers: map.markers.map(marker => marker.categoryId === category.id ? { ...marker, categoryId: undefined } : marker) });
+              setActiveCategories(current => current.filter(id => id !== category.id));
+            }}><Icon name="trash" /></button></div>}
+          </div>)}
+          {!map.markerCategories.length && <p>{t.noCategories}</p>}
+          {editing && <button className="wide-button" onClick={() => setCategoryForm('new')}><Icon name="plus" />{t.addCategory}</button>}
+        </>}
         {panel === 'edit' && editing && <>
           <AppearancePicker value={appearance} onChange={arm} customIcons={customIcons} onImage={addIcon} assetUrl={assetUrl} />
           {tool.mode === 'placing' && <p className="placing-help" role="status">{t.placing}</p>}
@@ -132,13 +153,19 @@ export function MapScreen({ map, editing, onEdit, onChange, onImage, assetUrl, o
     </aside>}
     {!panel && !editing && <div className="interaction-hint surface"><Icon name="info" /><span>{t.hint}</span></div>}
     {tool.mode === 'placing' && <div className="placement-banner surface"><span>{t.placing}</span><button onClick={() => dispatch({ type: 'cancel' })}>{t.cancel}</button></div>}
-    {editorMarker && <MarkerEditor key={provisional ? 'new' : marker?.id} marker={editorMarker} isNew={!!provisional} customIcons={customIcons} assetUrl={assetUrl} onImage={addIcon} onMediaUpload={async image => {
+    {editorMarker && <MarkerEditor key={provisional ? 'new' : marker?.id} marker={editorMarker} categories={map.markerCategories} isNew={!!provisional} customIcons={customIcons} assetUrl={assetUrl} onImage={addIcon} onMediaUpload={async image => {
       const asset = await onImage(image, 'markers');
       commit({ ...map, assets: [...map.assets, asset] });
       return asset.id;
     }} onClose={closeEditor}
       onApply={next => { commit({ ...map, markers: provisional ? [...map.markers, { ...next, id: crypto.randomUUID() }] : map.markers.map(m => m.id === next.id ? next : m) }); closeEditor(); }}
       onDelete={() => { commit({ ...map, markers: map.markers.filter(m => m.id !== selected) }); closeEditor(); }} />}
+    {categoryForm && <MarkerCategoryForm key={categoryForm === 'new' ? 'new' : categoryForm.id} category={categoryForm === 'new' ? undefined : categoryForm} onClose={() => setCategoryForm(null)} onApply={category => {
+      const exists = map.markerCategories.some(item => item.id === category.id);
+      commit({ ...map, markerCategories: exists ? map.markerCategories.map(item => item.id === category.id ? category : item) : [...map.markerCategories, category] });
+      if (!exists && category.visibleByDefault) setActiveCategories(current => [...current, category.id]);
+      setCategoryForm(null);
+    }} />}
     {!editing && marker && <MarkerDetails marker={marker} assetUrl={assetUrl} onClose={() => setSelected(null)} />}
     {layerForm && <LayerForm onClose={() => setLayerForm(false)} onApply={async (image, title, kind, progress) => {
       const asset = await onImage(image, 'layers', progress); const id = crypto.randomUUID();

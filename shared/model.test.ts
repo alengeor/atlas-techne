@@ -57,4 +57,13 @@ describe('versioned map contracts', () => {
     }));
     expect(mapSchema.safeParse({ ...map, markers: [{ ...marker, media: extraMedia }] }).success).toBe(false);
   });
+  it('keeps legacy maps compatible and validates optional marker categories', () => {
+    const map = fixture();
+    const legacy: Partial<typeof map> = structuredClone(map);
+    delete legacy.markerCategories;
+    expect(mapSchema.parse(legacy).markerCategories).toEqual([]);
+    const category = { id: 'operational', title: { es: 'Operativas', pt: 'Operacionais', en: 'Operational' }, visibleByDefault: true };
+    expect(mapSchema.safeParse({ ...map, markerCategories: [category], markers: map.markers.map((marker, index) => index === 0 ? { ...marker, categoryId: category.id } : marker) }).success).toBe(true);
+    expect(mapSchema.safeParse({ ...map, markers: [{ ...map.markers[0], categoryId: 'missing' }] }).success).toBe(false);
+  });
 });

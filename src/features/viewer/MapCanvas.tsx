@@ -18,8 +18,9 @@ function LayerImage({ src, alt, style }: { src: string; alt: string; style: Reac
     {status !== 'ready' && <div className="image-status" role="status">{status === 'loading' ? t.loading : <>{t.imageError}<button onClick={() => { setStatus('loading'); setAttempt(a => a + 1); }}>{t.retry}</button></>}</div>}
   </>;
 }
-export function MapCanvas({ map, active, assetUrl, onMarker, placing, onPlace, provisional, editing, onMarkerMove, onMarkerDelete }: {
+export function MapCanvas({ map, active, activeCategories, assetUrl, onMarker, placing, onPlace, provisional, editing, onMarkerMove, onMarkerDelete }: {
   map: MapDocument; active: string[]; assetUrl: (id: string) => string; onMarker: (marker: Marker) => void;
+  activeCategories: string[];
   placing: boolean; onPlace: (point: Point) => void; provisional?: { position: Point; appearance: Appearance };
   editing?: boolean; onMarkerMove?: (id: string, point: Point) => void; onMarkerDelete?: (id: string) => void;
 }) {
@@ -39,7 +40,7 @@ export function MapCanvas({ map, active, assetUrl, onMarker, placing, onPlace, p
           const box = contain({ width: rect.width, height: rect.height }, asset ?? map);
           return <LayerImage key={`${layer.id}-${layer.assetId}`} src={assetUrl(layer.assetId)} alt={layer.alt[locale]} style={{ left: box.x + layer.transform.x * rect.width, top: box.y + layer.transform.y * rect.height, width: box.width, height: box.height, opacity: layer.transform.opacity, transform: `scale(${layer.transform.scale})` }} />;
         })}
-        {map.markers.filter(m => m.visible && (!m.layerIds.length || m.layerIds.some(id => active.includes(id)))).map(marker => {
+        {map.markers.filter(m => m.visible && (!m.categoryId || activeCategories.includes(m.categoryId)) && (!m.layerIds.length || m.layerIds.some(id => active.includes(id)))).map(marker => {
           const isDragged = dragState?.id === marker.id;
           return <button key={marker.id} className="map-marker"
             style={{ left: `${marker.position.x * 100}%`, top: `${marker.position.y * 100}%`, opacity: isDragged ? 0 : undefined }}

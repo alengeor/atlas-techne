@@ -117,6 +117,8 @@ button .icon { flex-shrink: 0; }
 .layer-choice { display: flex; flex-direction: row; align-items: center; gap: 12px; cursor: pointer; min-height: 76px; padding: 10px 0; margin: 0; }
 .layer-choice input { width: 20px; min-height: 20px; height: 20px; accent-color: var(--accent); margin: 0; flex-shrink: 0; }
 .layer-choice:has(input:checked) { color: var(--accent); font-weight: 650; }
+.category-choice { min-height: 54px; }
+.category-dot { width: 14px; height: 14px; border-radius: 50%; border: 1px solid #ffffff99; box-shadow: 0 0 0 2px #0d2237; flex: 0 0 auto; }
 .layer-thumb { width: 76px; height: 50px; overflow: hidden; border: 1px solid var(--border); border-radius: 6px; background: #112841; flex-shrink: 0; }
 .layer-thumb img { width: 100%; height: 100%; object-fit: cover; }
 .layer-edit { display: flex; align-items: center; gap: 8px; padding-bottom: 12px; }
@@ -170,6 +172,9 @@ legend { font-size: 14px; color: var(--muted); font-weight: 600; margin-bottom: 
 .button-row { display: flex; gap: 8px; flex-wrap: wrap; margin-left: auto; }
 label { display: flex; flex-direction: column; gap: 8px; font-weight: 500; font-size: 14px; color: var(--muted); margin-bottom: 18px; }
 input, textarea, select { min-height: 44px; width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; background: #10243a; color: var(--text); }
+.checkbox-field { flex-direction: row; align-items: center; color: var(--text); }
+.checkbox-field input { width: 20px; min-height: 20px; height: 20px; padding: 0; accent-color: var(--accent); }
+.category-color-input { width: 64px; padding: 4px; cursor: pointer; }
 textarea { resize: vertical; }
 .locale-tabs { display: flex; gap: 8px; margin-bottom: 18px; }
 .locale-tabs button { min-width: 72px; font-size: 13px; }

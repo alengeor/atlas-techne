@@ -111,6 +111,8 @@ export class MapStorage {
           case 'metadata': map.title = change.title; map.description = change.description; break;
           case 'layer.upsert': { const index = map.layers.findIndex(l => l.id === change.value.id); if (index < 0) map.layers.push(change.value); else map.layers[index] = change.value; break; }
           case 'layer.remove': map.layers = map.layers.filter(l => l.id !== change.id); break;
+          case 'category.upsert': { const index = map.markerCategories.findIndex(c => c.id === change.value.id); if (index < 0) map.markerCategories.push(change.value); else map.markerCategories[index] = change.value; break; }
+          case 'category.remove': map.markerCategories = map.markerCategories.filter(c => c.id !== change.id); map.markers = map.markers.map(marker => marker.categoryId === change.id ? { ...marker, categoryId: undefined } : marker); break;
           case 'marker.upsert': { const index = map.markers.findIndex(m => m.id === change.value.id); if (index < 0) map.markers.push(change.value); else map.markers[index] = change.value; break; }
           case 'marker.remove': map.markers = map.markers.filter(m => m.id !== change.id); break;
           case 'asset.add': {
@@ -132,7 +134,7 @@ export class MapStorage {
       if (revision !== stored.revision) throw new HttpError(409, 'REVISION_CONFLICT');
       const map = structuredClone(stored.map);
       map.markers = map.markers.filter(m => m.visible);
-      const required = [map.title, ...map.layers.flatMap(l => [l.title, l.alt]), ...map.markers.map(m => m.title)];
+      const required = [map.title, ...map.layers.flatMap(l => [l.title, l.alt]), ...map.markerCategories.map(category => category.title), ...map.markers.map(m => m.title)];
       const optional = [map.description, ...map.markers.map(m => m.description)];
       if (required.some(text => locales.some(l => !text[l].trim())) || optional.some(text => Object.values(text).some(Boolean) && locales.some(l => !text[l].trim()))) throw new HttpError(400, 'MISSING_TRANSLATIONS');
       const ids = usedAssets(map); map.assets = map.assets.filter(a => ids.has(a.id));

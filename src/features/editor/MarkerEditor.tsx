@@ -1,17 +1,17 @@
 import { useState } from 'react';
-import { markerSchema, type Marker } from '../../../shared/model';
+import { markerSchema, type Marker, type MarkerCategory } from '../../../shared/model';
 import { Dialog } from '../../components/Dialog';
 import { LocalizedFields } from '../../components/LocalizedFields';
 import { useLanguage } from '../../i18n/Language';
 import { AppearancePicker } from './AppearancePicker';
 import { readImage, type LocalImage } from '../assets/readImage';
 
-export function MarkerEditor({ marker, isNew, customIcons, assetUrl, onImage, onMediaUpload, onApply, onClose, onDelete }: {
-  marker: Marker; isNew: boolean; customIcons: string[]; assetUrl: (id: string) => string;
+export function MarkerEditor({ marker, categories, isNew, customIcons, assetUrl, onImage, onMediaUpload, onApply, onClose, onDelete }: {
+  marker: Marker; categories: MarkerCategory[]; isNew: boolean; customIcons: string[]; assetUrl: (id: string) => string;
   onImage: (image: LocalImage) => Promise<string>; onMediaUpload?: (image: LocalImage) => Promise<string>;
   onApply: (marker: Marker) => void; onClose: () => void; onDelete: () => void;
 }) {
-  const { t } = useLanguage();
+  const { locale, t } = useLanguage();
   const [form, setForm] = useState<Marker>(() => structuredClone(marker));
   const [error, setError] = useState(false);
   const [mediaError, setMediaError] = useState('');
@@ -48,6 +48,12 @@ export function MarkerEditor({ marker, isNew, customIcons, assetUrl, onImage, on
     }}>
       <div className="dialog-body">
         <LocalizedFields title={form.title} description={form.description} onTitle={title => setForm({ ...form, title })} onDescription={description => setForm({ ...form, description })} />
+        <fieldset><legend>{t.markerCategory}</legend><label>{t.markerCategory}
+          <select value={form.categoryId ?? ''} onChange={event => setForm({ ...form, categoryId: event.target.value || undefined })}>
+            <option value="">{t.alwaysVisible}</option>
+            {categories.map(category => <option key={category.id} value={category.id}>{category.title[locale] || category.title.es}</option>)}
+          </select>
+        </label><small>{t.markerCategoryHelp}</small></fieldset>
         <AppearancePicker value={form.appearance} onChange={appearance => setForm({ ...form, appearance })} customIcons={customIcons} assetUrl={assetUrl} onImage={onImage} />
         <fieldset><legend>{t.media}</legend>
           {form.media.length > 0 && <div className="marker-media-list">{form.media.map(item => item.kind === 'image' ? <div className="marker-media-item" key={item.id}>
