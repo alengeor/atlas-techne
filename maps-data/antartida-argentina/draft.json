@@ -32,23 +32,718 @@
         "visibleByDefault": true,
         "order": 0,
         "transform": {
-          "scale": 1.2,
+          "scale": 1.1,
           "x": 0,
           "y": 0.05,
           "opacity": 1
         }
       }
     ],
-    "markerCategories": [],
-    "markers": [],
+    "markerCategories": [
+      {
+        "id": "b1e9a294-8ed5-4abf-8599-722708122099",
+        "title": {
+          "es": "Bases Permanentes",
+          "pt": "-",
+          "en": "-"
+        },
+        "color": "#00f900",
+        "visibleByDefault": true
+      },
+      {
+        "id": "7f96aa93-96f2-4816-821f-272c74b4fde4",
+        "title": {
+          "es": "Bases Temporales",
+          "pt": "-",
+          "en": "-"
+        },
+        "color": "#e6b65e",
+        "visibleByDefault": true
+      },
+      {
+        "id": "d8cbb245-f545-47aa-94ea-f252cd4ccc51",
+        "title": {
+          "es": "Bases Inactivas",
+          "pt": "-",
+          "en": "-"
+        },
+        "color": "#ff2600",
+        "visibleByDefault": true
+      }
+    ],
+    "markers": [
+      {
+        "id": "6498c6f8-f186-4cb1-b0f3-746cd5a56289",
+        "position": {
+          "x": 0.5080751505533854,
+          "y": 0.9681233723958333
+        },
+        "title": {
+          "es": "Base Sobral",
+          "pt": "-",
+          "en": "-"
+        },
+        "description": {
+          "es": "81°04′05″S 40°36′01″O\n\nLa Base Sobral fue una estación científica de avanzada no permanente fundada en 1965 por personal de la Base Belgrano I. Ubicada en la Antártida Oriental, en una zona de condiciones climáticas extremas con temperaturas cercanas a -60 °C, llevaba el nombre del explorador Alférez de navío José María Sobral, primer argentino en invernar en el continente en 1903. Tras tres años de actividad, fue clausurada en 1968 debido a grietas provocadas por el movimiento del hielo y quedó sepultada bajo el hielo.",
+          "pt": "-",
+          "en": "-"
+        },
+        "appearance": {
+          "kind": "system",
+          "icon": "pin",
+          "color": "#ff637c"
+        },
+        "visible": true,
+        "layerIds": [],
+        "categoryId": "d8cbb245-f545-47aa-94ea-f252cd4ccc51",
+        "media": [
+          {
+            "id": "c08e762a-bef0-4783-b4cb-6d35aebf3365",
+            "kind": "image",
+            "assetId": "c95c4060-abd7-4548-aa89-eb6ea2d82822"
+          }
+        ]
+      },
+      {
+        "id": "ba2ca18c-04f5-42c3-95c8-3302875d2397",
+        "position": {
+          "x": 0.5690026936848959,
+          "y": 0.877734375
+        },
+        "title": {
+          "es": "Base Belgrano II",
+          "pt": "-",
+          "en": "-"
+        },
+        "description": {
+          "es": "77°52'32\"S 34°40'46\"O\n\nInaugurada en 1979 sobre el nunatak Bertrab al sur del mar de Weddell, es hoy la base argentina más austral y una de las permanentes más australes del mundo. Continuadora de las históricas bases Belgrano impulsadas por el Gral. Hernán Pujato, fue punto clave de exploraciones y expediciones al Polo Sur. En condiciones extremas, con temperaturas que alcanzan los -54°C y largos períodos de noche polar, desarrolla investigaciones en ozono, magnetismo, glaciología y sismología junto a programas internacionales. Allí es posible observar las auroras australis. Cuenta con la capilla más austral en una cueva de hielo.",
+          "pt": "-",
+          "en": "-"
+        },
+        "appearance": {
+          "kind": "system",
+          "icon": "pin",
+          "color": "#66d5b0"
+        },
+        "visible": true,
+        "layerIds": [],
+        "categoryId": "b1e9a294-8ed5-4abf-8599-722708122099",
+        "media": [
+          {
+            "id": "d96d442a-e946-4ab9-8823-abff7898aa1b",
+            "kind": "image",
+            "assetId": "850c616a-835b-4965-8159-d6e1fb57fc56"
+          }
+        ]
+      },
+      {
+        "id": "42bd762e-4a83-4b72-adc7-15ae244a838b",
+        "position": {
+          "x": 0.5388194091796875,
+          "y": 0.855
+        },
+        "title": {
+          "es": "Base Belgrano I",
+          "pt": "-",
+          "en": "-"
+        },
+        "description": {
+          "es": "77°47′S 38°15′O La Base de Ejército General Belgrano fue inaugurada en 1955 por el coronel Hernán Pujato sobre la barrera de hielo Filchner, al sur del mar de Weddell, y fue en su momento la base más austral del mundo. Desde allí partió en 1965 la expedición terrestre argentina al Polo Sur encabezada por el coronel Jorge E. Leal. Su dotación inicial soportó condiciones extremas, con temperaturas inferiores a -60 °C y vientos superiores a 250 km/h. Con el tiempo, el hielo que la sostenía se desprendió formando un enorme témpano, por lo que hoy el sitio original se encuentra a la deriva.",
+          "pt": "-",
+          "en": "-"
+        },
+        "appearance": {
+          "kind": "system",
+          "icon": "pin",
+          "color": "#ff637c"
+        },
+        "visible": true,
+        "layerIds": [],
+        "categoryId": "d8cbb245-f545-47aa-94ea-f252cd4ccc51",
+        "media": [
+          {
+            "id": "adda35df-432c-4665-b3ff-00a5a2a920b7",
+            "kind": "image",
+            "assetId": "b75aaec4-c87f-4eb4-9567-1e50e36ef06c"
+          }
+        ]
+      },
+      {
+        "id": "47cadaba-11f2-43fa-9e26-81cfa41c891d",
+        "position": {
+          "x": 0.5194039510091146,
+          "y": 0.8640000000000001
+        },
+        "title": {
+          "es": "Estación Científica Ellsworth",
+          "pt": "-",
+          "en": "-"
+        },
+        "description": {
+          "es": "La Base Ellsworth fue una estación científica permanente instalada por Estados Unidos durante el Año Geofísico Internacional (1957-1958) sobre la barrera de hielo Filchner, en el mar de Weddell, y transferida a la Argentina en 1959. Debido a la inestabilidad del hielo que afectó sus estructuras, fue evacuada en 1962 y posteriormente quedó cubierta por nieve. Con el tiempo, el sector de hielo donde se encontraba se desprendió formando un gran iceberg, lo que provocó la desaparición definitiva de la base.",
+          "pt": "-",
+          "en": "-"
+        },
+        "appearance": {
+          "kind": "system",
+          "icon": "pin",
+          "color": "#ff637c"
+        },
+        "visible": true,
+        "layerIds": [],
+        "categoryId": "d8cbb245-f545-47aa-94ea-f252cd4ccc51",
+        "media": [
+          {
+            "id": "fc9abf2b-e13e-408f-93de-3407b12368d7",
+            "kind": "image",
+            "assetId": "b9491cee-d182-4e27-8272-551cf2cb8297"
+          }
+        ]
+      },
+      {
+        "id": "dc589f1f-4aec-49fa-abe1-6b7bcfa198dc",
+        "position": {
+          "x": 0.4869623860677083,
+          "y": 0.8169759114583334
+        },
+        "title": {
+          "es": "Base Belgrano III",
+          "pt": "-",
+          "en": "-"
+        },
+        "description": {
+          "es": "77°54′02″S 45°47′01″O\n\nLa Base Belgrano III fue una estación científica permanente argentina inaugurada en 1980 en la isla Berkner, sobre la barrera de hielo Filchner-Ronne, y en ese momento la más austral del país. Sus instalaciones estaban compuestas por módulos móviles montados sobre orugas y estructuras con esquíes, diseñadas para resistir el ambiente extremo. Fue desactivada y evacuada en 1984 debido a la fractura del hielo que la sostenía, lo que comprometía la seguridad del personal y el equipamiento.",
+          "pt": "-",
+          "en": "-"
+        },
+        "appearance": {
+          "kind": "system",
+          "icon": "pin",
+          "color": "#ff637c"
+        },
+        "visible": true,
+        "layerIds": [],
+        "categoryId": "d8cbb245-f545-47aa-94ea-f252cd4ccc51",
+        "media": [
+          {
+            "id": "7e664a2c-cd6e-4b03-adc2-a1388147fb44",
+            "kind": "image",
+            "assetId": "65ae96f6-3e1e-4521-a1f3-1c2d572b0689"
+          }
+        ]
+      },
+      {
+        "id": "a1331630-28b6-4f44-b97a-1848469bded1",
+        "position": {
+          "x": 0.47270501302083334,
+          "y": 0.48405354817708335
+        },
+        "title": {
+          "es": "Base San Martín ",
+          "pt": "-",
+          "en": "-"
+        },
+        "description": {
+          "es": "68°7'48\"S 67°6'3\"O\n\nInaugurada en 1951 al oeste de la Península Antártica, fue impulsada por el coronel Hernán Pujato y llegó a ser la base más austral del mundo. Superó episodios críticos como el incendio de 1952 y una doble invernada, y desde allí se realizaron históricas expediciones terrestres y la instalación de refugios en la región. Rehabilitada como base permanente en 1976, hoy desarrolla investigaciones en glaciología, geomagnetismo e ionosfera a través del LASAN. Sus instalaciones históricas son Sitio y Monumento Histórico en uno de los paisajes más pintorescos y se la conoce como la perla austral.",
+          "pt": "-",
+          "en": "-"
+        },
+        "appearance": {
+          "kind": "system",
+          "icon": "pin",
+          "color": "#66d5b0"
+        },
+        "visible": true,
+        "layerIds": [],
+        "categoryId": "b1e9a294-8ed5-4abf-8599-722708122099",
+        "media": [
+          {
+            "id": "15557807-f254-45c7-a33a-c6f989b73371",
+            "kind": "image",
+            "assetId": "258b859e-ee17-4445-8305-e774506b6c83"
+          }
+        ]
+      },
+      {
+        "id": "fb48db74-73b2-45d4-bc0a-4eb66686e52f",
+        "position": {
+          "x": 0.49275911865234373,
+          "y": 0.457177734375
+        },
+        "title": {
+          "es": "Base Brown",
+          "pt": "-",
+          "en": "-"
+        },
+        "description": {
+          "es": "64°53'43\"S 62°52'14\"O\nEstación Científica Almirante Brown ubicada en la Punta Proa de la Península Sanavirón, Bahía Puerto Paraíso. Es considerado como uno de los más completos laboratorios de biología existentes en la península Antártica.\nEn 1984, un incendio de grandes proporciones destruyó la mayoría de sus instalaciones salvándose la casa de emergencia, el acuario, el mareógrafo y la usina principal. Desde 1988 ha sido activada sólo parcialmente.",
+          "pt": "-",
+          "en": "-"
+        },
+        "appearance": {
+          "kind": "system",
+          "icon": "pin",
+          "color": "#e6b65e"
+        },
+        "visible": true,
+        "layerIds": [],
+        "categoryId": "7f96aa93-96f2-4816-821f-272c74b4fde4",
+        "media": [
+          {
+            "id": "d981e45c-4b07-412b-a440-19401c319cef",
+            "kind": "image",
+            "assetId": "77cae6de-e830-4312-9f80-4cf839baee1e"
+          }
+        ]
+      },
+      {
+        "id": "4ccba011-b7ed-424c-9aed-372a55c4a518",
+        "position": {
+          "x": 0.5302321899414062,
+          "y": 0.4465087890625
+        },
+        "title": {
+          "es": "Base Matienzo",
+          "pt": "-",
+          "en": "-"
+        },
+        "description": {
+          "es": "64°58'33\"S 60°4'15\"O\n\nUbicada sobre el nunatak Larsen . Allí se habilitó el 15 de marzo de 1961, la entonces base conjunta Teniente Matienzo fruto de la acción combinada del Ejército y Aeronáutica.\nEn 1965 se lanzaron dos cohetes Gamma Centauro fabricados por la Fuerza Aérea y dos globos sonda equipados para la medición de rayos X. Los lanzamientos estuvieron a cargo del Instituto de Investigaciones Aeronáuticas y Espaciales en colaboración con la Universidad Nacional de Tucumán.",
+          "pt": "-",
+          "en": "-"
+        },
+        "appearance": {
+          "kind": "system",
+          "icon": "pin",
+          "color": "#e6b65e"
+        },
+        "visible": true,
+        "layerIds": [],
+        "categoryId": "7f96aa93-96f2-4816-821f-272c74b4fde4",
+        "media": [
+          {
+            "id": "0022d635-9cc3-41e6-b618-22fef72244e3",
+            "kind": "image",
+            "assetId": "0d4d6c83-1023-46cf-bda4-c363f18b6f67"
+          }
+        ]
+      },
+      {
+        "id": "3c84fc72-cfdc-41db-9bba-df3ea3007314",
+        "position": {
+          "x": 0.4863266153971354,
+          "y": 0.4296061197916667
+        },
+        "title": {
+          "es": "Base Melchor",
+          "pt": "-",
+          "en": "-"
+        },
+        "description": {
+          "es": "64°19'33\"S 62°58'35\"O\n\nUbicada en la isla Observatorio del archipiélago Melchior. Actualmente Estación Científica temporaria. Es la segunda base antártica histórica de Argentina. “Las cuatro de Melchior” fueron Irene Bernasconi, María Adela Caría, Elena Martínez Fontes y Carmen Pujals, que en 1968-1969 se convirtieron en las primeras científicas en realizar una expedición al continente antártico. Biólogas del Museo Argentino de Ciencias Naturales (MACN), estudiaron algas, invertebrados y microbiología.",
+          "pt": "-",
+          "en": "-"
+        },
+        "appearance": {
+          "kind": "system",
+          "icon": "pin",
+          "color": "#e6b65e"
+        },
+        "visible": true,
+        "layerIds": [],
+        "categoryId": "7f96aa93-96f2-4816-821f-272c74b4fde4",
+        "media": [
+          {
+            "id": "70e65b7f-2c2e-469f-870d-efacf253408d",
+            "kind": "image",
+            "assetId": "27512fdc-1a0d-41a3-bd43-a01b39aee07c"
+          }
+        ]
+      },
+      {
+        "id": "6b183752-4a65-4e8c-824f-6a8197456de8",
+        "position": {
+          "x": 0.51270390625,
+          "y": 0.41255289713541665
+        },
+        "title": {
+          "es": "Base Primavera",
+          "pt": "-",
+          "en": "-"
+        },
+        "description": {
+          "es": "64°9'21\"S 60°57'17\"O\n\nUbicada en un gran macizo granítico que en los lugares libres de hielo exhibe capas de líquenes, musgos y gramíneas. Posee un microclima que favorece tanto la actividad humana como la presencia de una rica flora y fauna.\nLa base está a 50 metros de altura sobre el nivel del mar y quedó desactivada en 1982 por una resolución del Comité Científico Internacional (SCAR). Está ubicada dentro del Sitio de Especial Interés Científico (SEIC). Se activa únicamente durante los meses de verano, para trabajo científico.",
+          "pt": "-",
+          "en": "-"
+        },
+        "appearance": {
+          "kind": "system",
+          "icon": "pin",
+          "color": "#e6b65e"
+        },
+        "visible": true,
+        "layerIds": [],
+        "categoryId": "7f96aa93-96f2-4816-821f-272c74b4fde4",
+        "media": [
+          {
+            "id": "640c2aaf-c8ad-4374-9e20-49ddc6afdb66",
+            "kind": "image",
+            "assetId": "087aaa2c-5742-4b31-a83a-f37da562068e"
+          }
+        ]
+      },
+      {
+        "id": "187851ec-1ce0-4e45-ab17-19bdcf647010",
+        "position": {
+          "x": 0.5378240397135416,
+          "y": 0.38955891927083336
+        },
+        "title": {
+          "es": "Base Decepción",
+          "pt": "-",
+          "en": "-"
+        },
+        "description": {
+          "es": "62°58'32\"S 60°41'52\"O\n\nLa isla Decepción, donde la Argentina instaló un destacamento naval el 25 de enero de 1948, tiene particularidades excepcionales, por su origen y características propias de una caldera volcánica. Las erupciones de los años 1967, 1969 y 1970 atrajeron de nuevo la atención internacional sobre la isla.",
+          "pt": "--",
+          "en": "--"
+        },
+        "appearance": {
+          "kind": "system",
+          "icon": "pin",
+          "color": "#e6b65e"
+        },
+        "visible": true,
+        "layerIds": [],
+        "categoryId": "7f96aa93-96f2-4816-821f-272c74b4fde4",
+        "media": [
+          {
+            "id": "e1d09bd7-2470-43aa-9560-d06e5dffb800",
+            "kind": "image",
+            "assetId": "ea2b0fa0-2cd0-4282-8eb8-52427216f91d"
+          }
+        ]
+      },
+      {
+        "id": "6c1de7bb-353a-44ae-85b3-9c2313ce6f3f",
+        "position": {
+          "x": 0.5649492960611979,
+          "y": 0.35824788411458336
+        },
+        "title": {
+          "es": "Base Carlini",
+          "pt": "-",
+          "en": "-"
+        },
+        "description": {
+          "es": "62°14'18\"S 58°40'1\"O \nEx Base Jubinay, ubicada en la Isla 25 de Mayo, es la principal base científica permanente argentina en la Antártida. Administrada por el Ministerio de Defensa, desarrolla investigaciones continuas en biología, oceanografía, geología, glaciología y estudios sobre cambio climático, con laboratorios de referencia internacional. Cuenta con cooperación científica de Alemania e Italia y una de las series de datos más completas de la región. Su entorno posee gran biodiversidad y está protegido como área antártica especialmente protegida.",
+          "pt": "-",
+          "en": "-"
+        },
+        "appearance": {
+          "kind": "system",
+          "icon": "pin",
+          "color": "#66d5b0"
+        },
+        "visible": true,
+        "layerIds": [],
+        "categoryId": "b1e9a294-8ed5-4abf-8599-722708122099",
+        "media": [
+          {
+            "id": "631515d9-5092-4d08-8ea6-a042b553707d",
+            "kind": "image",
+            "assetId": "2277bb51-6c4e-487a-ace1-6a63e97c4ae6"
+          }
+        ]
+      },
+      {
+        "id": "909b5521-6c75-440a-ba50-096eebed01c2",
+        "position": {
+          "x": 0.5670435994466145,
+          "y": 0.3987955729166667
+        },
+        "title": {
+          "es": "Base Esperanza",
+          "pt": "-",
+          "en": "-"
+        },
+        "description": {
+          "es": "63°23'53\"S 56°59'50\"O\n\nInaugurada en 1952 , es una de las bases argentinas más emblemáticas por su vida civil permanente. Allí residen familias durante todo el año y funciona la Escuela Provincial N°38 Raúl Ricardo Alfonsín, lo que la convierte en una comunidad única en el continente. También cuenta con una capilla, registro civil y radio, consolidando una presencia social estable. Fue escenario de hitos como el primer nacimiento en la Antártida continental y relevantes expediciones terrestres. Desde sus laboratorios se desarrollan investigaciones en glaciología, producción hidropónica, geología y estudios ambientales.",
+          "pt": "-",
+          "en": "-"
+        },
+        "appearance": {
+          "kind": "system",
+          "icon": "pin",
+          "color": "#66d5b0"
+        },
+        "visible": true,
+        "layerIds": [],
+        "categoryId": "b1e9a294-8ed5-4abf-8599-722708122099",
+        "media": [
+          {
+            "id": "a6b1d8ca-7f6f-49a9-bbd4-11b8f63e1e17",
+            "kind": "image",
+            "assetId": "f99bdfe6-359d-4438-8276-8108127ed369"
+          }
+        ]
+      },
+      {
+        "id": "e3bbeb73-828f-46b1-b748-fd54d7d05583",
+        "position": {
+          "x": 0.5799805257161458,
+          "y": 0.42588704427083335
+        },
+        "title": {
+          "es": "Base Marambio",
+          "pt": "-",
+          "en": "-"
+        },
+        "description": {
+          "es": "64°14'28\"S 56°37'31\"O\n\nDependiente de la Fuerza Aérea Argentina, es la principal puerta de entrada logística del país en la Antártida y opera todo el año con pista para aviones con ruedas. Inaugurada en 1969 en homenaje al piloto Gustavo Argentino Marambio, que el 1 de diciembre de 1951, y a bordo de un avión Avro Lincoln, denominado \"Cruz del Sur\" arrojó correspondencia y elementos de supervivencia. Es un polo científico donde se desarrollan estudios a través del LAMBI y del Instituto Antártico Argentino. Punto de despliegue de la actividad científica argentina en el sector antártico.",
+          "pt": "-",
+          "en": "-"
+        },
+        "appearance": {
+          "kind": "system",
+          "icon": "pin",
+          "color": "#66d5b0"
+        },
+        "visible": true,
+        "layerIds": [],
+        "categoryId": "b1e9a294-8ed5-4abf-8599-722708122099",
+        "media": [
+          {
+            "id": "e2efcf1f-b02b-4511-9a40-7dffc4502bdc",
+            "kind": "image",
+            "assetId": "ba749f3c-4a4b-4689-8371-6554b268ab40"
+          },
+          {
+            "id": "c6c8cfd2-5631-4c46-950c-ce193b13a595",
+            "kind": "image",
+            "assetId": "79e9160f-b129-4720-90bd-459280e015a7"
+          }
+        ]
+      },
+      {
+        "id": "e19b12f0-7d88-4e39-84a8-1019fb56c046",
+        "position": {
+          "x": 0.5999684651692708,
+          "y": 0.4026692708333333
+        },
+        "title": {
+          "es": "Base Petrel",
+          "pt": "-",
+          "en": "-"
+        },
+        "description": {
+          "es": "63°28'40\"S 56°13'37\"O\n\nUbicada en Isla Dundee (Rada Petrel, estrecho Active), cabo Welchness (Punta Bajos, estrecho Antarctic). El origen de esta estación fue un refugio naval instalado durante la Campaña Antártica de Verano (CAV) 1952-53. Hoy es el proyecto argentino más transformador en el continente antártico posicionándolo a futuro como el nuevo nodo científico, tecnológico y logístico.",
+          "pt": "-",
+          "en": "-"
+        },
+        "appearance": {
+          "kind": "system",
+          "icon": "pin",
+          "color": "#66d5b0"
+        },
+        "visible": true,
+        "layerIds": [],
+        "categoryId": "b1e9a294-8ed5-4abf-8599-722708122099",
+        "media": [
+          {
+            "id": "ada76198-0281-4e40-9185-630f0a6452f6",
+            "kind": "image",
+            "assetId": "e0caa386-0cc4-4930-89e2-e917b86be617"
+          }
+        ]
+      },
+      {
+        "id": "bcafbdec-5a04-4401-9fe7-5e0630e6cae4",
+        "position": {
+          "x": 0.7164209391276042,
+          "y": 0.42357177734375
+        },
+        "title": {
+          "es": "Base Orcadas",
+          "pt": "-",
+          "en": "-"
+        },
+        "description": {
+          "es": "60°44'16\"S 44°44'24\"O\n\nLa Base Orcadas, ubicada en la Isla Laurie (Orcadas del Sur), es la primera base antártica argentina y la presencia humana permanente más antigua del continente, con actividad ininterrumpida desde 1904. Originada en 1903 por una expedición escocesa y luego transferida a la Argentina, fue pionera en meteorología y en la primera comunicación radial antártica con el continente. Sus edificios históricos integran un Sitio y Monumento Histórico del Tratado Antártico. Actualmente desarrolla investigaciones científicas continuas en meteorología, geofísica, glaciología y biología en un entorno de clima extremo.",
+          "pt": "-",
+          "en": "-"
+        },
+        "appearance": {
+          "kind": "system",
+          "icon": "pin",
+          "color": "#66d5b0"
+        },
+        "visible": true,
+        "layerIds": [],
+        "categoryId": "b1e9a294-8ed5-4abf-8599-722708122099",
+        "media": [
+          {
+            "id": "dc5e927c-f146-4f0f-a4ef-0e8fdfc1f19d",
+            "kind": "image",
+            "assetId": "a3204581-05fe-41a5-9592-8cfa15de3fd6"
+          }
+        ]
+      },
+      {
+        "id": "d318dd1a-99d4-4f7c-9aec-2f3b6599538f",
+        "position": {
+          "x": 0.8844427571614583,
+          "y": 0.3900227864583333
+        },
+        "title": {
+          "es": "Base Corbeta Uruguay",
+          "pt": "-",
+          "en": "-"
+        },
+        "description": {
+          "es": "Fue establecida por Argentina en 1976 en la isla Morrell (Thule), en las islas Sandwich del Sur, como puesto permanente en el Atlántico Sur. Su presencia fue observada por el Reino Unido, que también reclamaba el territorio, generando tensión diplomática. Permaneció bajo control argentino hasta el 20 de junio de 1982, cuando fuerzas británicas ocuparon la isla tras el conflicto del Atlántico Sur. Posteriormente, en diciembre de ese año, la base fue demolida por la Marina Real británica.",
+          "pt": "-",
+          "en": "-"
+        },
+        "appearance": {
+          "kind": "system",
+          "icon": "pin",
+          "color": "#ff637c"
+        },
+        "visible": true,
+        "layerIds": [],
+        "categoryId": "d8cbb245-f545-47aa-94ea-f252cd4ccc51",
+        "media": [
+          {
+            "id": "e7cacce4-7f31-4881-81bf-648b1fc08438",
+            "kind": "image",
+            "assetId": "5a9220f9-4ab9-4342-9694-b2968639b297"
+          }
+        ]
+      }
+    ],
     "assets": [
       {
         "id": "a24c3f7d-b612-489a-85f0-8d94d1fa95ce",
         "path": "antartida-argentina/layers/a24c3f7d-b612-489a-85f0-8d94d1fa95ce.jpg",
         "width": 2000,
         "height": 1414
+      },
+      {
+        "id": "c95c4060-abd7-4548-aa89-eb6ea2d82822",
+        "path": "antartida-argentina/markers/c95c4060-abd7-4548-aa89-eb6ea2d82822.jpg",
+        "width": 600,
+        "height": 453
+      },
+      {
+        "id": "850c616a-835b-4965-8159-d6e1fb57fc56",
+        "path": "antartida-argentina/markers/850c616a-835b-4965-8159-d6e1fb57fc56.jpg",
+        "width": 1500,
+        "height": 1000
+      },
+      {
+        "id": "b75aaec4-c87f-4eb4-9567-1e50e36ef06c",
+        "path": "antartida-argentina/markers/b75aaec4-c87f-4eb4-9567-1e50e36ef06c.jpg",
+        "width": 934,
+        "height": 583
+      },
+      {
+        "id": "b9491cee-d182-4e27-8272-551cf2cb8297",
+        "path": "antartida-argentina/markers/b9491cee-d182-4e27-8272-551cf2cb8297.jpg",
+        "width": 1312,
+        "height": 784
+      },
+      {
+        "id": "65ae96f6-3e1e-4521-a1f3-1c2d572b0689",
+        "path": "antartida-argentina/markers/65ae96f6-3e1e-4521-a1f3-1c2d572b0689.jpg",
+        "width": 1242,
+        "height": 811
+      },
+      {
+        "id": "258b859e-ee17-4445-8305-e774506b6c83",
+        "path": "antartida-argentina/markers/258b859e-ee17-4445-8305-e774506b6c83.jpg",
+        "width": 1500,
+        "height": 1125
+      },
+      {
+        "id": "77cae6de-e830-4312-9f80-4cf839baee1e",
+        "path": "antartida-argentina/markers/77cae6de-e830-4312-9f80-4cf839baee1e.jpg",
+        "width": 1500,
+        "height": 1125
+      },
+      {
+        "id": "0d4d6c83-1023-46cf-bda4-c363f18b6f67",
+        "path": "antartida-argentina/markers/0d4d6c83-1023-46cf-bda4-c363f18b6f67.jpg",
+        "width": 2048,
+        "height": 1536
+      },
+      {
+        "id": "27512fdc-1a0d-41a3-bd43-a01b39aee07c",
+        "path": "antartida-argentina/markers/27512fdc-1a0d-41a3-bd43-a01b39aee07c.jpg",
+        "width": 1500,
+        "height": 1125
+      },
+      {
+        "id": "087aaa2c-5742-4b31-a83a-f37da562068e",
+        "path": "antartida-argentina/markers/087aaa2c-5742-4b31-a83a-f37da562068e.jpg",
+        "width": 1500,
+        "height": 998
+      },
+      {
+        "id": "ea2b0fa0-2cd0-4282-8eb8-52427216f91d",
+        "path": "antartida-argentina/markers/ea2b0fa0-2cd0-4282-8eb8-52427216f91d.jpg",
+        "width": 1500,
+        "height": 1000
+      },
+      {
+        "id": "2277bb51-6c4e-487a-ace1-6a63e97c4ae6",
+        "path": "antartida-argentina/markers/2277bb51-6c4e-487a-ace1-6a63e97c4ae6.jpg",
+        "width": 1500,
+        "height": 1000
+      },
+      {
+        "id": "f99bdfe6-359d-4438-8276-8108127ed369",
+        "path": "antartida-argentina/markers/f99bdfe6-359d-4438-8276-8108127ed369.jpg",
+        "width": 1500,
+        "height": 1125
+      },
+      {
+        "id": "9ddecb92-963e-47de-880d-23fc4ddcee2e",
+        "path": "antartida-argentina/markers/9ddecb92-963e-47de-880d-23fc4ddcee2e.jpg",
+        "width": 1500,
+        "height": 1125
+      },
+      {
+        "id": "ba749f3c-4a4b-4689-8371-6554b268ab40",
+        "path": "antartida-argentina/markers/ba749f3c-4a4b-4689-8371-6554b268ab40.jpg",
+        "width": 1500,
+        "height": 1125
+      },
+      {
+        "id": "79e9160f-b129-4720-90bd-459280e015a7",
+        "path": "antartida-argentina/markers/79e9160f-b129-4720-90bd-459280e015a7.png",
+        "width": 1960,
+        "height": 1103
+      },
+      {
+        "id": "e0caa386-0cc4-4930-89e2-e917b86be617",
+        "path": "antartida-argentina/markers/e0caa386-0cc4-4930-89e2-e917b86be617.jpg",
+        "width": 1500,
+        "height": 1125
+      },
+      {
+        "id": "a3204581-05fe-41a5-9592-8cfa15de3fd6",
+        "path": "antartida-argentina/markers/a3204581-05fe-41a5-9592-8cfa15de3fd6.jpg",
+        "width": 1368,
+        "height": 912
+      },
+      {
+        "id": "5a9220f9-4ab9-4342-9694-b2968639b297",
+        "path": "antartida-argentina/markers/5a9220f9-4ab9-4342-9694-b2968639b297.jpg",
+        "width": 630,
+        "height": 409
       }
     ]
   },
-  "revision": 10
+  "revision": 16
 }

@@ -9,5 +9,214 @@
     "mime": "image/jpeg",
     "originalName": "antartida.jpeg",
     "thumbnail": "antartida-argentina/thumbnails/a24c3f7d-b612-489a-85f0-8d94d1fa95ce.webp"
+  },
+  {
+    "asset": {
+      "id": "c95c4060-abd7-4548-aa89-eb6ea2d82822",
+      "path": "antartida-argentina/markers/c95c4060-abd7-4548-aa89-eb6ea2d82822.jpg",
+      "width": 600,
+      "height": 453
+    },
+    "mime": "image/jpeg",
+    "originalName": "SOBRAL.jpg",
+    "thumbnail": "antartida-argentina/thumbnails/c95c4060-abd7-4548-aa89-eb6ea2d82822.webp"
+  },
+  {
+    "asset": {
+      "id": "850c616a-835b-4965-8159-d6e1fb57fc56",
+      "path": "antartida-argentina/markers/850c616a-835b-4965-8159-d6e1fb57fc56.jpg",
+      "width": 1500,
+      "height": 1000
+    },
+    "mime": "image/jpeg",
+    "originalName": "BELGRANO II.jpg",
+    "thumbnail": "antartida-argentina/thumbnails/850c616a-835b-4965-8159-d6e1fb57fc56.webp"
+  },
+  {
+    "asset": {
+      "id": "b75aaec4-c87f-4eb4-9567-1e50e36ef06c",
+      "path": "antartida-argentina/markers/b75aaec4-c87f-4eb4-9567-1e50e36ef06c.jpg",
+      "width": 934,
+      "height": 583
+    },
+    "mime": "image/jpeg",
+    "originalName": "BELGRANO I.jpeg",
+    "thumbnail": "antartida-argentina/thumbnails/b75aaec4-c87f-4eb4-9567-1e50e36ef06c.webp"
+  },
+  {
+    "asset": {
+      "id": "b9491cee-d182-4e27-8272-551cf2cb8297",
+      "path": "antartida-argentina/markers/b9491cee-d182-4e27-8272-551cf2cb8297.jpg",
+      "width": 1312,
+      "height": 784
+    },
+    "mime": "image/jpeg",
+    "originalName": "ESTACION CIENTIFICA ELLSWORTH.jpg",
+    "thumbnail": "antartida-argentina/thumbnails/b9491cee-d182-4e27-8272-551cf2cb8297.webp"
+  },
+  {
+    "asset": {
+      "id": "65ae96f6-3e1e-4521-a1f3-1c2d572b0689",
+      "path": "antartida-argentina/markers/65ae96f6-3e1e-4521-a1f3-1c2d572b0689.jpg",
+      "width": 1242,
+      "height": 811
+    },
+    "mime": "image/jpeg",
+    "originalName": "BELGRANO III.jpg",
+    "thumbnail": "antartida-argentina/thumbnails/65ae96f6-3e1e-4521-a1f3-1c2d572b0689.webp"
+  },
+  {
+    "asset": {
+      "id": "258b859e-ee17-4445-8305-e774506b6c83",
+      "path": "antartida-argentina/markers/258b859e-ee17-4445-8305-e774506b6c83.jpg",
+      "width": 1500,
+      "height": 1125
+    },
+    "mime": "image/jpeg",
+    "originalName": "SAN MARTIN.jpg",
+    "thumbnail": "antartida-argentina/thumbnails/258b859e-ee17-4445-8305-e774506b6c83.webp"
+  },
+  {
+    "asset": {
+      "id": "77cae6de-e830-4312-9f80-4cf839baee1e",
+      "path": "antartida-argentina/markers/77cae6de-e830-4312-9f80-4cf839baee1e.jpg",
+      "width": 1500,
+      "height": 1125
+    },
+    "mime": "image/jpeg",
+    "originalName": "BROWN.jpg",
+    "thumbnail": "antartida-argentina/thumbnails/77cae6de-e830-4312-9f80-4cf839baee1e.webp"
+  },
+  {
+    "asset": {
+      "id": "0d4d6c83-1023-46cf-bda4-c363f18b6f67",
+      "path": "antartida-argentina/markers/0d4d6c83-1023-46cf-bda4-c363f18b6f67.jpg",
+      "width": 2048,
+      "height": 1536
+    },
+    "mime": "image/jpeg",
+    "originalName": "MATIENZO.jpg",
+    "thumbnail": "antartida-argentina/thumbnails/0d4d6c83-1023-46cf-bda4-c363f18b6f67.webp"
+  },
+  {
+    "asset": {
+      "id": "27512fdc-1a0d-41a3-bd43-a01b39aee07c",
+      "path": "antartida-argentina/markers/27512fdc-1a0d-41a3-bd43-a01b39aee07c.jpg",
+      "width": 1500,
+      "height": 1125
+    },
+    "mime": "image/jpeg",
+    "originalName": "MELCHIOR.jpg",
+    "thumbnail": "antartida-argentina/thumbnails/27512fdc-1a0d-41a3-bd43-a01b39aee07c.webp"
+  },
+  {
+    "asset": {
+      "id": "087aaa2c-5742-4b31-a83a-f37da562068e",
+      "path": "antartida-argentina/markers/087aaa2c-5742-4b31-a83a-f37da562068e.jpg",
+      "width": 1500,
+      "height": 998
+    },
+    "mime": "image/jpeg",
+    "originalName": "PRIMAVERA.jpg",
+    "thumbnail": "antartida-argentina/thumbnails/087aaa2c-5742-4b31-a83a-f37da562068e.webp"
+  },
+  {
+    "asset": {
+      "id": "ea2b0fa0-2cd0-4282-8eb8-52427216f91d",
+      "path": "antartida-argentina/markers/ea2b0fa0-2cd0-4282-8eb8-52427216f91d.jpg",
+      "width": 1500,
+      "height": 1000
+    },
+    "mime": "image/jpeg",
+    "originalName": "DECEPCION.jpg",
+    "thumbnail": "antartida-argentina/thumbnails/ea2b0fa0-2cd0-4282-8eb8-52427216f91d.webp"
+  },
+  {
+    "asset": {
+      "id": "2277bb51-6c4e-487a-ace1-6a63e97c4ae6",
+      "path": "antartida-argentina/markers/2277bb51-6c4e-487a-ace1-6a63e97c4ae6.jpg",
+      "width": 1500,
+      "height": 1000
+    },
+    "mime": "image/jpeg",
+    "originalName": "CARLINI.jpg",
+    "thumbnail": "antartida-argentina/thumbnails/2277bb51-6c4e-487a-ace1-6a63e97c4ae6.webp"
+  },
+  {
+    "asset": {
+      "id": "f99bdfe6-359d-4438-8276-8108127ed369",
+      "path": "antartida-argentina/markers/f99bdfe6-359d-4438-8276-8108127ed369.jpg",
+      "width": 1500,
+      "height": 1125
+    },
+    "mime": "image/jpeg",
+    "originalName": "ESPERANZA.jpg",
+    "thumbnail": "antartida-argentina/thumbnails/f99bdfe6-359d-4438-8276-8108127ed369.webp"
+  },
+  {
+    "asset": {
+      "id": "9ddecb92-963e-47de-880d-23fc4ddcee2e",
+      "path": "antartida-argentina/markers/9ddecb92-963e-47de-880d-23fc4ddcee2e.jpg",
+      "width": 1500,
+      "height": 1125
+    },
+    "mime": "image/jpeg",
+    "originalName": "ESPERANZA.jpg",
+    "thumbnail": "antartida-argentina/thumbnails/9ddecb92-963e-47de-880d-23fc4ddcee2e.webp"
+  },
+  {
+    "asset": {
+      "id": "ba749f3c-4a4b-4689-8371-6554b268ab40",
+      "path": "antartida-argentina/markers/ba749f3c-4a4b-4689-8371-6554b268ab40.jpg",
+      "width": 1500,
+      "height": 1125
+    },
+    "mime": "image/jpeg",
+    "originalName": "MARAMBIO.jpg",
+    "thumbnail": "antartida-argentina/thumbnails/ba749f3c-4a4b-4689-8371-6554b268ab40.webp"
+  },
+  {
+    "asset": {
+      "id": "79e9160f-b129-4720-90bd-459280e015a7",
+      "path": "antartida-argentina/markers/79e9160f-b129-4720-90bd-459280e015a7.png",
+      "width": 1960,
+      "height": 1103
+    },
+    "mime": "image/png",
+    "originalName": "MARAMBIO.png",
+    "thumbnail": "antartida-argentina/thumbnails/79e9160f-b129-4720-90bd-459280e015a7.webp"
+  },
+  {
+    "asset": {
+      "id": "e0caa386-0cc4-4930-89e2-e917b86be617",
+      "path": "antartida-argentina/markers/e0caa386-0cc4-4930-89e2-e917b86be617.jpg",
+      "width": 1500,
+      "height": 1125
+    },
+    "mime": "image/jpeg",
+    "originalName": "PETREL.jpg",
+    "thumbnail": "antartida-argentina/thumbnails/e0caa386-0cc4-4930-89e2-e917b86be617.webp"
+  },
+  {
+    "asset": {
+      "id": "a3204581-05fe-41a5-9592-8cfa15de3fd6",
+      "path": "antartida-argentina/markers/a3204581-05fe-41a5-9592-8cfa15de3fd6.jpg",
+      "width": 1368,
+      "height": 912
+    },
+    "mime": "image/jpeg",
+    "originalName": "ORCADAS.jpeg",
+    "thumbnail": "antartida-argentina/thumbnails/a3204581-05fe-41a5-9592-8cfa15de3fd6.webp"
+  },
+  {
+    "asset": {
+      "id": "5a9220f9-4ab9-4342-9694-b2968639b297",
+      "path": "antartida-argentina/markers/5a9220f9-4ab9-4342-9694-b2968639b297.jpg",
+      "width": 630,
+      "height": 409
+    },
+    "mime": "image/jpeg",
+    "originalName": "CORBETA URUGUAY.jpg",
+    "thumbnail": "antartida-argentina/thumbnails/5a9220f9-4ab9-4342-9694-b2968639b297.webp"
   }
 ]
