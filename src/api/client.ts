@@ -38,5 +38,6 @@ export const api = {
   save: (record: MapRecord, map: MapDocument) => request(`/api/maps/${map.id}/changes`, mapRecordSchema, { method: 'POST', body: JSON.stringify({ revision: record.revision, changes: changesBetween(record.map, map) }) }),
   publish: (id: string, revision: number) => request(`/api/maps/${id}/publish`, mapRecordSchema, { method: 'POST', body: JSON.stringify({ revision }) }),
   unpublish: (id: string, revision: number) => request(`/api/maps/${id}/publish`, mapRecordSchema, { method: 'DELETE', body: JSON.stringify({ revision }) }),
+  deleteMap: (id: string) => request(`/api/maps/${id}`, z.object({ success: z.boolean() }), { method: 'DELETE' }),
 };
 export function assetUrl(mapId: string, assetId: string, thumbnail = false) { return `/api/maps/${mapId}/assets/${assetId}${thumbnail ? '?thumbnail=1' : ''}`; }

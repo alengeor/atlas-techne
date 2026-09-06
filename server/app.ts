@@ -43,6 +43,11 @@ export function createApp(storage: MapStorage, auth: Auth, origins: string[]) {
       const user = auth.user(req);
       if (method !== 'GET' && !user) throw new HttpError(401, 'UNAUTHORIZED');
       if (url.pathname === '/api/maps' && method === 'GET') return send(await storage.list(!!user));
+      const mapMatch = /^\/api\/maps\/([a-zA-Z0-9-]+)$/.exec(url.pathname);
+      if (mapMatch?.[1] && method === 'DELETE') {
+        await storage.deleteMap(mapMatch[1]);
+        return send({ success: true });
+      }
       const assetMatch = /^\/api\/maps\/([a-zA-Z0-9-]+)\/assets\/([a-zA-Z0-9-]+)$/.exec(url.pathname);
       if (assetMatch?.[1] && assetMatch[2] && method === 'GET') {
         const asset = await storage.asset(assetMatch[1], assetMatch[2], !!user, url.searchParams.get('thumbnail') === '1');

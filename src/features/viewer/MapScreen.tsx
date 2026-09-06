@@ -68,8 +68,11 @@ export function MapScreen({ map, editing, onEdit, onChange, onImage, assetUrl, o
   };
   return <main className="map-screen" id="main-content" tabIndex={-1}>
     <MapCanvas map={map} active={active} assetUrl={assetUrl} placing={editing && tool.mode === 'placing'}
+      editing={editing}
       onPlace={position => dispatch({ type: 'place', position, dragged: false })}
-      provisional={provisional} onMarker={m => { if (tool.mode === 'placing') return; setSelected(m.id); }} />
+      provisional={provisional} onMarker={m => { if (tool.mode === 'placing') return; setSelected(m.id); }}
+      onMarkerMove={(id, position) => commit({ ...map, markers: map.markers.map(m => m.id === id ? { ...m, position } : m) })}
+      onMarkerDelete={id => commit({ ...map, markers: map.markers.filter(m => m.id !== id) })} />
     <div className="map-topline"><span className="wordmark-small">ATLAS TECHNĒ</span>{isEditor && <span className="session-badge">{editing ? t.editor : t.previewDraft}</span>}</div>
     {isEditor && <div className="editor-status surface"><span aria-live="polite">{saveState === 'saving' ? t.saving : saveState === 'pending' || saveState === 'error' ? t.pending : t.saved}</span><button onClick={() => onEdit(!editing)}><Icon name="fit" />{editing ? t.preview : t.returnEditor}</button></div>}
     <aside className={`map-info-group ${infoOpen ? '' : 'collapsed'}`}>
@@ -133,7 +136,18 @@ export function MapScreen({ map, editing, onEdit, onChange, onImage, assetUrl, o
   </main>;
 }
 
-function MetadataForm({ map, onClose, onApply }: { map: MapDocument; onClose: () => void; onApply: (map: MapDocument) => void }) {
+export function MetadataForm({ map, onClose, onApply, onDelete }: { map: MapDocument; onClose: () => void; onApply: (map: MapDocument) => void; onDelete?: () => void }) {
   const { t } = useLanguage(); const [title, setTitle] = useState(map.title); const [description, setDescription] = useState(map.description);
-  return <Dialog title={t.editMap} onClose={onClose}><form onSubmit={e => { e.preventDefault(); onApply({ ...map, title, description }); }}><div className="dialog-body"><LocalizedFields title={title} description={description} onTitle={setTitle} onDescription={setDescription} /></div><footer className="dialog-footer"><button type="button" onClick={onClose}>{t.cancel}</button><button type="submit" className="primary" disabled={Object.values(title).some(v => !v.trim())}>{t.apply}</button></footer></form></Dialog>;
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  return <Dialog title={t.editMap} onClose={onClose}>
+    {confirmDelete ? <div className="dialog-body"><p>{t.confirmDeleteMap}</p></div> : <form id="meta-form" onSubmit={e => { e.preventDefault(); onApply({ ...map, title, description }); }}><div className="dialog-body"><LocalizedFields title={title} description={description} onTitle={setTitle} onDescription={setDescription} /></div></form>}
+    <footer className="dialog-footer">
+       {confirmDelete ? <div className="button-row"><button type="button" onClick={() => setConfirmDelete(false)}>{t.cancel}</button><button className="danger" type="button" onClick={onDelete}>{t.delete}</button></div>
+       : <>{onDelete && <button className="danger-quiet" type="button" onClick={() => setConfirmDelete(true)}>{t.delete}</button>}
+         <div className="button-row">
+           <button type="button" onClick={onClose}>{t.cancel}</button>
+           <button form="meta-form" type="submit" className="primary" disabled={Object.values(title).some(v => !v.trim())}>{t.apply}</button>
+         </div></>}
+    </footer>
+  </Dialog>;
 }

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { orderedLayers, type MapDocument, type Marker, type Appearance } from '../../../shared/model';
 import { useViewport } from '../../canvas/useViewport';
 import type { Point } from '../../canvas/geometry';
@@ -17,13 +17,17 @@ function LayerImage({ src, alt, style }: { src: string; alt: string; style: Reac
     {status !== 'ready' && <div className="image-status" role="status">{status === 'loading' ? t.loading : <>{t.imageError}<button onClick={() => { setStatus('loading'); setAttempt(a => a + 1); }}>{t.retry}</button></>}</div>}
   </>;
 }
-export function MapCanvas({ map, active, assetUrl, onMarker, placing, onPlace, provisional }: {
+export function MapCanvas({ map, active, assetUrl, onMarker, placing, onPlace, provisional, editing, onMarkerMove, onMarkerDelete }: {
   map: MapDocument; active: string[]; assetUrl: (id: string) => string; onMarker: (marker: Marker) => void;
   placing: boolean; onPlace: (point: Point) => void; provisional?: { position: Point; appearance: Appearance };
+  editing?: boolean; onMarkerMove?: (id: string, point: Point) => void; onMarkerDelete?: (id: string) => void;
 }) {
   const { locale, t } = useLanguage();
-  const { viewport, world, rect, zoom, zoomBy, reset } = useViewport(map, placing ? onPlace : undefined);
+  const { viewport, world, rect, getImagePoint } = useViewport(map, placing ? onPlace : undefined);
   const [fullscreenError, setFullscreenError] = useState(false);
+  const [dragState, setDragState] = useState<{ id: string, x: number, y: number } | null>(null);
+  const [trashHover, setTrashHover] = useState(false);
+  const dragRef = useRef({ moved: false });
   return <>
     <div className={`canvas-viewport ${placing ? 'is-placing' : ''}`} ref={viewport} tabIndex={0} role="region" aria-label={t.canvas} aria-describedby="canvas-help">
       <span id="canvas-help" className="sr-only">{t.canvasHelp}</span>
@@ -33,25 +37,54 @@ export function MapCanvas({ map, active, assetUrl, onMarker, placing, onPlace, p
           const box = contain({ width: rect.width, height: rect.height }, asset ?? map);
           return <LayerImage key={`${layer.id}-${layer.assetId}`} src={assetUrl(layer.assetId)} alt={layer.alt[locale]} style={{ left: box.x + layer.transform.x * rect.width, top: box.y + layer.transform.y * rect.height, width: box.width, height: box.height, opacity: layer.transform.opacity, transform: `scale(${layer.transform.scale})` }} />;
         })}
-        {map.markers.filter(m => m.visible && (!m.layerIds.length || m.layerIds.some(id => active.includes(id)))).map(marker =>
-          <button key={marker.id} className="map-marker" style={{ left: `${marker.position.x * 100}%`, top: `${marker.position.y * 100}%` }} onClick={() => onMarker(marker)} aria-label={marker.title[locale]}>
+        {map.markers.filter(m => m.visible && (!m.layerIds.length || m.layerIds.some(id => active.includes(id)))).map(marker => {
+          const isDragged = dragState?.id === marker.id;
+          return <button key={marker.id} className="map-marker"
+            style={isDragged ? { left: dragState.x, top: dragState.y, position: 'fixed', transform: 'translate(-50%, -100%) scale(1)' } : { left: `${marker.position.x * 100}%`, top: `${marker.position.y * 100}%` }}
+            onClick={e => { if (dragRef.current.moved) { e.preventDefault(); e.stopPropagation(); return; } onMarker(marker); }} aria-label={marker.title[locale]}
+            onPointerDown={e => {
+              if (!editing) return;
+              if (e.button !== 0) return;
+              e.currentTarget.setPointerCapture(e.pointerId);
+              dragRef.current.moved = false;
+              setDragState({ id: marker.id, x: e.clientX, y: e.clientY });
+            }}
+            onPointerMove={e => {
+              if (dragState?.id === marker.id && e.currentTarget.hasPointerCapture(e.pointerId)) {
+                dragRef.current.moved = true;
+                setDragState({ id: marker.id, x: e.clientX, y: e.clientY });
+                const trashRect = document.getElementById('trash-zone')?.getBoundingClientRect();
+                if (trashRect) {
+                  const inTrash = e.clientX >= trashRect.left && e.clientX <= trashRect.right && e.clientY >= trashRect.top && e.clientY <= trashRect.bottom;
+                  setTrashHover(inTrash);
+                }
+              }
+            }}
+            onPointerUp={e => {
+              if (dragState?.id === marker.id) {
+                e.currentTarget.releasePointerCapture(e.pointerId);
+                const wasMoved = dragRef.current.moved;
+                const wasTrash = trashHover;
+                setDragState(null);
+                setTrashHover(false);
+                if (wasMoved) {
+                  if (wasTrash) {
+                    onMarkerDelete?.(marker.id);
+                  } else {
+                    const pt = getImagePoint(e.clientX, e.clientY);
+                    if (pt) onMarkerMove?.(marker.id, pt);
+                  }
+                }
+                setTimeout(() => { dragRef.current.moved = false; }, 0);
+              }
+            }}>
             <span className="marker-content"><MarkerSymbol appearance={marker.appearance} assetUrl={assetUrl} /><span className="marker-label">{marker.title[locale]}</span></span>
-          </button>)}
+          </button>;
+        })}
         {provisional && <div className="map-marker provisional" style={{ left: `${provisional.position.x * 100}%`, top: `${provisional.position.y * 100}%` }}><span className="marker-content"><MarkerSymbol appearance={provisional.appearance} assetUrl={assetUrl} /></span></div>}
       </div>
     </div>
-    <div className="zoom-controls surface" aria-label={t.canvas}>
-      <button className="icon-button" aria-label={t.zoomIn} title={t.zoomIn} onClick={() => zoomBy(1.25)} disabled={zoom >= 8}><Icon name="plus" /></button>
-      <output aria-live="off">{Math.round(zoom * 100)}%</output>
-      <button className="icon-button" aria-label={t.zoomOut} title={t.zoomOut} onClick={() => zoomBy(0.8)} disabled={zoom <= 1}><Icon name="minus" /></button>
-      <span className="control-divider" />
-      <button className="icon-button" aria-label={t.fit} title={`${t.fit} · 0`} onClick={reset}><Icon name="fit" /></button>
-      <button className="icon-button" aria-label={t.reset} title={t.reset} onClick={reset}><Icon name="reset" /></button>
-      {document.fullscreenEnabled && <button className="icon-button" aria-label={t.fullscreen} title={t.fullscreen} onClick={() => {
-        const action = document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
-        void action.catch(() => setFullscreenError(true));
-      }}><Icon name="fit" /></button>}
-    </div>
     {fullscreenError && <div role="alert" className="toast actionable surface">{t.fullscreenError}<button onClick={() => setFullscreenError(false)}>{t.close}</button></div>}
+    {editing && <div id="trash-zone" className={`trash-zone ${dragState ? 'visible' : ''} ${trashHover ? 'hover' : ''}`}><Icon name="trash" /></div>}
   </>;
 }

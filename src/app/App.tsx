@@ -10,6 +10,7 @@ import { LayerForm } from '../features/editor/LayerForm';
 import { MapScreen } from '../features/viewer/MapScreen';
 import { Login } from '../features/auth/Login';
 import { identity } from './identity';
+import { MetadataForm } from '../features/viewer/MapScreen';
 
 function routeId(): string | null { return /^#\/maps\/([^/]+)$/.exec(window.location.hash)?.[1] ?? null; }
 export function App() {
@@ -26,6 +27,7 @@ export function App() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<unknown>(null);
   const [confirmation, setConfirmation] = useState<'logout' | 'reload' | null>(null);
+  const [editingMapId, setEditingMapId] = useState<string | null>(null);
   useEffect(() => {
     const controller = new AbortController();
     void Promise.all([api.session(controller.signal), api.catalog(controller.signal)]).then(([nextSession, nextRecords]) => {
@@ -92,10 +94,10 @@ export function App() {
           {status === 'ready' && mapId && <p role="alert">{t.notFound}</p>}
           {status === 'ready' && <>
             {!records.length && <div className="empty-catalog"><Icon name="layers" /><h2>{session.user ? t.noEditorMaps : t.noMaps}</h2>{session.user && <p>{t.noEditorMapsHelp}</p>}</div>}
-            <div className="catalog-grid">{records.map(item => <button className="map-card" key={item.map.id} onClick={() => navigate(item.map.id)}>
+            <div className="catalog-grid">{records.map(item => <div style={{ position: 'relative' }} key={item.map.id}><button className="map-card" onClick={() => navigate(item.map.id)} style={{ width: '100%', height: '100%' }}>
               <div className="card-image"><img src={assetUrl(item.map.id, item.map.layers[0]?.assetId ?? '', true)} alt="" /><span className="card-open"><Icon name="chevron" /></span></div>
               <div className="card-content">{session.user && <span className="card-kicker">{item.published ? t.published : t.draft}</span>}<h2>{item.map.title[locale] || item.map.title.es}</h2><p>{item.map.description[locale]}</p><span className="card-bottom">{item.map.layers.length} {t.layerCount}<span>{session.user ? t.edit : t.explore} ↗</span></span></div>
-            </button>)}
+            </button>{session.user && <button className="icon-button" style={{ position: 'absolute', top: 12, right: 12, zIndex: 1, background: 'rgba(20,40,60,0.8)', border: '1px solid #ffffff33', borderRadius: '50%' }} aria-label={t.editMap} onClick={e => { e.stopPropagation(); setEditingMapId(item.map.id); }}><Icon name="edit" /></button>}</div>)}
             {session.user && <button className="map-card add-card" onClick={() => setCreate(true)}><span className="add-symbol"><Icon name="plus" /></span><h2>{t.newMap}</h2><p>{t.createMapHelp}</p><span className="card-bottom">PNG · JPG · WebP</span></button>}
             </div>
           </>}
@@ -119,6 +121,23 @@ export function App() {
     {create && session.user && <LayerForm newMap onClose={() => setCreate(false)} onApply={async (image, title, _kind, progress) => {
       const next = await api.create(title, image.file, progress); acceptRecord(next); setCreate(false); navigate(next.map.id); setEditing(true);
     }} />}
+    {editingMapId && (() => {
+      const editingRecord = records.find(r => r.map.id === editingMapId);
+      if (!editingRecord) return null;
+      return <MetadataForm map={editingRecord.map} onClose={() => setEditingMapId(null)} onApply={async next => {
+        action(async () => {
+          const nextRecord = await api.save(editingRecord, next);
+          acceptRecord(nextRecord);
+          setEditingMapId(null);
+        });
+      }} onDelete={() => {
+        action(async () => {
+          await api.deleteMap(editingMapId);
+          setRecords(current => current.filter(r => r.map.id !== editingMapId));
+          setEditingMapId(null);
+        });
+      }} />;
+    })()}
     {error !== null && status !== 'error' && <div className="operation-error surface" role="alert"><p>{apiMessage(error, t)}</p><button onClick={() => setError(null)}>{t.close}</button><button onClick={() => setAccess(true)}>{t.access}</button></div>}
   </>;
 }

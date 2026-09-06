@@ -1,4 +1,4 @@
-import { mkdir, open, readdir, readFile, rename, unlink, realpath, stat } from 'node:fs/promises';
+import { mkdir, open, readdir, readFile, rename, unlink, realpath, stat, rm } from 'node:fs/promises';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { z } from 'zod';
@@ -148,6 +148,14 @@ export class MapStorage {
       await atomicJson(this.data(folder, 'published.json'), null);
       console.log(JSON.stringify({ event: 'map.unpublished', mapId: id }));
       return { ...stored, published: false };
+    });
+  }
+  async deleteMap(id: string): Promise<void> {
+    return this.locked(async () => {
+      const { folder } = await this.find(id);
+      await rm(path.join(this.config.dataDir, folder), { recursive: true, force: true }).catch(() => undefined);
+      await rm(path.join(this.config.mediaDir, folder), { recursive: true, force: true }).catch(() => undefined);
+      console.log(JSON.stringify({ event: 'map.deleted', mapId: id }));
     });
   }
   private async safeFile(relative: string) {
