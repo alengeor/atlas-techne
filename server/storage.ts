@@ -6,7 +6,7 @@ import { assetSchema, localized, locales, mapSchema, type MapDocument, type Loca
 import type { Change, MapRecord } from '../shared/api.js';
 import type { StorageConfig } from './config.js';
 import { HttpError } from './errors.js';
-import { validateMedia } from './images.js';
+import { validateImage, validateMedia } from './images.js';
 
 const storedSchema = z.object({ revision: z.number().int().nonnegative(), map: mapSchema });
 const registrySchema = z.array(z.object({ asset: assetSchema, mime: z.string(), originalName: z.string(), thumbnail: z.string() }));
@@ -61,7 +61,9 @@ export class MapStorage {
   }
   private async registry(folder: string) { return registrySchema.parse(await optionalJson(this.data(folder, 'assets.json')) ?? []); }
   private async putImage(folder: string, bytes: Buffer, name: string, mime: string, kind: 'layers' | 'icons' | 'markers'): Promise<RegistryEntry> {
-    const media = await validateMedia(bytes, name, mime, kind === 'icons');
+    const media = kind === 'markers'
+      ? await validateMedia(bytes, name, mime)
+      : await validateImage(bytes, name, mime, kind === 'icons');
     const id = randomUUID();
     const relative = `${folder}/${kind}/${id}.${media.extension}`;
     const thumbnail = `${folder}/thumbnails/${id}.webp`;
@@ -79,7 +81,7 @@ export class MapStorage {
   async create(title: LocalizedText, bytes: Buffer, name: string, mime: string): Promise<MapRecord> {
     if (!title.es.trim()) throw new HttpError(400, 'TITLE_REQUIRED');
     // Validate before creating a folder, so rejected uploads leave no map behind.
-    await validateMedia(bytes, name, mime);
+    await validateImage(bytes, name, mime);
     return this.locked(async () => {
       const existing = new Set((await this.folders()).map(f => f.toLowerCase()));
       let folder = slug(title.es);

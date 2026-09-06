@@ -12,12 +12,12 @@ export function chooseLocale(saved: string | null, browser: string): Locale {
 const Language = createContext<{ locale: Locale; setLocale: (locale: Locale) => void; t: Messages } | null>(null);
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [locale, setLocale] = useState<Locale>(() => {
-    try { return chooseLocale(localStorage.getItem('atlas-techne.locale'), navigator.language); }
+    try { return chooseLocale(localStorage.getItem('atlas-austral.locale'), navigator.language); }
     catch { return chooseLocale(null, navigator.language); }
   });
   useEffect(() => {
     document.documentElement.lang = locale;
-    try { localStorage.setItem('atlas-techne.locale', locale); } catch { /* Private mode still works in memory. */ }
+    try { localStorage.setItem('atlas-austral.locale', locale); } catch { /* Private mode still works in memory. */ }
   }, [locale]);
   return <Language.Provider value={{ locale, setLocale, t: { es, pt, en }[locale] }}>{children}</Language.Provider>;
 }

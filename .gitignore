@@ -11,8 +11,6 @@ playwright-report/
 .env
 .env.*
 !.env.example
-maps-data/**
-maps-multimedia/**
 config-private/**
 artifacts/
 *.tgz

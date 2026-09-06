@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { randomBytes, scryptSync } from 'node:crypto';
 
-const directory = process.env.ATLAS_E2E_DIR ?? mkdtempSync(path.join(tmpdir(), 'atlas-techne-e2e-'));
+const directory = process.env.ATLAS_E2E_DIR ?? mkdtempSync(path.join(tmpdir(), 'atlas-austral-e2e-'));
 process.env.ATLAS_E2E_DIR = directory;
 const password = process.env.ATLAS_E2E_PASSWORD ?? randomBytes(16).toString('hex');
 process.env.ATLAS_E2E_PASSWORD = password;

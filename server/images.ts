@@ -25,7 +25,7 @@ export async function validateMedia(bytes: Buffer, filename: string, mime: strin
   if (/\.(png|jpe?g|webp)$/i.test(filename)) return validateImage(bytes, filename, mime, icon);
   const allowedVideo = new Set(['video/mp4', 'video/webm', 'video/quicktime', 'video/x-m4v', 'application/octet-stream']);
   const allowedExt = /\.(mp4|webm|mov|m4v)$/i;
-  if (!allowedExt.test(filename) || (!allowedVideo.has(mime) && !allowedExt.test(filename)) || bytes.length > 100 * 1024 * 1024) throw new HttpError(400, 'INVALID_VIDEO');
+  if (!allowedExt.test(filename) || !allowedVideo.has(mime) || bytes.length > 100 * 1024 * 1024) throw new HttpError(400, 'INVALID_VIDEO');
   const extension = filename.toLowerCase().match(/\.(mp4|webm|mov|m4v)$/i)?.[1] ?? 'mp4';
   return { bytes, thumbnail: Buffer.alloc(0), extension, width: 0, height: 0, mime: mime || 'video/mp4' };
 }

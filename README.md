@@ -1,6 +1,6 @@
-# Atlas Technē
+# Atlas Austral
 
-Armador de Mapas Interactivos con Vite, React, TypeScript y un servidor Node local. Los mapas se guardan como JSON y archivos multimedia; no requiere SQL ni servicios externos.
+Cartografía interactiva con Vite, React, TypeScript y un servidor Node local. Los mapas se guardan como JSON y archivos multimedia; no requiere SQL ni servicios externos.
 
 ## Ejecutar
 
@@ -55,6 +55,8 @@ config-private/
 Las referencias son relativas a `maps-multimedia`, con `/` como separador, sin direcciones de máquina ni puertos. La carpeta deriva del título al crear el mapa y permanece estable si se cambia el título. Nombres repetidos reciben un sufijo. Los archivos tienen IDs opacos; el nombre original se conserva en el registro privado.
 
 Para respaldar o trasladar el contenido: **detener la app**, copiar juntas `maps-data` y `maps-multimedia` y conservar su estructura. Para restaurar, usar esas carpetas en una instalación compatible y reiniciar. Las credenciales se configuran por separado o se copia deliberadamente `config-private`. No compartir las mismas carpetas entre dos servidores activos: el guardado está diseñado para una sola instancia.
+
+Estas dos carpetas se versionan para que el equipo pueda compartir los mapas. Después de publicar, hay que agregar, confirmar y subir a Git los cambios de `maps-data` y `maps-multimedia`; las demás personas los reciben con el siguiente pull. Publicar en la aplicación no ejecuta Git automáticamente. `config-private` continúa excluida.
 
 No editar JSON ni renombrar archivos mientras se ejecuta la app. El servidor valida contratos/referencias y serializa las escrituras con revisión; un conflicto devuelve 409 en lugar de sobrescribir silenciosamente. Los JSON se reemplazan mediante archivo temporal y rename. Los uploads se registran y sólo quedan públicamente accesibles si son referenciados por una publicación. No hay borrado automático de archivos: los recursos cargados y aún no incorporados a un mapa permanecen registrados para no romper referencias.
 

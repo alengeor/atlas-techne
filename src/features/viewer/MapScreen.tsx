@@ -73,7 +73,7 @@ export function MapScreen({ map, editing, onEdit, onChange, onImage, assetUrl, o
       provisional={provisional} onMarker={m => { if (tool.mode === 'placing') return; setSelected(m.id); }}
       onMarkerMove={(id, position) => commit({ ...map, markers: map.markers.map(m => m.id === id ? { ...m, position } : m) })}
       onMarkerDelete={id => commit({ ...map, markers: map.markers.filter(m => m.id !== id) })} />
-    <div className="map-topline"><span className="wordmark-small">ATLAS TECHNĒ</span>{isEditor && <span className="session-badge">{editing ? t.editor : t.previewDraft}</span>}</div>
+    <div className="map-topline"><span className="wordmark-small">ATLAS AUSTRAL</span>{isEditor && <span className="session-badge">{editing ? t.editor : t.previewDraft}</span>}</div>
     {isEditor && <div className="editor-status surface"><span aria-live="polite">{saveState === 'saving' ? t.saving : saveState === 'pending' || saveState === 'error' ? t.pending : t.saved}</span><button onClick={() => onEdit(!editing)}><Icon name="fit" />{editing ? t.preview : t.returnEditor}</button></div>}
     <aside className={`map-info-group ${infoOpen ? '' : 'collapsed'}`}>
       <LanguageSelector />

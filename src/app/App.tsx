@@ -12,7 +12,7 @@ import { MapScreen } from '../features/viewer/MapScreen';
 import { Login } from '../features/auth/Login';
 import { identity } from './identity';
 import { MetadataForm } from '../features/viewer/MapScreen';
-import atlasTechneLogo from '../../images/AtlasTechneLogoDark.png';
+import atlasAustralLogo from '../../images/AtlasAustralLogoDark.png';
 
 function routeId(): string | null { return /^#\/maps\/([^/]+)$/.exec(window.location.hash)?.[1] ?? null; }
 export function App() {
@@ -90,7 +90,7 @@ export function App() {
       onReload={() => { if (dirty) setConfirmation('reload'); else action(reload); }} />
       : <main className="landing" id="main-content" tabIndex={-1} style={{ '--landing-background': `url("${identity.background}")` } as CSSProperties}>
         <div className="landing-backdrop" /><section className="catalog-panel surface">
-          <header className="catalog-heading"><h1><img className="catalog-logo" src={atlasTechneLogo} alt="Atlas Technē" /></h1><p className="eyebrow">{t.subtitle}</p></header>
+          <header className="catalog-heading"><h1><img className="catalog-logo" src={atlasAustralLogo} alt="Atlas Austral" /></h1><p className="eyebrow">{t.subtitle}</p></header>
           {status === 'loading' && <div className="catalog-state" role="status"><span className="spinner" />{t.loading}</div>}
           {status === 'error' && <div className="catalog-state" role="alert"><p>{apiMessage(error, t)}</p><button onClick={() => { setStatus('loading'); setAttempt(v => v + 1); }}>{t.retry}</button></div>}
           {status === 'ready' && mapId && <p role="alert">{t.notFound}</p>}

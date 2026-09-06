@@ -1,4 +1,4 @@
-# Atlas Technē — análisis y plan propuesto
+# Atlas Austral — análisis y plan propuesto
 
 Fecha: 5 de septiembre de 2026. Estado: **análisis inicial, con arquitectura revisada**.
 
@@ -8,9 +8,9 @@ Este documento complementa y enlaza la [especificación funcional y técnica](ES
 
 ## 1. Comprensión y alcance actual
 
-Atlas Technē es un armador genérico: una persona editora carga una imagen, coloca marcadores y superposiciones, completa contenido trilingüe y publica una experiencia de consulta. Un único modelo, un único editor y un único visor deben servir para cualquier contenido. La imagen establece un espacio visual normalizado, sin GIS ni coordenadas geográficas.
+Atlas Austral es un armador genérico: una persona editora carga una imagen, coloca marcadores y superposiciones, completa contenido trilingüe y publica una experiencia de consulta. Un único modelo, un único editor y un único visor deben servir para cualquier contenido. La imagen establece un espacio visual normalizado, sin GIS ni coordenadas geográficas.
 
-El visitante consume exclusivamente una revisión publicada; el editor modifica un borrador autenticado. Guardar y publicar son operaciones distintas. La identidad visible será «Atlas Technē» / «ATLAS TECHNĒ — Armador de Mapas Interactivos»; nombres técnicos: `atlas-techne`.
+El visitante consume exclusivamente una revisión publicada; el editor modifica un borrador autenticado. Guardar y publicar son operaciones distintas. La identidad visible será «Atlas Austral» / «ATLAS AUSTRAL — Cartografía interactiva»; nombre técnico: `atlas-austral`.
 
 Esta entrega sólo comprende descubrimiento, diseño y planificación. No se instalaron dependencias, no se creó scaffold, no se modificaron referencias y no se hicieron commits.
 

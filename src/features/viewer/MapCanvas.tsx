@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { orderedLayers, type MapDocument, type Marker, type Appearance } from '../../../shared/model';
 import { useViewport } from '../../canvas/useViewport';
 import type { Point } from '../../canvas/geometry';
@@ -28,6 +29,7 @@ export function MapCanvas({ map, active, assetUrl, onMarker, placing, onPlace, p
   const [dragState, setDragState] = useState<{ id: string, x: number, y: number } | null>(null);
   const [trashHover, setTrashHover] = useState(false);
   const dragRef = useRef({ moved: false });
+  const draggedMarker = dragState ? map.markers.find(marker => marker.id === dragState.id) : undefined;
   return <>
     <div className={`canvas-viewport ${placing ? 'is-placing' : ''}`} ref={viewport} tabIndex={0} role="region" aria-label={t.canvas} aria-describedby="canvas-help">
       <span id="canvas-help" className="sr-only">{t.canvasHelp}</span>
@@ -40,7 +42,7 @@ export function MapCanvas({ map, active, assetUrl, onMarker, placing, onPlace, p
         {map.markers.filter(m => m.visible && (!m.layerIds.length || m.layerIds.some(id => active.includes(id)))).map(marker => {
           const isDragged = dragState?.id === marker.id;
           return <button key={marker.id} className="map-marker"
-            style={isDragged ? { left: dragState.x, top: dragState.y, position: 'fixed', transform: 'translate(-50%, -100%) scale(1)' } : { left: `${marker.position.x * 100}%`, top: `${marker.position.y * 100}%` }}
+            style={{ left: `${marker.position.x * 100}%`, top: `${marker.position.y * 100}%`, opacity: isDragged ? 0 : undefined }}
             onClick={e => { if (dragRef.current.moved) { e.preventDefault(); e.stopPropagation(); return; } onMarker(marker); }} aria-label={marker.title[locale]}
             onPointerDown={e => {
               if (!editing) return;
@@ -86,5 +88,10 @@ export function MapCanvas({ map, active, assetUrl, onMarker, placing, onPlace, p
     </div>
     {fullscreenError && <div role="alert" className="toast actionable surface">{t.fullscreenError}<button onClick={() => setFullscreenError(false)}>{t.close}</button></div>}
     {editing && <div id="trash-zone" className={`trash-zone ${dragState ? 'visible' : ''} ${trashHover ? 'hover' : ''}`}><Icon name="trash" /></div>}
+    {dragState && draggedMarker && createPortal(
+      <div className="map-marker" aria-hidden="true" style={{ left: dragState.x, top: dragState.y, position: 'fixed', transform: 'translate(-50%, -100%) scale(1)', pointerEvents: 'none' }}>
+        <span className="marker-content"><MarkerSymbol appearance={draggedMarker.appearance} assetUrl={assetUrl} /><span className="marker-label">{draggedMarker.title[locale]}</span></span>
+      </div>, document.body,
+    )}
   </>;
 }

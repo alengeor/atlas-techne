@@ -1,0 +1,79 @@
+{
+  "map": {
+    "schemaVersion": 1,
+    "id": "77cb5d58-4966-4a87-8809-81b980d4bb30",
+    "title": {
+      "es": "Antártida Argentina",
+      "pt": "Antártida Argentina",
+      "en": "Argentine Antarctica"
+    },
+    "description": {
+      "es": "",
+      "pt": "",
+      "en": ""
+    },
+    "width": 2000,
+    "height": 1414,
+    "layers": [
+      {
+        "id": "61b09c1b-53c1-4dfb-ad7a-3e5a3f45b6ab",
+        "title": {
+          "es": "Antártida Argentina",
+          "pt": "Antártida Argentina",
+          "en": "Argentine Antarctica"
+        },
+        "alt": {
+          "es": "Antártida Argentina",
+          "pt": "Antártida Argentina",
+          "en": "Argentine Antarctica"
+        },
+        "assetId": "a24c3f7d-b612-489a-85f0-8d94d1fa95ce",
+        "kind": "base",
+        "visibleByDefault": true,
+        "order": 0,
+        "transform": {
+          "scale": 1.2,
+          "x": 0,
+          "y": 0.05,
+          "opacity": 1
+        }
+      }
+    ],
+    "markers": [
+      {
+        "id": "55ee935d-218c-4181-a1e8-d8ae96cf2381",
+        "position": {
+          "x": 0.43063995892068613,
+          "y": 0.45652173913043476
+        },
+        "title": {
+          "es": "Base de Prueba",
+          "pt": "Basesinha de Pruebinha",
+          "en": "Test Base"
+        },
+        "description": {
+          "es": "",
+          "pt": "",
+          "en": ""
+        },
+        "appearance": {
+          "kind": "system",
+          "icon": "pin",
+          "color": "#ffad46"
+        },
+        "visible": true,
+        "layerIds": [],
+        "media": []
+      }
+    ],
+    "assets": [
+      {
+        "id": "a24c3f7d-b612-489a-85f0-8d94d1fa95ce",
+        "path": "antartida-argentina/layers/a24c3f7d-b612-489a-85f0-8d94d1fa95ce.jpg",
+        "width": 2000,
+        "height": 1414
+      }
+    ]
+  },
+  "revision": 5
+}

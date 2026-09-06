@@ -1,4 +1,4 @@
-# Atlas Technē — propuesta simplificada
+# Atlas Austral — propuesta simplificada
 
 > Actualización de implementación: el usuario pidió retirar los ejemplos, admitir cualquier proporción de imagen y habilitar el perfil Editor con credenciales. El frontend ya utiliza un servidor Node y JSON reales; las restricciones de proporción y el modo de prueba de la primera fase quedaron reemplazados. Ver [estado actual](CAMBIOS_EDITOR_Y_GUARDADO.md).
 
@@ -78,7 +78,7 @@ Este diseño sacrifica transacciones SQL y exige cuidados concretos al escribir 
 
 ## Empaquetado futuro con Docker
 
-Se prevé desde ahora una aplicación independiente de sus datos. Las rutas `MAPS_DATA_DIR`, `MAPS_MULTIMEDIA_DIR` y `PRIVATE_CONFIG_DIR` se resuelven mediante configuración de servidor y tienen valores locales por defecto. Se excluyen datos operativos, credenciales y temporales tanto de Git como del contexto de construcción de la imagen.
+Se prevé desde ahora una aplicación independiente de sus datos. Las rutas `MAPS_DATA_DIR`, `MAPS_MULTIMEDIA_DIR` y `PRIVATE_CONFIG_DIR` se resuelven mediante configuración de servidor y tienen valores locales por defecto. En este repositorio colaborativo se versionan `maps-data` y `maps-multimedia`; las credenciales y temporales siguen excluidos de Git, y los datos se mantienen fuera del contexto de construcción de la imagen.
 
 En la fase de entrega se agregará Docker Compose con una imagen de aplicación y las carpetas externas montadas en ubicaciones estables del contenedor. Se proponen bind mounts para mantener los JSON y multimedia directamente accesibles al responsable de la instalación. Así, reemplazar el contenedor no sustituye los mapas. El directorio de configuración privada también persiste fuera de la imagen. [Documentación oficial de bind mounts](https://docs.docker.com/engine/storage/bind-mounts/).
 
