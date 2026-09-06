@@ -12,12 +12,12 @@ export const appearanceSchema = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('custom'), assetId: id }),
 ]);
 export const mediaSchema = z.discriminatedUnion('kind', [
-  z.object({ id, kind: z.literal('image'), assetId: id, title: localizedSchema, alt: localizedSchema }),
-  z.object({ id, kind: z.literal('video'), provider: z.literal('youtube'), externalId: z.string().regex(/^[\w-]{11}$/), title: localizedSchema }),
+  z.object({ id, kind: z.literal('image'), assetId: id, title: localizedSchema.optional(), alt: localizedSchema.optional() }),
+  z.object({ id, kind: z.literal('video'), assetId: id, title: localizedSchema.optional() }),
 ]);
 export const markerSchema = z.object({
   id, position: z.object({ x: unit, y: unit }), title: localizedSchema, description: localizedSchema,
-  appearance: appearanceSchema, visible: z.boolean(), layerIds: z.array(id), media: z.array(mediaSchema).max(12),
+  appearance: appearanceSchema, visible: z.boolean(), layerIds: z.array(id), media: z.array(mediaSchema).max(3),
 });
 export type Marker = z.infer<typeof markerSchema>;
 export type Appearance = z.infer<typeof appearanceSchema>;
@@ -47,7 +47,7 @@ export const mapSchema = z.object({
   for (const marker of map.markers) {
     if (marker.layerIds.some(l => !layerIds.has(l))) fail('Missing marker layer');
     if (marker.appearance.kind === 'custom' && !assetIds.has(marker.appearance.assetId)) fail('Missing icon');
-    for (const media of marker.media) if (media.kind === 'image' && !assetIds.has(media.assetId)) fail('Missing media asset');
+    for (const media of marker.media) if (!assetIds.has(media.assetId)) fail('Missing media asset');
   }
 });
 export type MapDocument = z.infer<typeof mapSchema>;
@@ -57,13 +57,26 @@ export function toggleLayer(layers: MapLayer[], active: string[], target: MapLay
   if (target.kind === 'base') return [...active.filter(id => layers.find(l => l.id === id)?.kind !== 'base'), target.id];
   return active.includes(target.id) ? active.filter(id => id !== target.id) : [...active, target.id];
 }
-export function orderedLayers(layers: MapLayer[]): MapLayer[] { return [...layers].sort((a, b) => a.order - b.order || a.id.localeCompare(b.id)); }
-export function parseVideoUrl(value: string): string | null {
-  try {
-    const url = new URL(value);
-    if (url.protocol !== 'https:' || url.username || url.password || url.port) return null;
-    const videoId = url.hostname === 'youtu.be' ? url.pathname.slice(1)
-      : ['youtube.com', 'www.youtube.com'].includes(url.hostname) && url.pathname === '/watch' ? url.searchParams.get('v') : null;
-    return videoId && /^[\w-]{11}$/.test(videoId) ? videoId : null;
-  } catch { return null; }
+export function removeMapLayer(map: MapDocument, layerId: string): MapDocument {
+  const layer = map.layers.find(l => l.id === layerId);
+  if (!layer) return map;
+  const remainingBases = map.layers.filter(l => l.kind === 'base' && l.id !== layerId);
+  if (layer.kind === 'base' && remainingBases.length === 0) {
+    throw new Error('No puedes eliminar la última capa base');
+  }
+  const layers = map.layers.filter(l => l.id !== layerId).map(l => ({ ...l, visibleByDefault: layer.kind === 'base' && l.kind === 'base' && layer.visibleByDefault && l.id === remainingBases[0]?.id ? true : l.visibleByDefault }));
+  if (layer.kind === 'base' && layer.visibleByDefault && remainingBases.length > 0) {
+    const nextDefaultId = remainingBases[0]?.id;
+    return {
+      ...map,
+      layers: layers.map(l => ({ ...l, visibleByDefault: l.id === nextDefaultId ? true : false })),
+      markers: map.markers.map(marker => ({ ...marker, layerIds: marker.layerIds.filter(id => id !== layerId) })),
+    };
+  }
+  return {
+    ...map,
+    layers,
+    markers: map.markers.map(marker => ({ ...marker, layerIds: marker.layerIds.filter(id => id !== layerId) })),
+  };
 }
+export function orderedLayers(layers: MapLayer[]): MapLayer[] { return [...layers].sort((a, b) => a.order - b.order || a.id.localeCompare(b.id)); }

@@ -1,5 +1,5 @@
 import { useEffect, useReducer, useRef, useState } from 'react';
-import { initialLayers, localized, orderedLayers, toggleLayer, type Appearance, type MapAsset, type MapDocument, type Marker } from '../../../shared/model';
+import { initialLayers, localized, orderedLayers, removeMapLayer, toggleLayer, type Appearance, type MapAsset, type MapDocument, type Marker } from '../../../shared/model';
 import { Icon } from '../../components/Icon';
 import { Dialog } from '../../components/Dialog';
 import { LocalizedFields } from '../../components/LocalizedFields';
@@ -15,7 +15,7 @@ import type { LocalImage } from '../assets/readImage';
 type Panel = 'base' | 'layers' | 'edit' | 'markers';
 export function MapScreen({ map, editing, onEdit, onChange, onImage, assetUrl, onBack, saveState, published, onSave, onPublish, onReload, isEditor }: {
   map: MapDocument; editing: boolean; onEdit: (value: boolean) => void;
-  onChange: (map: MapDocument) => void; onImage: (image: LocalImage, kind: 'layers' | 'icons', progress?: (percent: number) => void) => Promise<MapAsset>;
+  onChange: (map: MapDocument) => void; onImage: (image: LocalImage, kind: 'layers' | 'icons' | 'markers', progress?: (percent: number) => void) => Promise<MapAsset>;
   assetUrl: (id: string) => string; onBack: () => void;
   saveState: 'saved' | 'pending' | 'saving' | 'error'; published: boolean; isEditor: boolean;
   onSave: () => void; onPublish: () => void; onReload: () => void;
@@ -97,6 +97,15 @@ export function MapScreen({ map, editing, onEdit, onChange, onImage, assetUrl, o
             {editing && <><div className="layer-edit"><label>{t.opacity}<input aria-label={`${t.opacity} ${layer.title[locale]}`} type="range" min="0" max="1" step="0.05" value={layer.transform.opacity} onChange={e => commit({ ...map, layers: map.layers.map(l => l.id === layer.id ? { ...l, transform: { ...l.transform, opacity: Number(e.target.value) } } : l) })} /></label>
               <button className="icon-button" title={t.moveUp} aria-label={`${t.moveUp}: ${layer.title[locale]}`} disabled={orderedLayers(map.layers)[0]?.id === layer.id} onClick={() => reorder(layer.id, -1)}><Icon name="up" /></button>
               <button className="icon-button" title={t.moveDown} aria-label={`${t.moveDown}: ${layer.title[locale]}`} disabled={orderedLayers(map.layers).at(-1)?.id === layer.id} onClick={() => reorder(layer.id, 1)}><Icon name="down" /></button>
+              <button className="icon-button danger-quiet" title={t.delete} aria-label={`${t.delete}: ${layer.title[locale]}`} onClick={() => {
+                try {
+                  const next = removeMapLayer(map, layer.id);
+                  commit(next);
+                  setActive(current => current.filter(id => id !== layer.id));
+                } catch {
+                  // no-op: prevent deleting the last base layer
+                }
+              }}><Icon name="trash" /></button>
             </div><details className="layer-transform"><summary>{t.transform}</summary>
               <LocalizedFields title={layer.title} onTitle={title => commit({ ...map, layers: map.layers.map(l => l.id === layer.id ? { ...l, title, alt: title } : l) })} />
               <div className="coordinate-fields">{(['scale', 'x', 'y'] as const).map(field => <label key={field}>{field === 'scale' ? t.scale : field === 'x' ? t.offsetX : t.offsetY}
@@ -123,7 +132,11 @@ export function MapScreen({ map, editing, onEdit, onChange, onImage, assetUrl, o
     </aside>}
     {!panel && !editing && <div className="interaction-hint surface"><Icon name="info" /><span>{t.hint}</span></div>}
     {tool.mode === 'placing' && <div className="placement-banner surface"><span>{t.placing}</span><button onClick={() => dispatch({ type: 'cancel' })}>{t.cancel}</button></div>}
-    {editorMarker && <MarkerEditor key={provisional ? 'new' : marker?.id} marker={editorMarker} isNew={!!provisional} customIcons={customIcons} assetUrl={assetUrl} onImage={addIcon} onClose={closeEditor}
+    {editorMarker && <MarkerEditor key={provisional ? 'new' : marker?.id} marker={editorMarker} isNew={!!provisional} customIcons={customIcons} assetUrl={assetUrl} onImage={addIcon} onMediaUpload={async image => {
+      const asset = await onImage(image, 'markers');
+      commit({ ...map, assets: [...map.assets, asset] });
+      return asset.id;
+    }} onClose={closeEditor}
       onApply={next => { commit({ ...map, markers: provisional ? [...map.markers, { ...next, id: crypto.randomUUID() }] : map.markers.map(m => m.id === next.id ? next : m) }); closeEditor(); }}
       onDelete={() => { commit({ ...map, markers: map.markers.filter(m => m.id !== selected) }); closeEditor(); }} />}
     {!editing && marker && <MarkerDetails marker={marker} assetUrl={assetUrl} onClose={() => setSelected(null)} />}

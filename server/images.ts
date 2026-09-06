@@ -14,9 +14,18 @@ export async function validateImage(bytes: Buffer, filename: string, mime: strin
     const extensionMatches = format === 'jpeg' ? /\.jpe?g$/i.test(filename) : filename.toLowerCase().endsWith(`.${extension}`);
     if (!extensionMatches) throw new Error('extension');
     if (mime !== expected || meta.width > 20000 || meta.height > 20000 || (icon && (meta.width > 1024 || meta.height > 1024))) throw new Error('limits');
-    const original = await image.rotate().toBuffer(); // Decode completely; canonical orientation for portable dimensions.
+    const original = await image.rotate().toBuffer();
     const normalized = await sharp(original).metadata();
     const thumbnail = await sharp(original).resize({ width: 320, height: 220, fit: 'inside', withoutEnlargement: true }).webp().toBuffer();
     return { bytes: original, thumbnail, extension, width: normalized.width ?? meta.width, height: normalized.height ?? meta.height, mime: expected };
   } catch { throw new HttpError(400, 'INVALID_IMAGE'); }
+}
+
+export async function validateMedia(bytes: Buffer, filename: string, mime: string, icon = false) {
+  if (/\.(png|jpe?g|webp)$/i.test(filename)) return validateImage(bytes, filename, mime, icon);
+  const allowedVideo = new Set(['video/mp4', 'video/webm', 'video/quicktime', 'video/x-m4v', 'application/octet-stream']);
+  const allowedExt = /\.(mp4|webm|mov|m4v)$/i;
+  if (!allowedExt.test(filename) || (!allowedVideo.has(mime) && !allowedExt.test(filename)) || bytes.length > 100 * 1024 * 1024) throw new HttpError(400, 'INVALID_VIDEO');
+  const extension = filename.toLowerCase().match(/\.(mp4|webm|mov|m4v)$/i)?.[1] ?? 'mp4';
+  return { bytes, thumbnail: Buffer.alloc(0), extension, width: 0, height: 0, mime: mime || 'video/mp4' };
 }

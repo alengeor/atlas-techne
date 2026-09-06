@@ -59,7 +59,7 @@ export function createApp(storage: MapStorage, auth: Auth, origins: string[]) {
         const key = user?.username ?? 'anonymous', now = Date.now(), previous = uploads.get(key);
         if (previous && previous.reset > now && previous.count >= 60) throw new HttpError(429, 'TOO_MANY_UPLOADS');
         uploads.set(key, { count: previous && previous.reset > now ? previous.count + 1 : 1, reset: previous && previous.reset > now ? previous.reset : now + 60_000 });
-        const bytes = await body(req, 25 * 1024 * 1024), name = url.searchParams.get('name') ?? '', mime = req.headers['content-type']?.split(';')[0] ?? '';
+        const bytes = await body(req, 100 * 1024 * 1024), name = url.searchParams.get('name') ?? '', mime = req.headers['content-type']?.split(';')[0] ?? '';
         if (url.pathname === '/api/maps') {
           let title: unknown; try { title = JSON.parse(url.searchParams.get('title') ?? 'null'); } catch { throw new HttpError(400, 'INVALID_INPUT'); }
           return send(await storage.create(localizedSchema.parse(title), bytes, name, mime), 201);

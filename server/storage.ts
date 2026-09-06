@@ -6,7 +6,7 @@ import { assetSchema, localized, locales, mapSchema, type MapDocument, type Loca
 import type { Change, MapRecord } from '../shared/api.js';
 import type { StorageConfig } from './config.js';
 import { HttpError } from './errors.js';
-import { validateImage } from './images.js';
+import { validateMedia } from './images.js';
 
 const storedSchema = z.object({ revision: z.number().int().nonnegative(), map: mapSchema });
 const registrySchema = z.array(z.object({ asset: assetSchema, mime: z.string(), originalName: z.string(), thumbnail: z.string() }));
@@ -30,7 +30,7 @@ function slug(title: string) {
 }
 function usedAssets(map: MapDocument) {
   return new Set([...map.layers.map(l => l.assetId), ...map.markers.flatMap(m => [
-    ...(m.appearance.kind === 'custom' ? [m.appearance.assetId] : []), ...m.media.flatMap(media => media.kind === 'image' ? [media.assetId] : []),
+    ...(m.appearance.kind === 'custom' ? [m.appearance.assetId] : []), ...m.media.map(media => media.assetId),
   ])]);
 }
 export class MapStorage {
@@ -61,25 +61,25 @@ export class MapStorage {
   }
   private async registry(folder: string) { return registrySchema.parse(await optionalJson(this.data(folder, 'assets.json')) ?? []); }
   private async putImage(folder: string, bytes: Buffer, name: string, mime: string, kind: 'layers' | 'icons' | 'markers'): Promise<RegistryEntry> {
-    const image = await validateImage(bytes, name, mime, kind === 'icons');
+    const media = await validateMedia(bytes, name, mime, kind === 'icons');
     const id = randomUUID();
-    const relative = `${folder}/${kind}/${id}.${image.extension}`;
+    const relative = `${folder}/${kind}/${id}.${media.extension}`;
     const thumbnail = `${folder}/thumbnails/${id}.webp`;
     const output = path.join(this.config.mediaDir, relative);
     const thumbOutput = path.join(this.config.mediaDir, thumbnail);
     await mkdir(path.dirname(output), { recursive: true }); await mkdir(path.dirname(thumbOutput), { recursive: true });
     const write = async (file: string, data: Buffer) => { const handle = await open(file, 'wx'); try { await handle.writeFile(data); await handle.sync(); } finally { await handle.close(); } };
     try {
-      await write(output, image.bytes); await write(thumbOutput, image.thumbnail);
-      const entry: RegistryEntry = { asset: { id, path: relative, width: image.width, height: image.height }, mime: image.mime, originalName: path.basename(name), thumbnail };
+      await write(output, media.bytes); if (media.thumbnail.length) await write(thumbOutput, media.thumbnail);
+      const entry: RegistryEntry = { asset: { id, path: relative, width: media.width || 1280, height: media.height || 720 }, mime: media.mime, originalName: path.basename(name), thumbnail: media.thumbnail.length ? thumbnail : '' };
       await atomicJson(this.data(folder, 'assets.json'), [...await this.registry(folder), entry]);
       return entry;
-    } catch (error) { await unlink(output).catch(() => undefined); await unlink(thumbOutput).catch(() => undefined); throw error; }
+    } catch (error) { await unlink(output).catch(() => undefined); if (media.thumbnail.length) await unlink(thumbOutput).catch(() => undefined); throw error; }
   }
   async create(title: LocalizedText, bytes: Buffer, name: string, mime: string): Promise<MapRecord> {
     if (!title.es.trim()) throw new HttpError(400, 'TITLE_REQUIRED');
     // Validate before creating a folder, so rejected uploads leave no map behind.
-    await validateImage(bytes, name, mime);
+    await validateMedia(bytes, name, mime);
     return this.locked(async () => {
       const existing = new Set((await this.folders()).map(f => f.toLowerCase()));
       let folder = slug(title.es);
@@ -132,7 +132,6 @@ export class MapStorage {
       map.markers = map.markers.filter(m => m.visible);
       const required = [map.title, ...map.layers.flatMap(l => [l.title, l.alt]), ...map.markers.map(m => m.title)];
       const optional = [map.description, ...map.markers.map(m => m.description)];
-      for (const marker of map.markers) for (const media of marker.media) { required.push(media.title); if (media.kind === 'image') required.push(media.alt); }
       if (required.some(text => locales.some(l => !text[l].trim())) || optional.some(text => Object.values(text).some(Boolean) && locales.some(l => !text[l].trim()))) throw new HttpError(400, 'MISSING_TRANSLATIONS');
       const ids = usedAssets(map); map.assets = map.assets.filter(a => ids.has(a.id));
       for (const asset of map.assets) await this.safeFile(asset.path);

@@ -156,7 +156,10 @@ legend { font-size: 14px; color: var(--muted); font-weight: 600; margin-bottom: 
 .file-button { position: relative; margin: 0; }
 .file-button input, .file-drop input { position: absolute; width: 100%; height: 100%; inset: 0; opacity: 0; cursor: pointer; padding: 0; }
 .dialog { color: var(--text); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-panel); padding: 0; width: min(460px, calc(100vw - 32px)); max-height: calc(100dvh - 48px); overflow: auto; box-shadow: var(--shadow-modal); }
-.dialog-wide { width: min(600px, calc(100vw - 32px)); }
+.dialog-wide { width: min(540px, calc(100vw - 32px)); }
+.marker-details-dialog { width: min(660px, calc(100vw - 32px)); }
+.marker-details-dialog { max-height: min(780px, calc(100dvh - 24px)); }
+.marker-details-dialog { overflow: hidden; display: flex; flex-direction: column; }
 .dialog::backdrop { background: #07192fb3; backdrop-filter: blur(3px); }
 .dialog-heading { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; justify-content: space-between; padding: 20px 24px 12px; gap: 16px; background: var(--surface); }
 .dialog-heading h2 { font-size: 24px; color: var(--accent); margin: 0; }
@@ -173,6 +176,10 @@ textarea { resize: vertical; }
 .locale-tabs button[aria-pressed=true] { border-color: var(--accent); color: var(--accent); }
 .coordinate-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .dialog-body .appearance-picker { margin: 20px 0; }
+.marker-details-dialog .details-content { min-height: 0; overflow-y: auto; }
+.marker-media-sticky { position: sticky; top: 0; z-index: 2; background: var(--surface); }
+.marker-details-dialog .dialog-heading { padding: 18px 20px 14px; }
+.marker-details-dialog .dialog-heading h2 { font-size: 34px; line-height: 1.15; }
 .form-error { color: #ffb5c1 !important; background: #73243f40; border: 1px solid #ed758c70; padding: 12px; border-radius: 6px; }
 .confirmation, .notice-box { border: 1px solid var(--border); background: #102840; padding: 16px; border-radius: 8px; }
 .file-drop { position: relative; border: 1px dashed var(--border); min-height: 140px; text-align: center; align-items: center; justify-content: center; border-radius: 8px; padding: 20px; background: #ffffff05; }
@@ -182,7 +189,70 @@ textarea { resize: vertical; }
 .upload-preview img { width: 84px; height: 60px; object-fit: contain; background: #112840; }
 .upload-preview small { display: block; }
 .details-content { padding-bottom: 8px; }
-.gallery img, .gallery iframe { display: block; width: 100%; height: 280px; object-fit: cover; background: #10253b; border: 0; }
+.marker-details { padding: 0; }
+.details-content .marker-gallery { margin: 0; }
+.marker-gallery { position: relative; overflow: hidden; border-radius: 12px 12px 0 0; background: #0d1f30; }
+.marker-gallery img,
+.marker-gallery video { display: block; width: 100%; aspect-ratio: 16 / 9; height: auto; object-fit: cover; background: #10253b; border: 0; }
+.gallery-arrow {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  width: 38px;
+  height: 38px;
+  min-height: 38px;
+  padding: 8px;
+  transform: translateY(-50%);
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: 50%;
+  background: rgba(8, 24, 39, .72);
+  color: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,.3);
+}
+.gallery-arrow:hover:not(:disabled) { background: rgba(8, 24, 39, .94); }
+.gallery-arrow-prev { left: 12px; }
+.gallery-arrow-next { right: 12px; }
+.gallery-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  min-height: 34px;
+  padding: 8px 0 4px;
+  background: #0d1f30;
+}
+.gallery-dot {
+  width: 9px;
+  height: 9px;
+  min-height: 9px;
+  padding: 0;
+  border: 1px solid rgba(255,255,255,.85);
+  border-radius: 50%;
+  background: rgba(255,255,255,.35);
+}
+.gallery-dot[aria-current=true] { background: var(--accent); border-color: var(--accent); transform: scale(1.2); }
+.gallery-dot:hover:not(:disabled) { background: white; border-color: white; }
+.marker-details-dialog .gallery-arrow { width: 44px; height: 44px; min-height: 44px; }
+.marker-detail-copy {
+  padding: 20px 22px 24px;
+  color: var(--text);
+}
+.marker-detail-copy h3 {
+  margin: 0 0 12px;
+  color: var(--text);
+  font-size: clamp(22px, 2vw, 28px);
+  line-height: 1.2;
+}
+.marker-detail-copy p {
+  margin: 0;
+  color: rgba(240, 245, 251, 0.78);
+  font-size: 22px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.gallery:not(.marker-gallery) img, .gallery:not(.marker-gallery) iframe { display: block; width: 100%; height: 280px; object-fit: cover; background: #10253b; border: 0; }
 .gallery-controls { display: flex; justify-content: space-between; align-items: center; padding: 8px 20px; }
 .gallery-controls button { background: transparent; border: 0; }
 .caption { color: var(--muted); font-size: 13px; text-align: center; padding: 0 24px; }
@@ -224,7 +294,7 @@ progress { width: 100%; accent-color: var(--accent); }
   .map-screen:has(.map-panel) .editor-status { display: none; }
   .placement-banner { top: 202px; font-size: 12px; padding: 8px; } .placement-banner button { padding: 8px; }
   .dialog-footer { flex-wrap: wrap; padding: 12px 16px; } .dialog-body { padding: 12px 20px 20px; } .dialog-heading { padding: 16px 16px 8px; }
-  .gallery img, .gallery iframe { height: 210px; } .editorial-text { font-size: 17px; padding: 16px 22px; } .toast { width: max-content; max-width: 95vw; bottom: 12px; }
+  .gallery:not(.marker-gallery) img, .gallery:not(.marker-gallery) iframe { height: 210px; } .editorial-text { font-size: 17px; padding: 16px 22px; } .toast { width: max-content; max-width: 95vw; bottom: 12px; }
 }
 @media (max-height: 700px) and (min-width: 761px) { .map-info p { display: none; } .map-panel { max-height: 70dvh; } .map-info h1 { font-size: 25px; } .landing { padding-top: 56px; padding-bottom: 112px; } .catalog-panel { max-height: calc(100dvh - 142px); } .catalog-logo { width: min(430px, 70%); } .catalog-heading { margin-bottom: 20px; } .museum-branding { width: min(290px, 26vw); bottom: 16px; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } .landing-backdrop { background: radial-gradient(ellipse at 30% 20%, #456075, #152b43 70%); } .map-card:hover { transform: none; } }

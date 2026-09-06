@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { demoCatalog } from '../tests/fixtures/catalog';
-import { initialLayers, mapSchema, orderedLayers, parseVideoUrl, toggleLayer } from './model';
+import { initialLayers, mapSchema, orderedLayers, removeMapLayer, toggleLayer } from './model';
 
 const fixture = () => { const map = demoCatalog()[0]; if (!map) throw new Error('Fixture missing'); return map; };
 describe('versioned map contracts', () => {
@@ -26,16 +26,35 @@ describe('versioned map contracts', () => {
     expect(orderedLayers(layers).map(l => l.order)).toEqual([0, 1, 2]);
     expect(layers[0]).toBe(first);
   });
+  it('removes a layer and its marker references without leaving the map without a base', () => {
+    const map = fixture();
+    const overlay = map.layers.find(l => l.kind === 'overlay');
+    const defaultBase = map.layers.find(l => l.kind === 'base' && l.visibleByDefault);
+    if (!overlay || !defaultBase) throw new Error('Fixture missing');
+    const withoutOverlay = removeMapLayer(map, overlay.id);
+    expect(withoutOverlay.layers.some(l => l.id === overlay.id)).toBe(false);
+    expect(withoutOverlay.markers.every(m => !m.layerIds.includes(overlay.id))).toBe(true);
+    expect(mapSchema.safeParse(withoutOverlay).success).toBe(true);
+    const singleBaseMap = { ...map, layers: [defaultBase] };
+    expect(() => removeMapLayer(singleBaseMap, defaultBase.id)).toThrow(/base/i);
+  });
   it('rejects duplicate IDs and multiple default base images', () => {
     const map = fixture();
     expect(mapSchema.safeParse({ ...map, layers: map.layers.map(l => ({ ...l, visibleByDefault: true })) }).success).toBe(false);
     expect(mapSchema.safeParse({ ...map, assets: [...map.assets, ...map.assets] }).success).toBe(false);
   });
-});
-describe('external videos', () => {
-  it('parses allowlisted HTTPS videos', () => {
-    expect(parseVideoUrl('https://www.youtube.com/watch?v=AbCdEf12345')).toBe('AbCdEf12345');
-    expect(parseVideoUrl('https://youtu.be/AbCdEf12345')).toBe('AbCdEf12345');
+  it('limits marker media to three items total', () => {
+    const map = fixture();
+    const marker = map.markers[0];
+    const firstAsset = map.assets[0];
+    if (!marker || !firstAsset) throw new Error('Fixture missing');
+    const extraMedia = Array.from({ length: 4 }, (_, i) => ({
+      id: `m${i}`,
+      kind: 'image' as const,
+      assetId: firstAsset.id,
+      title: { es: `Media ${i}`, pt: `Media ${i}`, en: `Media ${i}` },
+      alt: { es: `Alt ${i}`, pt: `Alt ${i}`, en: `Alt ${i}` },
+    }));
+    expect(mapSchema.safeParse({ ...map, markers: [{ ...marker, media: extraMedia }] }).success).toBe(false);
   });
-  it.each(['javascript:alert(1)', 'http://youtu.be/AbCdEf12345', 'https://youtube.com.evil.test/watch?v=AbCdEf12345', 'https://user@youtu.be/AbCdEf12345', 'https://youtu.be/invalid'])('rejects %s', url => expect(parseVideoUrl(url)).toBeNull());
 });
