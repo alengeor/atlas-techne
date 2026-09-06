@@ -1,6 +1,9 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useId, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
+import { Check, ChevronDown, Languages } from 'lucide-react';
 import { locales, type Locale } from '../../shared/model';
 import { es, pt, en, type Messages } from './messages';
+
+const localeNames: Record<Locale, string> = { es: 'Español', pt: 'Português', en: 'English' };
 
 export function chooseLocale(saved: string | null, browser: string): Locale {
   if (locales.some(l => l === saved)) return locales.find(l => l === saved) ?? 'es';
@@ -25,8 +28,43 @@ export function useLanguage() {
 }
 export function LanguageSelector() {
   const { locale, setLocale, t } = useLanguage();
-  return <label className="language-control"><span aria-hidden="true">◎</span><span className="sr-only">{t.language}</span>
-    <select value={locale} onChange={e => setLocale(chooseLocale(e.target.value, 'es'))}>
-      <option value="es" lang="es" aria-label="Español">ES</option><option value="pt" lang="pt" aria-label="Português">PT</option><option value="en" lang="en" aria-label="English">EN</option>
-    </select></label>;
+  const [open, setOpen] = useState(false);
+  const control = useRef<HTMLDivElement>(null);
+  const trigger = useRef<HTMLButtonElement>(null);
+  const options = useRef<Partial<Record<Locale, HTMLButtonElement>>>({});
+  const menuId = useId();
+  useEffect(() => {
+    if (!open) return;
+    options.current[locale]?.focus();
+    const close = (event: PointerEvent) => {
+      if (!control.current?.contains(event.target as Node)) setOpen(false);
+    };
+    document.addEventListener('pointerdown', close);
+    return () => document.removeEventListener('pointerdown', close);
+  }, [locale, open]);
+  const select = (next: Locale) => {
+    setLocale(next); setOpen(false); trigger.current?.focus();
+  };
+  const move = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Escape' && open) {
+      event.preventDefault(); event.stopPropagation(); setOpen(false); trigger.current?.focus(); return;
+    }
+    if (!open || !['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) return;
+    event.preventDefault();
+    const current = locales.findIndex(item => options.current[item] === document.activeElement);
+    const index = event.key === 'Home' ? 0 : event.key === 'End' ? locales.length - 1
+      : event.key === 'ArrowDown' ? (current + 1) % locales.length : (current - 1 + locales.length) % locales.length;
+    const next = locales[index];
+    if (next) options.current[next]?.focus();
+  };
+  return <div className="language-control" ref={control} onKeyDown={move}>
+    <button ref={trigger} type="button" className="language-trigger" aria-label={`${t.language}: ${localeNames[locale]}`} aria-haspopup="menu" aria-expanded={open} aria-controls={menuId} onClick={() => setOpen(value => !value)}>
+      <Languages className="language-icon" aria-hidden="true" /><span>{locale.toUpperCase()}</span><ChevronDown className={`language-chevron ${open ? 'open' : ''}`} aria-hidden="true" />
+    </button>
+    {open && <div className="language-menu" id={menuId} role="menu" aria-label={t.language}>
+      {locales.map(item => <button key={item} ref={node => { options.current[item] = node ?? undefined; }} type="button" role="menuitemradio" aria-checked={locale === item} lang={item} onClick={() => select(item)}>
+        <span className="language-code">{item.toUpperCase()}</span><span>{localeNames[item]}</span>{locale === item && <Check className="language-check" aria-hidden="true" />}
+      </button>)}
+    </div>}
+  </div>;
 }

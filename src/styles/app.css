@@ -24,42 +24,53 @@ button .icon { flex-shrink: 0; }
 .muted, small { color: var(--muted); }
 .access-button { position: fixed; z-index: var(--z-controls); right: 24px; top: 24px; width: 54px; height: 54px; padding: 14px; border-radius: 50%; background: rgba(20, 49, 78, .8); }
 .access-button.active { color: var(--focus); border-color: var(--focus); box-shadow: 0 0 18px #e6b65e30; }
-.landing { min-height: 100dvh; display: grid; align-items: center; justify-items: center; padding: 110px 36px 150px; isolation: isolate; position: relative; }
+.landing { height: 100dvh; min-height: 0; display: grid; align-items: center; justify-items: center; padding: 72px 36px 128px; isolation: isolate; position: relative; overflow: hidden; }
 .landing-backdrop { position: fixed; z-index: -2; inset: 0; background: linear-gradient(#14253890, #101b2ca0), var(--landing-background) center / cover; filter: blur(14px) saturate(.45); transform: scale(1.05); }
 .landing::after { content: ''; position: fixed; inset: 0; z-index: -1; background: radial-gradient(ellipse at center, transparent, #0c1c3270); }
-.catalog-panel { width: min(1080px, 100%); padding: 52px 64px 24px; background: linear-gradient(110deg, #193958ed, #274460ee); }
-.catalog-heading { text-align: center; margin-bottom: 40px; }
-.eyebrow { text-transform: uppercase; font-size: 14px; letter-spacing: .18em; color: var(--accent); margin-bottom: 12px; font-weight: 600; }
-.catalog-heading h1 { font-size: clamp(38px, 4vw, 56px); letter-spacing: .075em; font-weight: 750; margin: 0 0 12px; }
-.catalog-heading > p:last-child { color: var(--muted); font-size: 22px; }
-.catalog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 24px; }
+.catalog-panel { width: min(1020px, 100%); max-height: calc(100dvh - 176px); padding: 36px 52px 20px; overflow-y: auto; overscroll-behavior: contain; background: linear-gradient(110deg, #122f4bed, #1c3853f2); }
+.catalog-heading { text-align: center; margin-bottom: 28px; }
+.catalog-heading h1 { display: flex; justify-content: center; margin: 0; }
+.catalog-logo { display: block; width: min(530px, 80%); height: auto; }
+.eyebrow, .museum-credit { text-transform: uppercase; font-size: 14px; letter-spacing: .18em; color: var(--accent); font-weight: 650; }
+.eyebrow { margin: 12px 0 0; }
+.catalog-instruction { color: var(--muted); font-size: 19px; text-align: center; margin: 22px 0 0; }
+.catalog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)); gap: 20px; }
 .map-card { display: flex; flex-direction: column; text-align: left; justify-content: flex-start; padding: 0; overflow: hidden; border-radius: var(--radius-panel); background: #ffffff06; min-width: 0; }
 .map-card:hover { transform: translateY(-2px); }
-.card-image { position: relative; height: 156px; width: 100%; overflow: hidden; border-bottom: 1px solid var(--border); }
+.card-image { position: relative; height: 132px; width: 100%; overflow: hidden; border-bottom: 1px solid var(--border); }
 .card-image img { width: 100%; height: 100%; object-fit: cover; }
 .card-open { position: absolute; right: 12px; bottom: 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 50%; padding: 9px; }
-.card-content { padding: 24px; width: 100%; }
+.card-content { padding: 18px 20px; width: 100%; }
 .card-kicker { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; font-size: 11px; }
-.map-card h2 { color: var(--accent); font-size: 27px; font-weight: 700; margin: 10px 0 12px; }
-.map-card p { color: var(--muted); font-weight: 400; font-size: 17px; }
-.card-bottom { display: flex; justify-content: space-between; gap: 16px; align-items: end; color: var(--muted); font-size: 13px; width: 100%; margin-top: 24px; }
+.map-card h2 { color: var(--accent); font-size: 23px; font-weight: 700; margin: 8px 0 9px; }
+.map-card p { color: var(--muted); font-weight: 400; font-size: 15px; }
+.card-bottom { display: flex; justify-content: space-between; gap: 16px; align-items: end; color: var(--muted); font-size: 12px; width: 100%; margin-top: 16px; }
 .card-bottom span { color: var(--accent); }
-.add-card { padding: 30px; border-style: dashed; justify-content: center; align-items: center; text-align: center; }
+.add-card { padding: 22px; border-style: dashed; justify-content: center; align-items: center; text-align: center; }
 .add-card p { max-width: 280px; }
 .add-card .card-bottom { justify-content: center; margin-top: 8px; }
-.add-symbol { display: grid; place-items: center; width: 64px; height: 64px; border: 1px solid var(--border); border-radius: 50%; margin-bottom: 8px; }
-.add-symbol .icon { width: 32px; height: 32px; }
+.add-symbol { display: grid; place-items: center; width: 52px; height: 52px; border: 1px solid var(--border); border-radius: 50%; margin-bottom: 6px; }
+.add-symbol .icon { width: 27px; height: 27px; }
 .catalog-footer { border-top: 1px solid var(--border); margin-top: 32px; padding-top: 20px; display: flex; justify-content: center; gap: 12px; color: var(--muted); font-size: 13px; }
 .catalog-footer .icon { width: 18px; height: 18px; flex-shrink: 0; }
 .catalog-state { min-height: 300px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
 .spinner { height: 32px; width: 32px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-.museum-logo { position: absolute; width: min(440px, 36vw); right: 5vw; bottom: 50px; height: auto; }
+.museum-branding { position: absolute; width: min(440px, 36vw); right: 5vw; bottom: 38px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.museum-credit { margin: 0; text-align: center; transform: translateX(3.5ch); }
+.museum-logo { display: block; width: 100%; height: auto; }
 .landing-language { position: absolute; left: 36px; bottom: 36px; }
-.language-control { position: relative; display: inline-flex; flex-direction: row; align-items: center; gap: 8px; background: #193b60f5; border: 1px solid var(--border); border-radius: var(--radius-panel); padding: 0 8px 0 14px; min-height: 50px; width: fit-content; margin-bottom: 0; }
-.language-control > span:first-child { color: var(--accent); font-size: 30px; line-height: 1; }
-.language-control select { border: 0; width: 60px; background: transparent; padding: 10px 0; font-weight: 700; margin: 0; }
-select option { background: var(--surface); color: var(--text); }
+.language-control { position: relative; display: inline-flex; width: fit-content; margin: 0; }
+.language-trigger { min-height: 50px; padding: 8px 12px; gap: 9px; background: #193b60f5; border-radius: var(--radius-panel); }
+.language-trigger:hover:not(:disabled) { background: #274f73; }
+.language-icon { width: 23px; height: 23px; color: var(--accent); }
+.language-chevron { width: 17px; height: 17px; transition: transform .16s ease; }
+.language-chevron.open { transform: rotate(180deg); }
+.language-menu { position: absolute; z-index: var(--z-notice); left: 0; bottom: calc(100% + 8px); width: 190px; padding: 6px; border: 1px solid var(--border); border-radius: 10px; background: #102a43; box-shadow: var(--shadow-modal); }
+.language-menu button { width: 100%; min-height: 42px; padding: 8px 10px; justify-content: flex-start; border: 0; background: transparent; border-radius: 6px; font-weight: 500; }
+.language-menu button[aria-checked=true] { color: var(--accent); background: #ffffff0d; }
+.language-code { width: 28px; font-weight: 750; }
+.language-check { width: 18px; height: 18px; margin-left: auto; }
 .map-screen { position: relative; width: 100%; height: 100dvh; overflow: hidden; background: var(--background); }
 .canvas-viewport { position: absolute; inset: 0; overflow: hidden; touch-action: none; cursor: grab; user-select: none; }
 .canvas-viewport:active { cursor: grabbing; }
@@ -193,12 +204,13 @@ textarea { resize: vertical; }
 .layer-transform input { min-width: 0; }
 progress { width: 100%; accent-color: var(--accent); }
 
-@media (min-width: 1700px) { .catalog-panel { padding: 56px 72px 24px; } .catalog-heading h1 { font-size: 56px; } }
+@media (min-width: 1700px) { .catalog-panel { padding: 40px 60px 22px; } }
 @media (max-width: 1500px) { .interaction-hint { display: none; } .map-info-group { width: 36vw; } .map-info { padding: 20px 24px; } }
+@media (max-height: 820px) and (min-width: 761px) { .museum-branding { width: min(350px, 30vw); bottom: 24px; } .museum-credit { font-size: 11px; } }
 @media (max-width: 1100px) { .catalog-panel { padding: 40px 36px 24px; } .map-info-group { left: 20px; bottom: 20px; } .map-panel { right: 20px; bottom: 20px; width: 54vw; } .panel-trigger { right: 20px; bottom: 20px; } .map-info h1 { font-size: 25px; } .map-topline .session-badge { max-width: 200px; } .editor-status > span { display: none; } .editor-status { padding-left: 4px; } }
 @media (max-width: 760px) {
-  .landing { padding: 100px 18px 150px; } .catalog-panel { padding: 32px 20px 20px; } .catalog-heading h1 { font-size: 36px; } .catalog-heading > p:last-child { font-size: 18px; } .eyebrow { font-size: 11px; }
-  .catalog-grid { grid-template-columns: 1fr; } .add-card { padding: 24px; } .add-card .add-symbol { display: none; } .museum-logo { width: 240px; max-width: 50vw; right: 20px; bottom: 44px; } .landing-language { left: 20px; }
+  .landing { padding: 76px 18px 132px; } .catalog-panel { max-height: calc(100dvh - 188px); padding: 26px 20px 18px; } .catalog-logo { width: min(92%, 420px); } .catalog-instruction { font-size: 17px; } .eyebrow, .museum-credit { font-size: 11px; }
+  .catalog-grid { grid-template-columns: 1fr; } .add-card { padding: 20px; } .add-card .add-symbol { display: none; } .museum-branding { width: 240px; max-width: 50vw; right: 20px; bottom: 34px; gap: 5px; } .landing-language { left: 20px; }
   .map-info-group { left: 12px; bottom: 86px; width: min(360px, calc(100vw - 24px)); pointer-events: none; gap: 10px; } .map-info-group > * { pointer-events: auto; }
   .map-info { padding: 12px 16px; } .map-info h1 { font-size: 22px; } .map-info p, .map-summary { display: none; } .info-actions { margin-bottom: 8px; }
   .map-panel { right: 12px; left: 12px; bottom: 12px; width: auto; max-height: 56dvh; } .panel-trigger { right: 12px; bottom: 12px; }
@@ -214,5 +226,5 @@ progress { width: 100%; accent-color: var(--accent); }
   .dialog-footer { flex-wrap: wrap; padding: 12px 16px; } .dialog-body { padding: 12px 20px 20px; } .dialog-heading { padding: 16px 16px 8px; }
   .gallery img, .gallery iframe { height: 210px; } .editorial-text { font-size: 17px; padding: 16px 22px; } .toast { width: max-content; max-width: 95vw; bottom: 12px; }
 }
-@media (max-height: 700px) and (min-width: 761px) { .map-info p { display: none; } .map-panel { max-height: 70dvh; } .map-info h1 { font-size: 25px; } .catalog-panel { margin-top: 20px; } }
+@media (max-height: 700px) and (min-width: 761px) { .map-info p { display: none; } .map-panel { max-height: 70dvh; } .map-info h1 { font-size: 25px; } .landing { padding-top: 56px; padding-bottom: 112px; } .catalog-panel { max-height: calc(100dvh - 142px); } .catalog-logo { width: min(430px, 70%); } .catalog-heading { margin-bottom: 20px; } .museum-branding { width: min(290px, 26vw); bottom: 16px; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } .landing-backdrop { background: radial-gradient(ellipse at 30% 20%, #456075, #152b43 70%); } .map-card:hover { transform: none; } }

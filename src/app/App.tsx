@@ -1,4 +1,5 @@
 import { useEffect, useState, type CSSProperties } from 'react';
+import { Settings } from 'lucide-react';
 import { mapSchema, type MapDocument } from '../../shared/model';
 import type { MapRecord, Session } from '../../shared/api';
 import { api, assetUrl } from '../api/client';
@@ -11,6 +12,7 @@ import { MapScreen } from '../features/viewer/MapScreen';
 import { Login } from '../features/auth/Login';
 import { identity } from './identity';
 import { MetadataForm } from '../features/viewer/MapScreen';
+import atlasTechneLogo from '../../images/AtlasTechneLogoDark.png';
 
 function routeId(): string | null { return /^#\/maps\/([^/]+)$/.exec(window.location.hash)?.[1] ?? null; }
 export function App() {
@@ -78,7 +80,7 @@ export function App() {
   };
   return <>
     <a className="skip-link" href="#main-content" onClick={e => { e.preventDefault(); document.querySelector<HTMLElement>('main')?.focus(); }}>{t.canvas}</a>
-    <button className={`access-button ${session.user ? 'active' : ''}`} aria-label={t.access} title={t.access} onClick={() => setAccess(true)}><Icon name="settings" /></button>
+    <button className={`access-button ${session.user ? 'active' : ''}`} aria-label={t.access} title={t.access} onClick={() => setAccess(true)}><Settings className="icon" aria-hidden="true" /></button>
     {map && record ? <MapScreen key={map.id} map={map} editing={!!session.user && editing} isEditor={!!session.user} onEdit={setEditing} onBack={() => navigate(null)}
       onChange={update} assetUrl={id => assetUrl(map.id, id)}
       onImage={(image, kind, progress) => api.upload(map.id, image.file, kind, progress ?? (() => undefined))}
@@ -88,7 +90,7 @@ export function App() {
       onReload={() => { if (dirty) setConfirmation('reload'); else action(reload); }} />
       : <main className="landing" id="main-content" tabIndex={-1} style={{ '--landing-background': `url("${identity.background}")` } as CSSProperties}>
         <div className="landing-backdrop" /><section className="catalog-panel surface">
-          <header className="catalog-heading"><p className="eyebrow">{t.subtitle}</p><h1>ATLAS TECHNĒ</h1><p>{t.choose}</p></header>
+          <header className="catalog-heading"><h1><img className="catalog-logo" src={atlasTechneLogo} alt="Atlas Technē" /></h1><p className="eyebrow">{t.subtitle}</p></header>
           {status === 'loading' && <div className="catalog-state" role="status"><span className="spinner" />{t.loading}</div>}
           {status === 'error' && <div className="catalog-state" role="alert"><p>{apiMessage(error, t)}</p><button onClick={() => { setStatus('loading'); setAttempt(v => v + 1); }}>{t.retry}</button></div>}
           {status === 'ready' && mapId && <p role="alert">{t.notFound}</p>}
@@ -100,9 +102,10 @@ export function App() {
             </button>{session.user && <button className="icon-button" style={{ position: 'absolute', top: 12, right: 12, zIndex: 1, background: 'rgba(20,40,60,0.8)', border: '1px solid #ffffff33', borderRadius: '50%' }} aria-label={t.editMap} onClick={e => { e.stopPropagation(); setEditingMapId(item.map.id); }}><Icon name="edit" /></button>}</div>)}
             {session.user && <button className="map-card add-card" onClick={() => setCreate(true)}><span className="add-symbol"><Icon name="plus" /></span><h2>{t.newMap}</h2><p>{t.createMapHelp}</p><span className="card-bottom">PNG · JPG · WebP</span></button>}
             </div>
+            {records.some(item => item.published) && <p className="catalog-instruction">{t.choose}</p>}
           </>}
           {session.user && <footer className="catalog-footer"><Icon name="edit" /><span>{t.editor} · {session.user.username}</span></footer>}
-        </section><div className="landing-language"><LanguageSelector /></div><img className="museum-logo" src={identity.logo} alt={identity.logoAlt} />
+        </section><div className="landing-language"><LanguageSelector /></div><div className="museum-branding"><p className="museum-credit">{t.developedFor}</p><img className="museum-logo" src={identity.logo} alt={identity.logoAlt} /></div>
       </main>}
     {access && !session.user && <Login onClose={() => setAccess(false)} onSession={next => {
       setSession(next); setEditing(true); setAccess(false);
