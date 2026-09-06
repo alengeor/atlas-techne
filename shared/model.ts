@@ -22,6 +22,8 @@ export type MarkerCategory = z.infer<typeof markerCategorySchema>;
 export const markerSchema = z.object({
   id, position: z.object({ x: unit, y: unit }), title: localizedSchema, description: localizedSchema,
   appearance: appearanceSchema, visible: z.boolean(), layerIds: z.array(id), categoryId: id.optional(), media: z.array(mediaSchema).max(3),
+  labelPosition: z.enum(['north', 'north-east', 'east', 'south-east', 'south', 'south-west', 'west', 'north-west']).default('south'),
+  labelDistance: z.number().finite().min(0).max(200).default(3),
 });
 export type Marker = z.infer<typeof markerSchema>;
 export type Appearance = z.infer<typeof appearanceSchema>;

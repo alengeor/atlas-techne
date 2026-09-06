@@ -102,7 +102,9 @@
             "kind": "image",
             "assetId": "c95c4060-abd7-4548-aa89-eb6ea2d82822"
           }
-        ]
+        ],
+        "labelPosition": "east",
+        "labelDistance": 50
       },
       {
         "id": "ba2ca18c-04f5-42c3-95c8-3302875d2397",
@@ -134,7 +136,9 @@
             "kind": "image",
             "assetId": "850c616a-835b-4965-8159-d6e1fb57fc56"
           }
-        ]
+        ],
+        "labelPosition": "south",
+        "labelDistance": 3
       },
       {
         "id": "42bd762e-4a83-4b72-adc7-15ae244a838b",
@@ -166,7 +170,9 @@
             "kind": "image",
             "assetId": "b75aaec4-c87f-4eb4-9567-1e50e36ef06c"
           }
-        ]
+        ],
+        "labelPosition": "north",
+        "labelDistance": 50
       },
       {
         "id": "47cadaba-11f2-43fa-9e26-81cfa41c891d",
@@ -198,7 +204,9 @@
             "kind": "image",
             "assetId": "b9491cee-d182-4e27-8272-551cf2cb8297"
           }
-        ]
+        ],
+        "labelPosition": "west",
+        "labelDistance": 50
       },
       {
         "id": "dc589f1f-4aec-49fa-abe1-6b7bcfa198dc",
@@ -230,7 +238,9 @@
             "kind": "image",
             "assetId": "65ae96f6-3e1e-4521-a1f3-1c2d572b0689"
           }
-        ]
+        ],
+        "labelPosition": "west",
+        "labelDistance": 50
       },
       {
         "id": "a1331630-28b6-4f44-b97a-1848469bded1",
@@ -262,7 +272,9 @@
             "kind": "image",
             "assetId": "258b859e-ee17-4445-8305-e774506b6c83"
           }
-        ]
+        ],
+        "labelPosition": "west",
+        "labelDistance": 50
       },
       {
         "id": "fb48db74-73b2-45d4-bc0a-4eb66686e52f",
@@ -294,7 +306,9 @@
             "kind": "image",
             "assetId": "77cae6de-e830-4312-9f80-4cf839baee1e"
           }
-        ]
+        ],
+        "labelPosition": "south",
+        "labelDistance": 100
       },
       {
         "id": "4ccba011-b7ed-424c-9aed-372a55c4a518",
@@ -326,7 +340,9 @@
             "kind": "image",
             "assetId": "0d4d6c83-1023-46cf-bda4-c363f18b6f67"
           }
-        ]
+        ],
+        "labelPosition": "south",
+        "labelDistance": 20
       },
       {
         "id": "3c84fc72-cfdc-41db-9bba-df3ea3007314",
@@ -358,7 +374,9 @@
             "kind": "image",
             "assetId": "27512fdc-1a0d-41a3-bd43-a01b39aee07c"
           }
-        ]
+        ],
+        "labelPosition": "west",
+        "labelDistance": 40
       },
       {
         "id": "6b183752-4a65-4e8c-824f-6a8197456de8",
@@ -390,7 +408,9 @@
             "kind": "image",
             "assetId": "087aaa2c-5742-4b31-a83a-f37da562068e"
           }
-        ]
+        ],
+        "labelPosition": "north-west",
+        "labelDistance": 40
       },
       {
         "id": "187851ec-1ce0-4e45-ab17-19bdcf647010",
@@ -422,7 +442,9 @@
             "kind": "image",
             "assetId": "ea2b0fa0-2cd0-4282-8eb8-52427216f91d"
           }
-        ]
+        ],
+        "labelPosition": "north-west",
+        "labelDistance": 50
       },
       {
         "id": "6c1de7bb-353a-44ae-85b3-9c2313ce6f3f",
@@ -454,7 +476,9 @@
             "kind": "image",
             "assetId": "2277bb51-6c4e-487a-ace1-6a63e97c4ae6"
           }
-        ]
+        ],
+        "labelPosition": "north",
+        "labelDistance": 55
       },
       {
         "id": "909b5521-6c75-440a-ba50-096eebed01c2",
@@ -486,7 +510,9 @@
             "kind": "image",
             "assetId": "f99bdfe6-359d-4438-8276-8108127ed369"
           }
-        ]
+        ],
+        "labelPosition": "south",
+        "labelDistance": 100
       },
       {
         "id": "e3bbeb73-828f-46b1-b748-fd54d7d05583",
@@ -523,7 +549,9 @@
             "kind": "image",
             "assetId": "79e9160f-b129-4720-90bd-459280e015a7"
           }
-        ]
+        ],
+        "labelPosition": "south-east",
+        "labelDistance": 50
       },
       {
         "id": "e19b12f0-7d88-4e39-84a8-1019fb56c046",
@@ -555,7 +583,9 @@
             "kind": "image",
             "assetId": "e0caa386-0cc4-4930-89e2-e917b86be617"
           }
-        ]
+        ],
+        "labelPosition": "north",
+        "labelDistance": 50
       },
       {
         "id": "bcafbdec-5a04-4401-9fe7-5e0630e6cae4",
@@ -587,7 +617,9 @@
             "kind": "image",
             "assetId": "a3204581-05fe-41a5-9592-8cfa15de3fd6"
           }
-        ]
+        ],
+        "labelPosition": "north",
+        "labelDistance": 40
       },
       {
         "id": "d318dd1a-99d4-4f7c-9aec-2f3b6599538f",
@@ -619,7 +651,9 @@
             "kind": "image",
             "assetId": "5a9220f9-4ab9-4342-9694-b2968639b297"
           }
-        ]
+        ],
+        "labelPosition": "north",
+        "labelDistance": 40
       }
     ],
     "assets": [
@@ -739,5 +773,5 @@
       }
     ]
   },
-  "revision": 16
+  "revision": 20
 }

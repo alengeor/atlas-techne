@@ -66,4 +66,20 @@ describe('versioned map contracts', () => {
     expect(mapSchema.safeParse({ ...map, markerCategories: [category], markers: map.markers.map((marker, index) => index === 0 ? { ...marker, categoryId: category.id } : marker) }).success).toBe(true);
     expect(mapSchema.safeParse({ ...map, markers: [{ ...map.markers[0], categoryId: 'missing' }] }).success).toBe(false);
   });
+  it('defaults legacy marker labels below the marker and validates label placement', () => {
+    const map = fixture();
+    const marker = map.markers[0];
+    if (!marker) throw new Error('Fixture missing');
+    const legacyMarker = structuredClone(marker) as Partial<typeof marker>;
+    delete legacyMarker.labelPosition;
+    delete legacyMarker.labelDistance;
+    const parsed = mapSchema.parse({ ...map, markers: [legacyMarker] });
+    expect(parsed.markers[0]?.labelPosition).toBe('south');
+    expect(parsed.markers[0]?.labelDistance).toBe(3);
+    for (const labelPosition of ['north-east', 'south-east', 'south-west', 'north-west'] as const) {
+      expect(mapSchema.safeParse({ ...map, markers: [{ ...marker, labelPosition }] }).success).toBe(true);
+    }
+    expect(mapSchema.safeParse({ ...map, markers: [{ ...marker, labelPosition: 'diagonal' }] }).success).toBe(false);
+    expect(mapSchema.safeParse({ ...map, markers: [{ ...marker, labelDistance: 201 }] }).success).toBe(false);
+  });
 });

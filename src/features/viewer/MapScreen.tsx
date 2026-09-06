@@ -58,7 +58,7 @@ export function MapScreen({ map, editing, onEdit, onChange, onImage, assetUrl, o
   const arm = (next: Appearance) => { setAppearance(next); dispatch({ type: 'arm', appearance: next }); };
   const marker = map.markers.find(m => m.id === selected);
   const provisional: Marker | undefined = tool.mode === 'inspecting' ? {
-    id: 'provisional', position: tool.position, appearance: tool.appearance, title: localized(), description: localized(), media: [], visible: true, layerIds: [],
+    id: 'provisional', position: tool.position, appearance: tool.appearance, title: localized(), description: localized(), media: [], visible: true, layerIds: [], labelPosition: 'south', labelDistance: 3,
   } : undefined;
   const editorMarker = provisional ?? (editing ? marker : undefined);
   const hasAlternativeBases = map.layers.filter(layer => layer.kind === 'base').length > 1;

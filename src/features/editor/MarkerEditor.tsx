@@ -55,6 +55,13 @@ export function MarkerEditor({ marker, categories, isNew, customIcons, assetUrl,
           </select>
         </label><small>{t.markerCategoryHelp}</small></fieldset>
         <AppearancePicker value={form.appearance} onChange={appearance => setForm({ ...form, appearance })} customIcons={customIcons} assetUrl={assetUrl} onImage={onImage} />
+        <fieldset><legend>{t.referenceText}</legend><div className="coordinate-fields">
+          <label>{t.referencePosition}<select value={form.labelPosition} onChange={e => setForm({ ...form, labelPosition: e.target.value as Marker['labelPosition'] })}>
+            <option value="north">{t.north}</option><option value="north-east">{t.northEast}</option><option value="east">{t.east}</option><option value="south-east">{t.southEast}</option>
+            <option value="south">{t.south}</option><option value="south-west">{t.southWest}</option><option value="west">{t.west}</option><option value="north-west">{t.northWest}</option>
+          </select></label>
+          <label>{t.referenceDistance}<input type="number" min={0} max={200} step={1} value={form.labelDistance} onChange={e => { const value = e.target.valueAsNumber; if (Number.isFinite(value)) setForm({ ...form, labelDistance: Math.min(200, Math.max(0, value)) }); }} /></label>
+        </div><small>{t.referenceDistanceHelp}</small></fieldset>
         <fieldset><legend>{t.media}</legend>
           {form.media.length > 0 && <div className="marker-media-list">{form.media.map(item => item.kind === 'image' ? <div className="marker-media-item" key={item.id}>
             <img src={assetUrl(item.assetId)} alt="" />

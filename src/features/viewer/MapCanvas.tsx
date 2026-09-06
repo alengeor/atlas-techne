@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, type CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
 import { orderedLayers, type MapDocument, type Marker, type Appearance } from '../../../shared/model';
 import { useViewport } from '../../canvas/useViewport';
@@ -9,6 +9,30 @@ import { useLanguage } from '../../i18n/Language';
 
 export function MarkerSymbol({ appearance, assetUrl }: { appearance: Appearance; assetUrl: (id: string) => string }) {
   return appearance.kind === 'system' ? <Icon name={appearance.icon} style={{ color: appearance.color }} /> : <img src={assetUrl(appearance.assetId)} alt="" draggable={false} />;
+}
+function MarkerContent({ marker, locale, assetUrl }: { marker: Marker; locale: 'es' | 'pt' | 'en'; assetUrl: (id: string) => string }) {
+  const distance = marker.labelDistance;
+  const connector = (() => {
+    switch (marker.labelPosition) {
+      case 'north': return { x: 0, y: 44 + distance };
+      case 'south': return { x: 0, y: -distance };
+      case 'east': return { x: -(22 + distance), y: 22 };
+      case 'west': return { x: 22 + distance, y: 22 };
+      case 'north-east': return { x: -(22 + distance), y: 44 + distance };
+      case 'north-west': return { x: 22 + distance, y: 44 + distance };
+      case 'south-east': return { x: -(22 + distance), y: -distance };
+      case 'south-west': return { x: 22 + distance, y: -distance };
+    }
+  })();
+  const style = {
+    '--marker-label-distance': `${distance}px`,
+    '--marker-connector-length': `${Math.hypot(connector.x, connector.y) + 2}px`,
+    '--marker-connector-angle': `${Math.atan2(connector.y, connector.x) * 180 / Math.PI}deg`,
+  } as CSSProperties;
+  return <span className="marker-content" data-label-position={marker.labelPosition} style={style}>
+    <MarkerSymbol appearance={marker.appearance} assetUrl={assetUrl} />
+    <span className="marker-label">{marker.title[locale]}</span>
+  </span>;
 }
 function LayerImage({ src, alt, style }: { src: string; alt: string; style: React.CSSProperties }) {
   const { t } = useLanguage();
@@ -81,7 +105,7 @@ export function MapCanvas({ map, active, activeCategories, assetUrl, onMarker, p
                 setTimeout(() => { dragRef.current.moved = false; }, 0);
               }
             }}>
-            <span className="marker-content"><MarkerSymbol appearance={marker.appearance} assetUrl={assetUrl} /><span className="marker-label">{marker.title[locale]}</span></span>
+            <MarkerContent marker={marker} locale={locale} assetUrl={assetUrl} />
           </button>;
         })}
         {provisional && <div className="map-marker provisional" style={{ left: `${provisional.position.x * 100}%`, top: `${provisional.position.y * 100}%` }}><span className="marker-content"><MarkerSymbol appearance={provisional.appearance} assetUrl={assetUrl} /></span></div>}
@@ -91,7 +115,7 @@ export function MapCanvas({ map, active, activeCategories, assetUrl, onMarker, p
     {editing && <div id="trash-zone" className={`trash-zone ${dragState ? 'visible' : ''} ${trashHover ? 'hover' : ''}`}><Icon name="trash" /></div>}
     {dragState && draggedMarker && createPortal(
       <div className="map-marker" aria-hidden="true" style={{ left: dragState.x, top: dragState.y, position: 'fixed', transform: 'translate(-50%, -100%) scale(1)', pointerEvents: 'none' }}>
-        <span className="marker-content"><MarkerSymbol appearance={draggedMarker.appearance} assetUrl={assetUrl} /><span className="marker-label">{draggedMarker.title[locale]}</span></span>
+        <MarkerContent marker={draggedMarker} locale={locale} assetUrl={assetUrl} />
       </div>, document.body,
     )}
   </>;
