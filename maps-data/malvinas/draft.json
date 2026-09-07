@@ -1,0 +1,362 @@
+{
+  "map": {
+    "schemaVersion": 1,
+    "id": "c58bde46-e188-4a93-baf7-48bb76ccbf24",
+    "title": {
+      "es": "Malvinas",
+      "pt": "Malvinas",
+      "en": "Malvinas"
+    },
+    "description": {
+      "es": "",
+      "pt": "",
+      "en": ""
+    },
+    "width": 1672,
+    "height": 941,
+    "layers": [
+      {
+        "id": "d23e6abe-8592-4c91-a524-75ad6551e98e",
+        "title": {
+          "es": "Malvinas",
+          "pt": "Malvinas",
+          "en": "Malvinas"
+        },
+        "alt": {
+          "es": "Malvinas",
+          "pt": "Malvinas",
+          "en": "Malvinas"
+        },
+        "assetId": "e50f8121-82cf-4870-8e3b-9749841e61b0",
+        "kind": "base",
+        "visibleByDefault": true,
+        "order": 0,
+        "transform": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "opacity": 1
+        }
+      },
+      {
+        "id": "4011f171-976d-4e80-8b00-59ef490a5288",
+        "title": {
+          "es": "Satelital",
+          "pt": "Mapa de Satélite",
+          "en": "Satellite Map"
+        },
+        "alt": {
+          "es": "Satelital",
+          "pt": "Mapa de Satélite",
+          "en": "Satellite Map"
+        },
+        "assetId": "91149316-52b9-4612-92fc-1b7be2f7dda1",
+        "kind": "base",
+        "visibleByDefault": false,
+        "order": 1,
+        "transform": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "opacity": 1
+        }
+      },
+      {
+        "id": "e8068d71-6c5e-4ba2-9a87-c2d4ae70bc66",
+        "title": {
+          "es": "Arenisca",
+          "pt": "Arenito",
+          "en": "Sandstone"
+        },
+        "alt": {
+          "es": "Arenisca",
+          "pt": "Arenito",
+          "en": "Sandstone"
+        },
+        "assetId": "f572c121-bf6f-4930-aa41-fd9c21236451",
+        "kind": "overlay",
+        "visibleByDefault": false,
+        "order": 2,
+        "transform": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "opacity": 1
+        }
+      },
+      {
+        "id": "faa6f3dc-a6df-4239-b312-3e523ff5d092",
+        "title": {
+          "es": "Cuarcita",
+          "pt": "Quarzito",
+          "en": "Quartzite"
+        },
+        "alt": {
+          "es": "Cuarcita",
+          "pt": "Quarzito",
+          "en": "Quartzite"
+        },
+        "assetId": "b42599f0-a406-42a4-ac09-c0854ce6f91a",
+        "kind": "overlay",
+        "visibleByDefault": false,
+        "order": 3,
+        "transform": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "opacity": 1
+        }
+      },
+      {
+        "id": "00298de1-a77c-4809-a508-15643e4e8047",
+        "title": {
+          "es": "Fango glaciar con peñascos",
+          "pt": "Till Glacial com Blocos",
+          "en": "Glacial Till with Boulders"
+        },
+        "alt": {
+          "es": "Fango glaciar con peñascos",
+          "pt": "Till Glacial com Blocos",
+          "en": "Glacial Till with Boulders"
+        },
+        "assetId": "5352240e-2d68-4fb3-8cf2-2a75bf293907",
+        "kind": "overlay",
+        "visibleByDefault": false,
+        "order": 4,
+        "transform": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "opacity": 1
+        }
+      },
+      {
+        "id": "c84cc86e-7407-4717-8481-675385c293e9",
+        "title": {
+          "es": "Lutita y cuarcita",
+          "pt": "Folhelho e Quartzito",
+          "en": "Shale and Quartzite"
+        },
+        "alt": {
+          "es": "Lutita y cuarcita",
+          "pt": "Folhelho e Quartzito",
+          "en": "Shale and Quartzite"
+        },
+        "assetId": "c08be787-023d-4b00-8562-3c890b90ffdf",
+        "kind": "overlay",
+        "visibleByDefault": false,
+        "order": 5,
+        "transform": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "opacity": 1
+        }
+      },
+      {
+        "id": "2bbc590a-69d6-42d3-9e46-23453458b1a7",
+        "title": {
+          "es": "Arenisca y lutita",
+          "pt": "Arenito e Folhelho",
+          "en": "Sandstone and Shale"
+        },
+        "alt": {
+          "es": "Arenisca y lutita",
+          "pt": "Arenito e Folhelho",
+          "en": "Sandstone and Shale"
+        },
+        "assetId": "1240075b-6ebc-4d74-974e-175f63d50285",
+        "kind": "overlay",
+        "visibleByDefault": false,
+        "order": 6,
+        "transform": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "opacity": 1
+        }
+      }
+    ],
+    "markerCategories": [],
+    "markers": [
+      {
+        "id": "68834e30-c139-4477-8375-b0db3b67e795",
+        "position": {
+          "x": 0.7954694976076555,
+          "y": 0.3787037319607205
+        },
+        "title": {
+          "es": "Puerto Soledad",
+          "pt": "Puerto Soledad",
+          "en": "Puerto Soledad"
+        },
+        "description": {
+          "es": "Puerto Soledad: Sede de la Comandancia Política y Militar argentina desde 1829 bajo el gobierno de Luis Vernet. Fue el epicentro del ejercicio efectivo de soberanía nacional hasta el 3 de enero de 1833, fecha en que fuerzas británicas usurparon el territorio y expulsaron a la población legítima. Constituye el pilar histórico y geográfico del reclamo de restitución territorial.",
+          "pt": "\nPuerto Soledad: Sede do Comando Político e Militar argentino desde 1829, durante o governo de Luis Vernet. Foi o epicentro do exercício efetivo da soberania nacional até 3 de janeiro de 1833, data em que forças britânicas usurparam o território e expulsaram a população legítima. Constitui um pilar histórico e geográfico da reivindicação argentina de restituição territorial.",
+          "en": "Puerto Soledad: Seat of the Argentine Political and Military Command since 1829 under the government of Luis Vernet. It was the center of the effective exercise of national sovereignty until January 3, 1833, when British forces usurped the territory and expelled the legitimate population. It constitutes a historical and geographical pillar of Argentina’s claim for territorial restitution."
+        },
+        "appearance": {
+          "kind": "system",
+          "icon": "anchor",
+          "color": "#66d5b0"
+        },
+        "visible": true,
+        "layerIds": [],
+        "media": [
+          {
+            "id": "59f9d718-9eae-4d28-8bab-c517929a2781",
+            "kind": "image",
+            "assetId": "0d3231d4-c0e1-4104-8ab7-8a97a0cde3c4"
+          }
+        ],
+        "labelPosition": "south",
+        "labelDistance": 3
+      },
+      {
+        "id": "a25a6894-a680-4d05-a11b-e8923f91b305",
+        "position": {
+          "x": 0.4697756387527036,
+          "y": 0.40555555555555556
+        },
+        "title": {
+          "es": "Vida Malvinas",
+          "pt": "Vida nas Malvinas",
+          "en": "Life in Malvinas"
+        },
+        "description": {
+          "es": "Las Islas Malvinas son un archipiélago de más de 700 islas ubicado en el Atlántico Sur. Actualmente se encuentran bajo administración británica, aunque existe una disputa de soberanía entre la Argentina y el Reino Unido reconocida por las Naciones Unidas. La principal localidad es Puerto Argentino, denominada Stanley por la administración británica, donde vive la mayoría de la población y se concentran los comercios, las escuelas, el hospital y los servicios públicos. El resto de los habitantes se distribuye en pequeñas comunidades rurales conocidas como Camp. Naciones Unidas\n\nLa población es muy reducida: viven allí aproximadamente 3.200 personas, provenientes de más de 60 países. El idioma más utilizado es el inglés y la vida cotidiana está muy influenciada por la cultura británica. Debido al pequeño tamaño de la comunidad, los habitantes suelen conocerse entre sí y es habitual que una misma persona realice más de un trabajo. Puerto Argentino cuenta con escuelas, atención médica, supermercados, restaurantes, pubs, instalaciones deportivas, radio y otros servicios básicos. Sin embargo, el aislamiento geográfico hace que numerosos productos deban importarse y que los viajes, el transporte y algunas mercaderías sean costosos. Censo de 2021\n\nFuera de la capital, la vida es más rural y tranquila. Muchas familias viven en establecimientos dedicados a la cría de ovejas y a la producción de lana y carne. Las distancias, el clima frío y ventoso y los caminos poco desarrollados pueden dificultar los desplazamientos, por lo que se utilizan vehículos todoterreno, pequeñas embarcaciones y aviones del servicio aéreo interno. La economía depende principalmente de la pesca, que representa más de la mitad de la actividad económica, seguida por la administración pública, la agricultura y el turismo. Estrategia económica de las islas\n\nEl turismo está relacionado especialmente con la naturaleza. Los visitantes llegan para observar pingüinos, albatros, lobos y elefantes marinos, además de recorrer playas, acantilados y paisajes prácticamente deshabitados. También existe un importante turismo histórico vinculado con la guerra de 1982, mediante visitas a campos de batalla, monumentos, cementerios y museos. La temporada más favorable es el verano austral, entre diciembre y febrero, cuando el clima es menos frío y hay mayor presencia de fauna. Una gran parte de los turistas llega en cruceros, aunque también es posible viajar por avión y alojarse en hoteles, casas de huéspedes o establecimientos rurales. Debido a la escasa cantidad de vuelos, habitaciones y transportes, normalmente es necesario organizar el viaje con bastante anticipación. Información turística oficial\n\nEn general, la vida en las Malvinas combina servicios modernos con las características propias de una comunidad pequeña y muy aislada. Sus habitantes disfrutan de grandes espacios naturales, tranquilidad y una relación cercana con el ambiente, pero también enfrentan fuertes vientos, largas distancias, dependencia del transporte exterior y pocas opciones comerciales o recreativas en comparación con una ciudad grande.",
+          "pt": "As Islas Malvinas são um arquipélago de mais de 700 ilhas localizado no Atlântico Sul. Atualmente encontram-se sob administração britânica, embora exista uma disputa de soberania entre a Argentina e o Reino Unido reconhecida pelas Nações Unidas. A principal localidade é Puerto Argentino, denominada Stanley pela administração britânica, onde vive a maior parte da população e onde se concentram os comércios, as escolas, o hospital e os serviços públicos. O restante dos habitantes está distribuído em pequenas comunidades rurais conhecidas como Camp. Nações Unidas\n\nA população é muito reduzida: vivem ali aproximadamente 3.200 pessoas, provenientes de mais de 60 países. O idioma mais utilizado é o inglês, e a vida cotidiana é fortemente influenciada pela cultura britânica. Devido ao pequeno tamanho da comunidade, os habitantes costumam se conhecer entre si, e é comum que uma mesma pessoa exerça mais de um trabalho. Puerto Argentino conta com escolas, atendimento médico, supermercados, restaurantes, pubs, instalações esportivas, rádio e outros serviços básicos. No entanto, o isolamento geográfico faz com que muitos produtos precisem ser importados e que as viagens, o transporte e algumas mercadorias sejam caros. Censo de 2021\n\nFora da capital, a vida é mais rural e tranquila. Muitas famílias vivem em estabelecimentos dedicados à criação de ovelhas e à produção de lã e carne. As distâncias, o clima frio e ventoso e as estradas pouco desenvolvidas podem dificultar os deslocamentos, por isso são utilizados veículos com tração nas quatro rodas, pequenas embarcações e aviões do serviço aéreo interno. A economia depende principalmente da pesca, que representa mais da metade da atividade econômica, seguida pela administração pública, agricultura e turismo. Estratégia Econômica das Ilhas\n\nO turismo está especialmente relacionado à natureza. Os visitantes chegam para observar pinguins, albatrozes, leões-marinhos e elefantes-marinhos, além de conhecer praias, falésias e paisagens praticamente desabitadas. Também existe um importante turismo histórico relacionado à guerra de 1982, por meio de visitas a campos de batalha, monumentos, cemitérios e museus. A época mais favorável é o verão austral, entre dezembro e fevereiro, quando o clima é menos frio e há maior presença de fauna. Uma grande parte dos turistas chega em navios de cruzeiro, embora também seja possível viajar de avião e se hospedar em hotéis, pousadas ou estabelecimentos rurais. Devido à pequena quantidade de voos, quartos e meios de transporte, normalmente é necessário organizar a viagem com bastante antecedência. Informação Turística Oficial\n\nDe modo geral, a vida nas Malvinas combina serviços modernos com as características próprias de uma comunidade pequena e muito isolada. Seus habitantes desfrutam de grandes espaços naturais, tranquilidade e uma relação próxima com o ambiente, mas também enfrentam ventos fortes, longas distâncias, dependência do transporte externo e poucas opções comerciais ou recreativas em comparação com uma cidade grande.",
+          "en": "The Islas Malvinas are an archipelago of more than 700 islands located in the South Atlantic. They are currently under British administration, although there is a sovereignty dispute between Argentina and the United Kingdom recognized by the United Nations. The main settlement is Puerto Argentino, called Stanley by the British administration, where most of the population lives and where shops, schools, the hospital, and public services are concentrated. The rest of the inhabitants are distributed among small rural communities known as the Camp. United Nations\n\nThe population is very small: approximately 3,200 people live there, coming from more than 60 countries. English is the most widely spoken language, and everyday life is strongly influenced by British culture. Because of the small size of the community, residents often know one another, and it is common for the same person to have more than one job. Puerto Argentino has schools, healthcare services, supermarkets, restaurants, pubs, sports facilities, radio, and other basic services. However, geographical isolation means that many products must be imported and that travel, transportation, and some goods are expensive. 2021 Census\n\nOutside the capital, life is more rural and peaceful. Many families live on farms dedicated to sheep farming and the production of wool and meat. Long distances, cold and windy weather, and poorly developed roads can make travel difficult, so four-wheel-drive vehicles, small boats, and aircraft from the internal air service are commonly used. The economy depends mainly on fishing, which accounts for more than half of economic activity, followed by public administration, agriculture, and tourism. Islands' Economic Strategy\n\nTourism is especially connected with nature. Visitors come to observe penguins, albatrosses, sea lions, and elephant seals, as well as to explore beaches, cliffs, and almost uninhabited landscapes. There is also significant historical tourism related to the 1982 war, including visits to battlefields, monuments, cemeteries, and museums. The most favorable season is the austral summer, between December and February, when the weather is less cold and wildlife is more abundant. A large proportion of tourists arrive on cruise ships, although it is also possible to travel by plane and stay in hotels, guesthouses, or rural establishments. Because of the limited number of flights, rooms, and transportation options, it is usually necessary to organize the trip well in advance. Official Tourist Information\n\nIn general, life in the Malvinas combines modern services with the characteristics of a small and highly isolated community. Its inhabitants enjoy vast natural spaces, tranquility, and a close relationship with the environment, but they also face strong winds, long distances, dependence on external transportation, and fewer commercial or recreational options compared with a large city."
+        },
+        "appearance": {
+          "kind": "custom",
+          "assetId": "1db5125a-154b-4317-b13f-6a29eca04cb8"
+        },
+        "visible": true,
+        "layerIds": [],
+        "media": [
+          {
+            "id": "4bf0a6eb-0f31-4f37-93ac-64b283c4ad19",
+            "kind": "image",
+            "assetId": "b991e570-994f-4222-8b85-37886c6359e9"
+          }
+        ],
+        "labelPosition": "south",
+        "labelDistance": 3
+      },
+      {
+        "id": "1258f891-ee6a-4349-86dd-2a27a7f09173",
+        "position": {
+          "x": 0.6182920528941177,
+          "y": 0.5555555555555556
+        },
+        "title": {
+          "es": "Cementerio de Darwin",
+          "pt": "Cemitério de Darwin",
+          "en": "Darwin Cemetery"
+        },
+        "description": {
+          "es": "El Cementerio de Darwin, ubicado en la isla Soledad, guarda los restos de más de 230 soldados argentinos caídos en la Guerra de Malvinas de 1982. Es un sitio de memoria, homenaje y profundo valor simbólico en el reclamo argentino de soberanía.\nCementerio de Darwin\n\nEn 2017 se inició un proyecto de identificación por ADN impulsado por el Comité Internacional de la Cruz Roja. Hasta hoy permitió reconocer a más de 120 soldados argentinos caídos en la guerra.\n\n-230 tumbas identificadas.\n-Inagurado en 1983\n-649 caídos en la Guerra de Malvinas\n-Lugar de homenaje y memoria",
+          "pt": "O Cemitério de Darwin, localizado na Isla Soledad, guarda os restos mortais de mais de 230 soldados argentinos mortos na Guerra de Malvinas de 1982. É um lugar de memória, homenagem e profundo valor simbólico na reivindicação argentina de soberania.\n\nEm 2017, foi iniciado um projeto de identificação por DNA, impulsionado pelo Comitê Internacional da Cruz Vermelha. Até hoje, o projeto permitiu identificar mais de 120 soldados argentinos mortos na guerra.\n\n-230 sepulturas identificadas\n-Inaugurado em 1983\n-649 argentinos mortos na Guerra de Malvinas\n-Lugar de homenagem e memória",
+          "en": "The Darwin Cemetery, located on Isla Soledad, holds the remains of more than 230 Argentine soldiers who fell in the 1982 Guerra de Malvinas. It is a place of remembrance, tribute, and deep symbolic value in Argentina’s sovereignty claim.\n\nIn 2017, a DNA identification project was launched with the support of the International Committee of the Red Cross. To date, it has made it possible to identify more than 120 Argentine soldiers who died in the war.\n\n-230 identified graves\n-Inaugurated in 1983\n-649 Argentine deaths in the Guerra de Malvinas\n-A place of tribute and remembrance"
+        },
+        "appearance": {
+          "kind": "system",
+          "icon": "info",
+          "color": "#ff637c"
+        },
+        "visible": true,
+        "layerIds": [],
+        "media": [
+          {
+            "id": "f1db7d16-c0a7-45c3-b3c4-15241961da0f",
+            "kind": "image",
+            "assetId": "4c1adb7b-a146-457f-ab69-3b74f8120e69"
+          },
+          {
+            "id": "2d354f62-ea47-44b1-8d5a-85d18737df36",
+            "kind": "video",
+            "assetId": "78193c60-90d8-4965-90a0-35fcf1549faf"
+          }
+        ],
+        "labelPosition": "south",
+        "labelDistance": 3
+      }
+    ],
+    "assets": [
+      {
+        "id": "e50f8121-82cf-4870-8e3b-9749841e61b0",
+        "path": "malvinas/layers/e50f8121-82cf-4870-8e3b-9749841e61b0.png",
+        "width": 1672,
+        "height": 941
+      },
+      {
+        "id": "91149316-52b9-4612-92fc-1b7be2f7dda1",
+        "path": "malvinas/layers/91149316-52b9-4612-92fc-1b7be2f7dda1.png",
+        "width": 1672,
+        "height": 941
+      },
+      {
+        "id": "f572c121-bf6f-4930-aa41-fd9c21236451",
+        "path": "malvinas/layers/f572c121-bf6f-4930-aa41-fd9c21236451.png",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "id": "b42599f0-a406-42a4-ac09-c0854ce6f91a",
+        "path": "malvinas/layers/b42599f0-a406-42a4-ac09-c0854ce6f91a.png",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "id": "5352240e-2d68-4fb3-8cf2-2a75bf293907",
+        "path": "malvinas/layers/5352240e-2d68-4fb3-8cf2-2a75bf293907.png",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "id": "c08be787-023d-4b00-8562-3c890b90ffdf",
+        "path": "malvinas/layers/c08be787-023d-4b00-8562-3c890b90ffdf.png",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "id": "1240075b-6ebc-4d74-974e-175f63d50285",
+        "path": "malvinas/layers/1240075b-6ebc-4d74-974e-175f63d50285.png",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "id": "0d3231d4-c0e1-4104-8ab7-8a97a0cde3c4",
+        "path": "malvinas/markers/0d3231d4-c0e1-4104-8ab7-8a97a0cde3c4.jpg",
+        "width": 1920,
+        "height": 1116
+      },
+      {
+        "id": "1db5125a-154b-4317-b13f-6a29eca04cb8",
+        "path": "malvinas/icons/1db5125a-154b-4317-b13f-6a29eca04cb8.png",
+        "width": 256,
+        "height": 256
+      },
+      {
+        "id": "b991e570-994f-4222-8b85-37886c6359e9",
+        "path": "malvinas/markers/b991e570-994f-4222-8b85-37886c6359e9.jpg",
+        "width": 751,
+        "height": 408
+      },
+      {
+        "id": "4c1adb7b-a146-457f-ab69-3b74f8120e69",
+        "path": "malvinas/markers/4c1adb7b-a146-457f-ab69-3b74f8120e69.jpg",
+        "width": 738,
+        "height": 414
+      },
+      {
+        "id": "78193c60-90d8-4965-90a0-35fcf1549faf",
+        "path": "malvinas/markers/78193c60-90d8-4965-90a0-35fcf1549faf.mp4",
+        "width": 1280,
+        "height": 720
+      }
+    ]
+  },
+  "revision": 3
+}

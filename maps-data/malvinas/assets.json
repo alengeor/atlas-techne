@@ -1,0 +1,134 @@
+[
+  {
+    "asset": {
+      "id": "e50f8121-82cf-4870-8e3b-9749841e61b0",
+      "path": "malvinas/layers/e50f8121-82cf-4870-8e3b-9749841e61b0.png",
+      "width": 1672,
+      "height": 941
+    },
+    "mime": "image/png",
+    "originalName": "Relieve.png",
+    "thumbnail": "malvinas/thumbnails/e50f8121-82cf-4870-8e3b-9749841e61b0.webp"
+  },
+  {
+    "asset": {
+      "id": "91149316-52b9-4612-92fc-1b7be2f7dda1",
+      "path": "malvinas/layers/91149316-52b9-4612-92fc-1b7be2f7dda1.png",
+      "width": 1672,
+      "height": 941
+    },
+    "mime": "image/png",
+    "originalName": "Satelital.png",
+    "thumbnail": "malvinas/thumbnails/91149316-52b9-4612-92fc-1b7be2f7dda1.webp"
+  },
+  {
+    "asset": {
+      "id": "f572c121-bf6f-4930-aa41-fd9c21236451",
+      "path": "malvinas/layers/f572c121-bf6f-4930-aa41-fd9c21236451.png",
+      "width": 1920,
+      "height": 1080
+    },
+    "mime": "image/png",
+    "originalName": "capa_Arenisca_1920x1080_alineada.png",
+    "thumbnail": "malvinas/thumbnails/f572c121-bf6f-4930-aa41-fd9c21236451.webp"
+  },
+  {
+    "asset": {
+      "id": "b42599f0-a406-42a4-ac09-c0854ce6f91a",
+      "path": "malvinas/layers/b42599f0-a406-42a4-ac09-c0854ce6f91a.png",
+      "width": 1920,
+      "height": 1080
+    },
+    "mime": "image/png",
+    "originalName": "capa_Cuarcita_1920x1080_alineada.png",
+    "thumbnail": "malvinas/thumbnails/b42599f0-a406-42a4-ac09-c0854ce6f91a.webp"
+  },
+  {
+    "asset": {
+      "id": "5352240e-2d68-4fb3-8cf2-2a75bf293907",
+      "path": "malvinas/layers/5352240e-2d68-4fb3-8cf2-2a75bf293907.png",
+      "width": 1920,
+      "height": 1080
+    },
+    "mime": "image/png",
+    "originalName": "capa_Fango_glaciar_con_penascos_1920x1080_alineada.png",
+    "thumbnail": "malvinas/thumbnails/5352240e-2d68-4fb3-8cf2-2a75bf293907.webp"
+  },
+  {
+    "asset": {
+      "id": "c08be787-023d-4b00-8562-3c890b90ffdf",
+      "path": "malvinas/layers/c08be787-023d-4b00-8562-3c890b90ffdf.png",
+      "width": 1920,
+      "height": 1080
+    },
+    "mime": "image/png",
+    "originalName": "capa_Lutita_y_cuarcita_1920x1080_alineada.png",
+    "thumbnail": "malvinas/thumbnails/c08be787-023d-4b00-8562-3c890b90ffdf.webp"
+  },
+  {
+    "asset": {
+      "id": "1240075b-6ebc-4d74-974e-175f63d50285",
+      "path": "malvinas/layers/1240075b-6ebc-4d74-974e-175f63d50285.png",
+      "width": 1920,
+      "height": 1080
+    },
+    "mime": "image/png",
+    "originalName": "capa_Arenisca_y_lutita_1920x1080_alineada.png",
+    "thumbnail": "malvinas/thumbnails/1240075b-6ebc-4d74-974e-175f63d50285.webp"
+  },
+  {
+    "asset": {
+      "id": "0d3231d4-c0e1-4104-8ab7-8a97a0cde3c4",
+      "path": "malvinas/markers/0d3231d4-c0e1-4104-8ab7-8a97a0cde3c4.jpg",
+      "width": 1920,
+      "height": 1116
+    },
+    "mime": "image/jpeg",
+    "originalName": "PtoSoledad.jpg",
+    "thumbnail": "malvinas/thumbnails/0d3231d4-c0e1-4104-8ab7-8a97a0cde3c4.webp"
+  },
+  {
+    "asset": {
+      "id": "1db5125a-154b-4317-b13f-6a29eca04cb8",
+      "path": "malvinas/icons/1db5125a-154b-4317-b13f-6a29eca04cb8.png",
+      "width": 256,
+      "height": 256
+    },
+    "mime": "image/png",
+    "originalName": "hermosa-casa_256x256.png",
+    "thumbnail": "malvinas/thumbnails/1db5125a-154b-4317-b13f-6a29eca04cb8.webp"
+  },
+  {
+    "asset": {
+      "id": "b991e570-994f-4222-8b85-37886c6359e9",
+      "path": "malvinas/markers/b991e570-994f-4222-8b85-37886c6359e9.jpg",
+      "width": 751,
+      "height": 408
+    },
+    "mime": "image/jpeg",
+    "originalName": "casa1.jpg",
+    "thumbnail": "malvinas/thumbnails/b991e570-994f-4222-8b85-37886c6359e9.webp"
+  },
+  {
+    "asset": {
+      "id": "4c1adb7b-a146-457f-ab69-3b74f8120e69",
+      "path": "malvinas/markers/4c1adb7b-a146-457f-ab69-3b74f8120e69.jpg",
+      "width": 738,
+      "height": 414
+    },
+    "mime": "image/jpeg",
+    "originalName": "imagen1.jpg",
+    "thumbnail": "malvinas/thumbnails/4c1adb7b-a146-457f-ab69-3b74f8120e69.webp"
+  },
+  {
+    "asset": {
+      "id": "78193c60-90d8-4965-90a0-35fcf1549faf",
+      "path": "malvinas/markers/78193c60-90d8-4965-90a0-35fcf1549faf.mp4",
+      "width": 1280,
+      "height": 720
+    },
+    "mime": "video/mp4",
+    "originalName": "CEMENTERIO DE DARWIN - ISLAS MALVINAS.mp4",
+    "thumbnail": ""
+  }
+]
