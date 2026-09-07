@@ -27,9 +27,12 @@ export const markerSchema = z.object({
 });
 export type Marker = z.infer<typeof markerSchema>;
 export type Appearance = z.infer<typeof appearanceSchema>;
+export const brushStyles = ['solid', 'dotted', 'dashed'] as const;
+export type BrushStyle = typeof brushStyles[number];
+const brushStyleSchema = z.enum(brushStyles).optional();
 export const layerSchema = z.object({
   id, title: localizedSchema, alt: localizedSchema, type: z.enum(['image', 'polygon', 'brush']).default('image'), assetId: id.optional(),
-  points: z.array(z.object({ x: unit, y: unit })).min(2).max(5000).optional(), strokes: z.array(z.union([z.array(z.object({ x: unit, y: unit })).min(2).max(5000), z.object({ points: z.array(z.object({ x: unit, y: unit })).min(2).max(5000), color: z.string().regex(/^#[0-9a-fA-F]{6}$/), brushSize: z.number().finite().min(1).max(200) })])).max(500).optional(), color: z.string().regex(/^#[0-9a-fA-F]{6}$/).optional(), brushSize: z.number().finite().min(1).max(200).optional(),
+  points: z.array(z.object({ x: unit, y: unit })).min(2).max(5000).optional(), strokes: z.array(z.union([z.array(z.object({ x: unit, y: unit })).min(2).max(5000), z.object({ points: z.array(z.object({ x: unit, y: unit })).min(2).max(5000), color: z.string().regex(/^#[0-9a-fA-F]{6}$/), brushStyle: brushStyleSchema, brushSize: z.number().finite().min(1).max(200) })])).max(500).optional(), color: z.string().regex(/^#[0-9a-fA-F]{6}$/).optional(), brushStyle: brushStyleSchema, brushSize: z.number().finite().min(1).max(200).optional(),
   kind: z.enum(['base', 'overlay']), visibleByDefault: z.boolean(), order: z.number().int(),
   transform: z.object({ scale: z.number().finite().min(0.05).max(10), x: z.number().finite().min(-2).max(2), y: z.number().finite().min(-2).max(2), opacity: unit }),
 }).superRefine((layer, ctx) => {

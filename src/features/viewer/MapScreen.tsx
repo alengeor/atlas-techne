@@ -1,3 +1,9 @@
+import { OpacityControl } from '../../components/OpacityControl';
+import { BrushSizeControl } from '../../components/BrushSizeControl';
+import { DraggablePanel } from '../../components/DraggablePanel';
+import { BrushPicker } from '../../components/BrushPicker';
+import { brushDashArray } from '../../canvas/brush';
+import type { BrushStyle } from '../../../shared/model';
 import { useEffect, useReducer, useRef, useState } from 'react';
 import { initialLayers, localized, orderedLayers, removeMapLayer, toggleLayer, type Appearance, type MapAsset, type MapDocument, type Marker, type MarkerCategory } from '../../../shared/model';
 import { Icon } from '../../components/Icon';
@@ -31,7 +37,7 @@ export function MapScreen({ map, editing, onEdit, onChange, onImage, assetUrl, o
   const [selected, setSelected] = useState<string | null>(null);
   const [layerForm, setLayerForm] = useState(false);
   const [overlayForm, setOverlayForm] = useState(false);
-  const [drawing, setDrawing] = useState<{ title: ReturnType<typeof localized>; color: string; brushSize: number; strokes: { points: { x: number; y: number }[]; color: string; brushSize: number }[] } | null>(null);
+  const [drawing, setDrawing] = useState<{ title: ReturnType<typeof localized>; color: string; brushStyle: BrushStyle; brushSize: number; strokes: { points: { x: number; y: number }[]; color: string; brushStyle: BrushStyle; brushSize: number }[] } | null>(null);
   const [metadata, setMetadata] = useState(false);
   const [categoryForm, setCategoryForm] = useState<MarkerCategory | 'new' | null>(null);
   const [infoOpen, setInfoOpen] = useState(true);
@@ -80,7 +86,7 @@ export function MapScreen({ map, editing, onEdit, onChange, onImage, assetUrl, o
     commit({ ...map, layers: layers.map((l, order) => ({ ...l, order })) });
   };
   return <main className="map-screen" id="main-content" tabIndex={-1}>
-    <MapCanvas map={map} active={active} activeCategories={activeCategories} assetUrl={assetUrl} placing={editing && tool.mode === 'placing'} drawing={drawing ?? undefined} onDrawStart={() => setDrawing(current => current ? { ...current, strokes: [...current.strokes, { points: [], color: current.color, brushSize: current.brushSize }] } : current)} onDrawPoint={point => setDrawing(current => current ? { ...current, strokes: current.strokes.length ? [...current.strokes.slice(0, -1), { ...current.strokes.at(-1)!, points: [...current.strokes.at(-1)!.points, point] }] : current.strokes } : current)}
+    <MapCanvas map={map} active={active} activeCategories={activeCategories} assetUrl={assetUrl} placing={editing && tool.mode === 'placing'} drawing={drawing ?? undefined} onDrawStart={() => setDrawing(current => current ? { ...current, strokes: [...current.strokes, { points: [], color: current.color, brushStyle: current.brushStyle, brushSize: current.brushSize }] } : current)} onDrawPoint={point => setDrawing(current => current ? { ...current, strokes: current.strokes.length ? [...current.strokes.slice(0, -1), { ...current.strokes.at(-1)!, points: [...current.strokes.at(-1)!.points, point] }] : current.strokes } : current)}
       editing={editing}
       onPlace={position => dispatch({ type: 'place', position, dragged: false })}
       provisional={provisional} onMarker={m => { if (tool.mode === 'placing') return; setSelected(m.id); }}
@@ -105,9 +111,9 @@ export function MapScreen({ map, editing, onEdit, onChange, onImage, assetUrl, o
           <p className="muted panel-intro">{t.aboutLayers}</p>
           {orderedLayers(map.layers).filter(l => l.kind === (panel === 'base' ? 'base' : 'overlay')).map(layer => <div className="layer-row" key={layer.id}>
             <label className="layer-choice"><input type={layer.kind === 'base' ? 'radio' : 'checkbox'} name="base-layer" checked={active.includes(layer.id)} onChange={() => setActive(current => toggleLayer(map.layers, current, layer))} />
-              <span className="layer-thumb">{layer.type === 'image' ? <img src={assetUrl(layer.assetId!)} alt="" loading="lazy" /> : layer.type === 'brush' ? <svg className="layer-thumb-drawing" viewBox="0 0 100 60" aria-hidden="true">{(layer.strokes ?? (layer.points ? [layer.points] : [])).map((stroke, index) => { const points = Array.isArray(stroke) ? stroke : stroke.points; const color = Array.isArray(stroke) ? layer.color : stroke.color; const brushSize = Array.isArray(stroke) ? layer.brushSize : stroke.brushSize; return <polyline key={index} points={points.map(point => `${point.x * 100},${point.y * 60}`).join(' ')} fill="none" stroke={color} strokeWidth={Math.max(2, (brushSize ?? 1) / 4)} strokeLinecap="round" strokeLinejoin="round" />; })}</svg> : <span className="layer-color-swatch" style={{ backgroundColor: layer.color }} />}</span><span>{layer.title[locale]}</span>
+              <span className="layer-thumb">{layer.type === 'image' ? <img src={assetUrl(layer.assetId!)} alt="" loading="lazy" /> : layer.type === 'brush' ? <svg className="layer-thumb-drawing" viewBox="0 0 100 60" aria-hidden="true">{(layer.strokes ?? (layer.points ? [layer.points] : [])).map((stroke, index) => { const points = Array.isArray(stroke) ? stroke : stroke.points; const color = Array.isArray(stroke) ? layer.color : stroke.color; const brushSize = Array.isArray(stroke) ? layer.brushSize : stroke.brushSize; return <polyline key={index} points={points.map(point => `${point.x * 100},${point.y * 60}`).join(' ')} fill="none" stroke={color} strokeWidth={Math.max(2, (brushSize ?? 1) / 4)} strokeDasharray={brushDashArray(Array.isArray(stroke) ? layer.brushStyle : stroke.brushStyle, Math.max(2, (brushSize ?? 1) / 4))} strokeLinecap="round" strokeLinejoin="round" />; })}</svg> : <span className="layer-color-swatch" style={{ backgroundColor: layer.color }} />}</span><span>{layer.title[locale]}</span>
             </label>
-            {editing && <><div className="layer-edit"><label>{t.opacity}<input aria-label={`${t.opacity} ${layer.title[locale]}`} type="range" min="0" max="1" step="0.05" value={layer.transform.opacity} onChange={e => commit({ ...map, layers: map.layers.map(l => l.id === layer.id ? { ...l, transform: { ...l.transform, opacity: Number(e.target.value) } } : l) })} /></label>
+            {editing && <><div className="layer-edit"><OpacityControl title={layer.title[locale]} value={layer.transform.opacity} onChange={opacity => commit({ ...map, layers: map.layers.map(l => l.id === layer.id ? { ...l, transform: { ...l.transform, opacity } } : l) })} />
               <button className="icon-button" title={t.moveUp} aria-label={`${t.moveUp}: ${layer.title[locale]}`} disabled={orderedLayers(map.layers)[0]?.id === layer.id} onClick={() => reorder(layer.id, -1)}><Icon name="up" /></button>
               <button className="icon-button" title={t.moveDown} aria-label={`${t.moveDown}: ${layer.title[locale]}`} disabled={orderedLayers(map.layers).at(-1)?.id === layer.id} onClick={() => reorder(layer.id, 1)}><Icon name="down" /></button>
               <button className="icon-button danger-quiet" title={t.delete} aria-label={`${t.delete}: ${layer.title[locale]}`} onClick={() => {
@@ -176,12 +182,12 @@ export function MapScreen({ map, editing, onEdit, onChange, onImage, assetUrl, o
       commit({ ...map, assets: [...map.assets, asset], layers: [...map.layers, { id, title, alt: title, type: 'image', assetId: asset.id, kind, visibleByDefault: false, order: map.layers.length, transform: { scale: 1, x: 0, y: 0, opacity: 1 } }] });
       setActive(current => kind === 'base' ? [...current.filter(id => map.layers.find(l => l.id === id)?.kind !== 'base'), id] : [...current, id]); setLayerForm(false); setPanel(kind === 'base' ? 'base' : 'layers');
     }} />}
-    {overlayForm && <OverlayForm onClose={() => setOverlayForm(false)} onApply={(title, color, brushSize) => { setOverlayForm(false); setDrawing({ title, color, brushSize, strokes: [] }); }} />}
-    {drawing && <div className="placement-banner surface"><span>{t.drawingOverlay}</span><span className="brush-preview-frame" aria-label={`${t.brushSize}: ${drawing.brushSize}px`}><span className="brush-preview" style={{ width: Math.max(6, Math.min(64, drawing.brushSize)), height: Math.max(6, Math.min(64, drawing.brushSize)), backgroundColor: drawing.color }} /></span><label>{t.overlayColor}<input type="color" value={drawing.color} onChange={e => setDrawing(current => current ? { ...current, color: e.target.value } : current)} /></label><label>{t.brushSize}<input type="range" min="1" max="80" step="1" value={drawing.brushSize} onChange={e => setDrawing(current => current ? { ...current, brushSize: Number(e.target.value) } : current)} /><output>{drawing.brushSize}px</output></label><button disabled={drawing.strokes.every(stroke => stroke.points.length < 2)} onClick={() => {
+    {overlayForm && <OverlayForm onClose={() => setOverlayForm(false)} onApply={(title, color, brushSize, brushStyle) => { setOverlayForm(false); setDrawing({ title, color, brushSize, brushStyle, strokes: [] }); }} />}
+    {drawing && <DraggablePanel title={t.drawOverlay} moveLabel={t.moveDrawingPanel}><span>{t.drawingOverlay}</span><BrushPicker value={drawing.brushStyle} color={drawing.color} size={drawing.brushSize} onChange={brushStyle => setDrawing(current => current ? { ...current, brushStyle } : current)} /><label><span className="drawing-control-title">{t.overlayColor}</span><input type="color" value={drawing.color} onChange={e => setDrawing(current => current ? { ...current, color: e.target.value } : current)} /></label><BrushSizeControl value={drawing.brushSize} onChange={brushSize => setDrawing(current => current ? { ...current, brushSize } : current)} /><div className="drawing-actions"><button disabled={drawing.strokes.every(stroke => stroke.points.length < 2)} onClick={() => {
       const id = crypto.randomUUID();
-      commit({ ...map, layers: [...map.layers, { id, title: drawing.title, alt: drawing.title, type: 'brush', strokes: drawing.strokes.filter(stroke => stroke.points.length >= 2), color: drawing.color, brushSize: drawing.brushSize, kind: 'overlay', visibleByDefault: true, order: map.layers.length, transform: { scale: 1, x: 0, y: 0, opacity: 1 } }] });
+      commit({ ...map, layers: [...map.layers, { id, title: drawing.title, alt: drawing.title, type: 'brush', brushStyle: drawing.brushStyle, strokes: drawing.strokes.filter(stroke => stroke.points.length >= 2), color: drawing.color, brushSize: drawing.brushSize, kind: 'overlay', visibleByDefault: true, order: map.layers.length, transform: { scale: 1, x: 0, y: 0, opacity: 1 } }] });
       setActive(current => [...current, id]); setDrawing(null); setPanel('layers');
-    }}>{t.finishDrawing}</button><button onClick={() => setDrawing(null)}>{t.cancel}</button></div>}
+    }}>{t.finishDrawing}</button><button onClick={() => setDrawing(null)}>{t.cancel}</button></div></DraggablePanel>}
     {metadata && <MetadataForm map={map} onClose={() => setMetadata(false)} onApply={next => { commit(next); setMetadata(false); }} />}
   </main>;
 }

@@ -1,3 +1,5 @@
+import { brushDashArray } from '../../canvas/brush';
+import type { BrushStyle } from '../../../shared/model';
 import { useState, useRef, type CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
 import { orderedLayers, type MapDocument, type Marker, type Appearance } from '../../../shared/model';
@@ -46,7 +48,7 @@ export function MapCanvas({ map, active, activeCategories, assetUrl, onMarker, p
   map: MapDocument; active: string[]; assetUrl: (id: string) => string; onMarker: (marker: Marker) => void;
   activeCategories: string[];
   placing: boolean; onPlace: (point: Point) => void; provisional?: { position: Point; appearance: Appearance };
-  drawing?: { strokes: { points: Point[]; color: string; brushSize: number }[]; color: string; brushSize: number }; onDrawStart?: () => void; onDrawPoint?: (point: Point) => void;
+  drawing?: { strokes: { points: Point[]; color: string; brushStyle: BrushStyle; brushSize: number }[]; color: string; brushStyle: BrushStyle; brushSize: number }; onDrawStart?: () => void; onDrawPoint?: (point: Point) => void;
   editing?: boolean; onMarkerMove?: (id: string, point: Point) => void; onMarkerDelete?: (id: string) => void;
 }) {
   const { locale, t } = useLanguage();
@@ -62,12 +64,12 @@ export function MapCanvas({ map, active, activeCategories, assetUrl, onMarker, p
       <div className="canvas-world" ref={world} data-testid="canvas-world" style={{ left: rect.x, top: rect.y, width: rect.width, height: rect.height }}>
         {orderedLayers(map.layers).filter(l => active.includes(l.id)).map(layer => {
           if (layer.type === 'polygon') return <svg key={layer.id} className="layer-shape" viewBox="0 0 1 1" preserveAspectRatio="none" style={{ opacity: layer.transform.opacity }} aria-label={layer.title[locale]}><polygon points={layer.points?.map(point => `${point.x},${point.y}`).join(' ')} fill={layer.color} /></svg>;
-          if (layer.type === 'brush') return <svg key={layer.id} className="layer-shape" viewBox="0 0 1 1" preserveAspectRatio="none" style={{ opacity: layer.transform.opacity }} aria-label={layer.title[locale]}>{(layer.strokes ?? (layer.points ? [layer.points] : [])).map((stroke, index) => { const points = Array.isArray(stroke) ? stroke : stroke.points; const color = Array.isArray(stroke) ? layer.color : stroke.color; const brushSize = Array.isArray(stroke) ? layer.brushSize : stroke.brushSize; return <polyline key={index} points={points.map(point => `${point.x},${point.y}`).join(' ')} fill="none" stroke={color} strokeWidth={(brushSize ?? 1) / Math.max(rect.width, rect.height)} strokeLinecap="round" strokeLinejoin="round" />; })}</svg>;
+          if (layer.type === 'brush') return <svg key={layer.id} className="layer-shape" viewBox="0 0 1 1" preserveAspectRatio="none" style={{ opacity: layer.transform.opacity }} aria-label={layer.title[locale]}>{(layer.strokes ?? (layer.points ? [layer.points] : [])).map((stroke, index) => { const points = Array.isArray(stroke) ? stroke : stroke.points; const color = Array.isArray(stroke) ? layer.color : stroke.color; const brushSize = Array.isArray(stroke) ? layer.brushSize : stroke.brushSize; return <polyline key={index} points={points.map(point => `${point.x},${point.y}`).join(' ')} fill="none" stroke={color} strokeWidth={(brushSize ?? 1) / Math.max(rect.width, rect.height)} strokeDasharray={brushDashArray(Array.isArray(stroke) ? layer.brushStyle : stroke.brushStyle, (brushSize ?? 1) / Math.max(rect.width, rect.height))} strokeLinecap="round" strokeLinejoin="round" />; })}</svg>;
           const asset = map.assets.find(a => a.id === layer.assetId);
           const box = contain({ width: rect.width, height: rect.height }, asset ?? map);
           return <LayerImage key={`${layer.id}-${layer.assetId}`} src={assetUrl(layer.assetId!)} alt={layer.alt[locale]} style={{ left: box.x + layer.transform.x * rect.width, top: box.y + layer.transform.y * rect.height, width: box.width, height: box.height, opacity: layer.transform.opacity, transform: `scale(${layer.transform.scale})` }} />;
         })}
-        {drawing && <svg className="layer-shape drawing-shape" viewBox="0 0 1 1" preserveAspectRatio="none">{drawing.strokes.map((stroke, index) => <polyline key={index} points={stroke.points.map(point => `${point.x},${point.y}`).join(' ')} fill="none" stroke={stroke.color} strokeWidth={stroke.brushSize / Math.max(rect.width, rect.height)} strokeLinecap="round" strokeLinejoin="round" />)}</svg>}
+        {drawing && <svg className="layer-shape drawing-shape" viewBox="0 0 1 1" preserveAspectRatio="none">{drawing.strokes.map((stroke, index) => <polyline key={index} points={stroke.points.map(point => `${point.x},${point.y}`).join(' ')} fill="none" stroke={stroke.color} strokeWidth={stroke.brushSize / Math.max(rect.width, rect.height)} strokeDasharray={brushDashArray(stroke.brushStyle, stroke.brushSize / Math.max(rect.width, rect.height))} strokeLinecap="round" strokeLinejoin="round" />)}</svg>}
         {map.markers.filter(m => m.visible && (!m.categoryId || activeCategories.includes(m.categoryId)) && (!m.layerIds.length || m.layerIds.some(id => active.includes(id)))).map(marker => {
           const isDragged = dragState?.id === marker.id;
           return <button key={marker.id} className="map-marker"
