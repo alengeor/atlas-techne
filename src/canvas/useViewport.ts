@@ -1,7 +1,7 @@
 import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { boundView, contain, DEFAULT_VIEW, screenToImage, type Point, type Size, type View } from './geometry';
 
-export function useViewport(image: Size, onPlace?: (point: Point) => void) {
+export function useViewport(image: Size, onPlace?: (point: Point) => void, drawing = false, onDrawStart?: () => void) {
   const viewport = useRef<HTMLDivElement>(null);
   const world = useRef<HTMLDivElement>(null);
   const view = useRef<View>({ ...DEFAULT_VIEW });
@@ -10,6 +10,7 @@ export function useViewport(image: Size, onPlace?: (point: Point) => void) {
   const rectRef = useRef(rect); rectRef.current = rect;
   const sizeRef = useRef(size); sizeRef.current = size;
   const onPlaceRef = useRef(onPlace); onPlaceRef.current = onPlace;
+  const onDrawStartRef = useRef(onDrawStart); onDrawStartRef.current = onDrawStart;
   const frame = useRef(0);
   const paint = useCallback(() => {
     cancelAnimationFrame(frame.current);
@@ -54,16 +55,23 @@ export function useViewport(image: Size, onPlace?: (point: Point) => void) {
       element.setPointerCapture(e.pointerId);
       pointers.set(e.pointerId, relative(e));
       start = relative(e); moved = false;
+      if (drawing) {
+        onDrawStartRef.current?.();
+        onPlaceRef.current?.(screenToImage(start, rectRef.current, view.current) ?? { x: 0, y: 0 });
+      }
     };
     const move = (e: PointerEvent) => {
       if (!pointers.has(e.pointerId)) return;
       const point = relative(e);
       pointers.set(e.pointerId, point);
-      if (start && Math.hypot(point.x - start.x, point.y - start.y) > 6) moved = true;
+      if (start && Math.hypot(point.x - start.x, point.y - start.y) > 6) {
+        moved = true;
+        if (drawing) onPlaceRef.current?.(screenToImage(point, rectRef.current, view.current) ?? { x: 0, y: 0 });
+      }
     };
     const up = (e: PointerEvent) => {
       if (!pointers.has(e.pointerId)) return;
-      if (e.type === 'pointerup' && !moved) {
+      if (e.type === 'pointerup' && !moved && !drawing) {
         const point = screenToImage(relative(e), rectRef.current, view.current);
         if (point) onPlaceRef.current?.(point);
       }
@@ -84,7 +92,7 @@ export function useViewport(image: Size, onPlace?: (point: Point) => void) {
       element.removeEventListener('pointerup', up); element.removeEventListener('pointercancel', up);
       element.removeEventListener('keydown', key);
     };
-  }, [paint, reset]);
+  }, [drawing, paint, reset]);
   const getImagePoint = useCallback((clientX: number, clientY: number) => {
     const element = viewport.current;
     if (!element) return null;

@@ -27,6 +27,7 @@
           "pt": "Malvinas",
           "en": "Malvinas"
         },
+        "type": "image",
         "assetId": "e50f8121-82cf-4870-8e3b-9749841e61b0",
         "kind": "base",
         "visibleByDefault": true,
@@ -50,6 +51,7 @@
           "pt": "Mapa de Satélite",
           "en": "Satellite Map"
         },
+        "type": "image",
         "assetId": "91149316-52b9-4612-92fc-1b7be2f7dda1",
         "kind": "base",
         "visibleByDefault": false,
@@ -73,6 +75,7 @@
           "pt": "Arenito",
           "en": "Sandstone"
         },
+        "type": "image",
         "assetId": "f572c121-bf6f-4930-aa41-fd9c21236451",
         "kind": "overlay",
         "visibleByDefault": false,
@@ -96,6 +99,7 @@
           "pt": "Quarzito",
           "en": "Quartzite"
         },
+        "type": "image",
         "assetId": "b42599f0-a406-42a4-ac09-c0854ce6f91a",
         "kind": "overlay",
         "visibleByDefault": false,
@@ -119,6 +123,7 @@
           "pt": "Till Glacial com Blocos",
           "en": "Glacial Till with Boulders"
         },
+        "type": "image",
         "assetId": "5352240e-2d68-4fb3-8cf2-2a75bf293907",
         "kind": "overlay",
         "visibleByDefault": false,
@@ -142,6 +147,7 @@
           "pt": "Folhelho e Quartzito",
           "en": "Shale and Quartzite"
         },
+        "type": "image",
         "assetId": "c08be787-023d-4b00-8562-3c890b90ffdf",
         "kind": "overlay",
         "visibleByDefault": false,
@@ -165,6 +171,7 @@
           "pt": "Arenito e Folhelho",
           "en": "Sandstone and Shale"
         },
+        "type": "image",
         "assetId": "1240075b-6ebc-4d74-974e-175f63d50285",
         "kind": "overlay",
         "visibleByDefault": false,
@@ -358,5 +365,5 @@
       }
     ]
   },
-  "revision": 3
+  "revision": 5
 }

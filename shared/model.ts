@@ -28,9 +28,16 @@ export const markerSchema = z.object({
 export type Marker = z.infer<typeof markerSchema>;
 export type Appearance = z.infer<typeof appearanceSchema>;
 export const layerSchema = z.object({
-  id, title: localizedSchema, alt: localizedSchema, assetId: id,
+  id, title: localizedSchema, alt: localizedSchema, type: z.enum(['image', 'polygon', 'brush']).default('image'), assetId: id.optional(),
+  points: z.array(z.object({ x: unit, y: unit })).min(2).max(5000).optional(), strokes: z.array(z.union([z.array(z.object({ x: unit, y: unit })).min(2).max(5000), z.object({ points: z.array(z.object({ x: unit, y: unit })).min(2).max(5000), color: z.string().regex(/^#[0-9a-fA-F]{6}$/), brushSize: z.number().finite().min(1).max(200) })])).max(500).optional(), color: z.string().regex(/^#[0-9a-fA-F]{6}$/).optional(), brushSize: z.number().finite().min(1).max(200).optional(),
   kind: z.enum(['base', 'overlay']), visibleByDefault: z.boolean(), order: z.number().int(),
   transform: z.object({ scale: z.number().finite().min(0.05).max(10), x: z.number().finite().min(-2).max(2), y: z.number().finite().min(-2).max(2), opacity: unit }),
+}).superRefine((layer, ctx) => {
+  if (layer.type === 'image' && !layer.assetId) ctx.addIssue({ code: 'custom', message: 'Image layers require an asset' });
+  if (layer.type === 'polygon' && (!layer.points || !layer.color)) ctx.addIssue({ code: 'custom', message: 'Polygon layers require points and a color' });
+  if (layer.type === 'polygon' && layer.points && layer.points.length < 3) ctx.addIssue({ code: 'custom', message: 'Polygon layers require at least three points' });
+  if (layer.type === 'brush' && ((!layer.points && !layer.strokes) || !layer.color || !layer.brushSize)) ctx.addIssue({ code: 'custom', message: 'Brush layers require strokes, a color and a size' });
+  if (layer.type !== 'image' && layer.kind !== 'overlay') ctx.addIssue({ code: 'custom', message: 'Drawn layers must be overlays' });
 });
 export type MapLayer = z.infer<typeof layerSchema>;
 export const assetSchema = z.object({
@@ -51,7 +58,7 @@ export const mapSchema = z.object({
   if (assetIds.size !== map.assets.length || layerIds.size !== map.layers.length || categoryIds.size !== map.markerCategories.length || new Set(map.markers.map(m => m.id)).size !== map.markers.length) fail('Duplicate IDs');
   if (!map.layers.some(l => l.kind === 'base')) fail('A reference layer is required');
   if (map.layers.filter(l => l.kind === 'base' && l.visibleByDefault).length !== 1) fail('Exactly one initial base layer is required');
-  for (const layer of map.layers) if (!assetIds.has(layer.assetId)) fail('Missing layer asset');
+  for (const layer of map.layers) if (layer.assetId && !assetIds.has(layer.assetId)) fail('Missing layer asset');
   for (const marker of map.markers) {
     if (marker.layerIds.some(l => !layerIds.has(l))) fail('Missing marker layer');
     if (marker.categoryId && !categoryIds.has(marker.categoryId)) fail('Missing marker category');

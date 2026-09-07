@@ -7,9 +7,10 @@ import { useLanguage } from '../../i18n/Language';
 import { readImage, type LocalImage } from '../assets/readImage';
 import { apiMessage } from '../../i18n/apiErrors';
 
-export function LayerForm({ onClose, onApply, newMap = false }: {
+export function LayerForm({ onClose, onApply, onDrawOverlay, newMap = false }: {
   newMap?: boolean; onClose: () => void;
   onApply: (image: LocalImage, title: LocalizedText, kind: MapLayer['kind'], progress: (percent: number) => void) => Promise<void>;
+  onDrawOverlay?: () => void;
 }) {
   const { t } = useLanguage();
   const [title, setTitle] = useState(localized());
@@ -37,6 +38,7 @@ export function LayerForm({ onClose, onApply, newMap = false }: {
           }).catch(() => { if (alive.current) setError(t.invalidImage); }).finally(() => { if (alive.current) setBusy(false); });
         }} /></label>
         {image && <div className="upload-preview"><img src={image.url} alt="" /><span>{image.name}<small>{image.width} × {image.height}</small></span></div>}
+        {!newMap && onDrawOverlay && <button type="button" className="wide-button" disabled={busy} onClick={onDrawOverlay}>{t.drawOverlay}</button>}
         {error && <p role="alert" className="form-error">{error}</p>}
         {busy && <label>{t.uploading} {progress}%<progress value={progress} max={100} /></label>}
       </div><footer className="dialog-footer"><button type="button" disabled={busy} onClick={onClose}>{t.cancel}</button><button className="primary" disabled={busy} type="submit">{busy ? t.uploading : newMap ? t.createMap : t.addLayer}</button></footer>
