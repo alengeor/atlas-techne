@@ -1,7 +1,14 @@
-import { useLayoutEffect, useRef, type ReactNode } from 'react';
+import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
+import { Icon } from './Icon';
+import { useLanguage } from '../i18n/Language';
 
 export function DraggablePanel({ title, moveLabel, children }: { title: string; moveLabel: string; children: ReactNode }) {
   const panel = useRef<HTMLDivElement>(null);
+  const [minimized, setMinimized] = useState(false);
+  const restoreButton = useRef<HTMLButtonElement>(null);
+  const minimizeButton = useRef<HTMLButtonElement>(null);
+  const focusToggle = useRef(false);
+  const { t } = useLanguage();
   const drag = useRef<{ pointerId: number; x: number; y: number } | null>(null);
 
   const move = (x: number, y: number) => {
@@ -17,6 +24,7 @@ export function DraggablePanel({ title, moveLabel, children }: { title: string; 
     const element = panel.current;
     if (!element) return;
     const keepVisible = () => {
+      if (element.hidden) return;
       const bounds = element.getBoundingClientRect();
       move(bounds.left, bounds.top);
     };
@@ -27,7 +35,16 @@ export function DraggablePanel({ title, moveLabel, children }: { title: string; 
     return () => { observer.disconnect(); window.removeEventListener('resize', keepVisible); };
   }, []);
 
-  return <div ref={panel} className="drawing-window surface" role="region" aria-label={title}>
+  useLayoutEffect(() => {
+    if (!focusToggle.current) return;
+    (minimized ? restoreButton : minimizeButton).current?.focus();
+    focusToggle.current = false;
+  }, [minimized]);
+
+  return <>
+    {minimized && <button ref={restoreButton} type="button" className="drawing-window-restore" aria-label={t.restoreDrawingPanel} title={t.restoreDrawingPanel} aria-expanded={false} onClick={() => { focusToggle.current = true; setMinimized(false); }}><Icon name="edit" /></button>}
+    <div ref={panel} hidden={minimized} className="drawing-window surface" role="region" aria-label={title}>
+    <div className="drawing-window-header">
     <button type="button" className="drawing-window-handle" aria-label={moveLabel} title={moveLabel}
       onPointerDown={event => {
         if (event.button !== 0 || drag.current) return;
@@ -56,6 +73,8 @@ export function DraggablePanel({ title, moveLabel, children }: { title: string; 
       }}>
       <span>{title}</span><span className="drawing-window-grip" aria-hidden="true">⠿</span>
     </button>
+    <button ref={minimizeButton} type="button" className="drawing-window-minimize" aria-label={t.minimizeDrawingPanel} title={t.minimizeDrawingPanel} aria-expanded={true} onClick={() => { focusToggle.current = true; setMinimized(true); }}><Icon name="minus" /></button>
+    </div>
     <div className="placement-banner drawing-banner">{children}</div>
-  </div>;
+  </div></>;
 }

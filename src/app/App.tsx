@@ -28,6 +28,7 @@ export function App() {
   const [create, setCreate] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<unknown>(null);
+  const [success, setSuccess] = useState<'mapSavedSuccessfully' | 'mapPublishedSuccessfully' | 'mapDeletedSuccessfully' | 'itemDeletedSuccessfully' | null>(null);
   const [confirmation, setConfirmation] = useState<'logout' | 'reload' | null>(null);
   const [editingMapId, setEditingMapId] = useState<string | null>(null);
   useEffect(() => {
@@ -38,7 +39,7 @@ export function App() {
     return () => controller.abort();
   }, [attempt]);
   useEffect(() => {
-    const handler = () => { setMapId(routeId()); setError(null); };
+    const handler = () => { setMapId(routeId()); setError(null); setSuccess(null); };
     window.addEventListener('hashchange', handler); return () => window.removeEventListener('hashchange', handler);
   }, []);
   useEffect(() => {
@@ -51,9 +52,19 @@ export function App() {
   const dirty = map && record ? JSON.stringify(map) !== JSON.stringify(record.map) : false;
   const navigate = (id: string | null) => { window.location.hash = id ? `/maps/${id}` : '/'; setMapId(id); setError(null); };
   const update = (value: MapDocument) => {
+    setSuccess(null);
     const parsed = mapSchema.safeParse(value);
     if (!parsed.success) { setError(parsed.error); return; }
     setWorking(current => new Map(current).set(value.id, parsed.data)); setError(null);
+    if (map?.id === value.id) {
+      const removed = map.layers.some(item => !value.layers.some(next => next.id === item.id))
+        || map.markerCategories.some(item => !value.markerCategories.some(next => next.id === item.id))
+        || map.markers.some(item => {
+          const next = value.markers.find(candidate => candidate.id === item.id);
+          return !next || item.media.some(media => !next.media.some(candidate => candidate.id === media.id));
+        });
+      if (removed) setSuccess('itemDeletedSuccessfully');
+    }
   };
   const acceptRecord = (next: MapRecord) => setRecords(current => current.some(r => r.map.id === next.map.id) ? current.map(r => r.map.id === next.map.id ? next : r) : [...current, next]);
   const saveMap = async () => {
@@ -67,7 +78,7 @@ export function App() {
   };
   const action = (work: () => Promise<void>) => {
     if (busy) return;
-    setBusy(true); setError(null); void work().catch(setError).finally(() => setBusy(false));
+    setBusy(true); setError(null); setSuccess(null); void work().catch(setError).finally(() => setBusy(false));
   };
   const logout = async () => {
     const next = await api.logout(); setSession(next); setAccess(false); setEditing(false); setWorking(new Map()); setRecords([]); navigate(null);
@@ -85,8 +96,8 @@ export function App() {
       onChange={update} assetUrl={id => assetUrl(map.id, id)}
       onImage={(image, kind, progress) => api.upload(map.id, image.file, kind, progress ?? (() => undefined))}
       published={record.published} saveState={busy ? 'saving' : error ? 'error' : dirty ? 'pending' : 'saved'}
-      onSave={() => action(async () => { await saveMap(); })}
-      onPublish={() => action(async () => { const saved = await saveMap(); acceptRecord(await api.publish(saved.map.id, saved.revision)); })}
+      onSave={() => action(async () => { await saveMap(); setSuccess('mapSavedSuccessfully'); })}
+      onPublish={() => action(async () => { const saved = await saveMap(); acceptRecord(await api.publish(saved.map.id, saved.revision)); setSuccess('mapPublishedSuccessfully'); })}
       onReload={() => { if (dirty) setConfirmation('reload'); else action(reload); }} />
       : <main className="landing" id="main-content" tabIndex={-1} style={{ '--landing-background': `url("${identity.background}")` } as CSSProperties}>
         <div className="landing-backdrop" /><section className="catalog-panel surface">
@@ -132,15 +143,18 @@ export function App() {
           const nextRecord = await api.save(editingRecord, next);
           acceptRecord(nextRecord);
           setEditingMapId(null);
+          setSuccess('mapSavedSuccessfully');
         });
       }} onDelete={() => {
         action(async () => {
           await api.deleteMap(editingMapId);
           setRecords(current => current.filter(r => r.map.id !== editingMapId));
           setEditingMapId(null);
+          setSuccess('mapDeletedSuccessfully');
         });
       }} />;
     })()}
     {error !== null && status !== 'error' && <div className="operation-error surface" role="alert"><p>{apiMessage(error, t)}</p><button onClick={() => setError(null)}>{t.close}</button><button onClick={() => setAccess(true)}>{t.access}</button></div>}
+    {success && error === null && status !== 'error' && <div className="operation-success surface" role="status"><p>{t[success]}</p><button onClick={() => setSuccess(null)}>{t.close}</button></div>}
   </>;
 }

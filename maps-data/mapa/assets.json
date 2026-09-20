@@ -1,0 +1,57 @@
+[
+  {
+    "asset": {
+      "id": "78c0ffce-247a-4cc4-969e-06a6413dd87b",
+      "path": "mapa/layers/78c0ffce-247a-4cc4-969e-06a6413dd87b.png",
+      "width": 2172,
+      "height": 724
+    },
+    "mime": "image/png",
+    "originalName": "ChatGPT Image 15 sept 2026, 11_09_01 a.m..png",
+    "thumbnail": "mapa/thumbnails/78c0ffce-247a-4cc4-969e-06a6413dd87b.webp"
+  },
+  {
+    "asset": {
+      "id": "b29baea9-45bc-48bd-9855-2758182707e7",
+      "path": "mapa/markers/b29baea9-45bc-48bd-9855-2758182707e7.mp4",
+      "width": 1280,
+      "height": 720
+    },
+    "mime": "video/mp4",
+    "originalName": "[Solo Leveling)最新情報を発表&最新PV公開! 新たなる戦い、ついに開幕--。主人公「水篠旬の最新ビジュアルも解禁!!さらなる進化を逆げる「SoloLevelingにご期待くださ.mp4",
+    "thumbnail": ""
+  },
+  {
+    "asset": {
+      "id": "6eed89ef-ad2b-4772-95f3-874c65bfa77a",
+      "path": "mapa/layers/6eed89ef-ad2b-4772-95f3-874c65bfa77a.png",
+      "width": 2170,
+      "height": 725
+    },
+    "mime": "image/png",
+    "originalName": "ChatGPT Image 14 sept 2026, 11_22_56 a.m..png",
+    "thumbnail": "mapa/thumbnails/6eed89ef-ad2b-4772-95f3-874c65bfa77a.webp"
+  },
+  {
+    "asset": {
+      "id": "7eb79fb8-30c0-4429-a41e-1a57a1bfa0ee",
+      "path": "mapa/layers/7eb79fb8-30c0-4429-a41e-1a57a1bfa0ee.png",
+      "width": 2020,
+      "height": 779
+    },
+    "mime": "image/png",
+    "originalName": "ChatGPT Image 15 sept 2026, 10_47_43 a.m..png",
+    "thumbnail": "mapa/thumbnails/7eb79fb8-30c0-4429-a41e-1a57a1bfa0ee.webp"
+  },
+  {
+    "asset": {
+      "id": "577eef5f-3fd1-4826-8c3c-9c84c3f2f87d",
+      "path": "mapa/layers/577eef5f-3fd1-4826-8c3c-9c84c3f2f87d.png",
+      "width": 2172,
+      "height": 724
+    },
+    "mime": "image/png",
+    "originalName": "ChatGPT Image 15 sept 2026, 11_09_01 a.m..png",
+    "thumbnail": "mapa/thumbnails/577eef5f-3fd1-4826-8c3c-9c84c3f2f87d.webp"
+  }
+]

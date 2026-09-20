@@ -1,4 +1,7 @@
 export const es = {
+  mapDeletedSuccessfully: 'El mapa se eliminó exitosamente.', itemDeletedSuccessfully: 'El elemento se eliminó. Guardá el mapa para conservar el cambio.',
+  mapSavedSuccessfully: 'El mapa se guardó exitosamente.', mapPublishedSuccessfully: 'El mapa se publicó exitosamente.',
+  minimizeDrawingPanel: 'Minimizar panel de dibujo', restoreDrawingPanel: 'Abrir panel de dibujo',
   editorLogin: 'Acceso Editor', username: 'Usuario', password: 'Contraseña', login: 'Ingresar', logout: 'Cerrar sesión', editor: 'Editor',
   newMap: 'Agregar mapa', createMap: 'Crear mapa', createMapHelp: 'Cargá la primera imagen del lienzo. Después podés agregar otras capas y marcadores.',
   noMaps: 'Todavía no hay mapas publicados.', noEditorMaps: 'Tu primer mapa empieza acá.', noEditorMapsHelp: 'Cargá una imagen para crear un mapa y comenzar a editarlo.',
@@ -58,6 +61,9 @@ export const es = {
 };
 export type Messages = { [K in keyof typeof es]: string };
 export const pt: Messages = {
+  mapDeletedSuccessfully: 'O mapa foi excluído com sucesso.', itemDeletedSuccessfully: 'O item foi removido. Salve o mapa para manter a alteração.',
+  mapSavedSuccessfully: 'O mapa foi salvo com sucesso.', mapPublishedSuccessfully: 'O mapa foi publicado com sucesso.',
+  minimizeDrawingPanel: 'Minimizar painel de desenho', restoreDrawingPanel: 'Abrir painel de desenho',
   editorLogin: 'Acesso Editor', username: 'Usuário', password: 'Senha', login: 'Entrar', logout: 'Sair', editor: 'Editor',
   newMap: 'Adicionar mapa', createMap: 'Criar mapa', createMapHelp: 'Carregue a primeira imagem. Depois adicione outras camadas e marcadores.',
   noMaps: 'Ainda não há mapas publicados.', noEditorMaps: 'Seu primeiro mapa começa aqui.', noEditorMapsHelp: 'Carregue uma imagem para criar um mapa e começar a editar.',
@@ -114,6 +120,9 @@ export const pt: Messages = {
   newPreviewHelp: 'Abra uma imagem própria para experimentar camadas e marcadores. Ela ainda não será salva no disco.',
 };
 export const en: Messages = {
+  mapDeletedSuccessfully: 'The map was deleted successfully.', itemDeletedSuccessfully: 'The item was removed. Save the map to keep the change.',
+  mapSavedSuccessfully: 'The map was saved successfully.', mapPublishedSuccessfully: 'The map was published successfully.',
+  minimizeDrawingPanel: 'Minimize drawing panel', restoreDrawingPanel: 'Open drawing panel',
   editorLogin: 'Editor access', username: 'Username', password: 'Password', login: 'Sign in', logout: 'Sign out', editor: 'Editor',
   newMap: 'Add map', createMap: 'Create map', createMapHelp: 'Upload the first canvas image. You can then add more layers and markers.',
   noMaps: 'There are no published maps yet.', noEditorMaps: 'Your first map starts here.', noEditorMapsHelp: 'Upload an image to create a map and start editing.',

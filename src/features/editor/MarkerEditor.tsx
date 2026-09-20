@@ -47,8 +47,8 @@ export function MarkerEditor({ marker, categories, isNew, customIcons, assetUrl,
       onApply(parsed.data);
     }}>
       <div className="dialog-body">
-        <LocalizedFields title={form.title} description={form.description} onTitle={title => setForm({ ...form, title })} onDescription={description => setForm({ ...form, description })} />
-        <fieldset><legend>{t.markerCategory}</legend><label>{t.markerCategory}
+        <LocalizedFields title={form.title} description={form.description} descriptionMaxLength={8000} onTitle={title => setForm({ ...form, title })} onDescription={description => setForm({ ...form, description })} />
+        <fieldset><label>{t.markerCategory}
           <select value={form.categoryId ?? ''} onChange={event => setForm({ ...form, categoryId: event.target.value || undefined })}>
             <option value="">{t.alwaysVisible}</option>
             {categories.map(category => <option key={category.id} value={category.id}>{category.title[locale] || category.title.es}</option>)}
