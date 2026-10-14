@@ -1,6 +1,8 @@
 import { createServer, type IncomingMessage, type ServerResponse } from 'node:http';
 import { createReadStream } from 'node:fs';
+import { stat } from 'node:fs/promises';
 import { randomUUID } from 'node:crypto';
+import path from 'node:path';
 import { z, ZodError } from 'zod';
 import { changesSchema } from '../shared/api.js';
 import { localizedSchema } from '../shared/model.js';
@@ -21,7 +23,40 @@ async function jsonBody(req: IncomingMessage): Promise<unknown> {
   try { return JSON.parse((await body(req, 2 * 1024 * 1024)).toString('utf8')); }
   catch (error) { if (error instanceof HttpError) throw error; throw new HttpError(400, 'INVALID_INPUT'); }
 }
-export function createApp(storage: MapStorage, auth: Auth, origins: string[]) {
+const contentTypes: Record<string, string> = {
+  '.css': 'text/css; charset=utf-8', '.gif': 'image/gif', '.html': 'text/html; charset=utf-8',
+  '.ico': 'image/x-icon', '.jpeg': 'image/jpeg', '.jpg': 'image/jpeg', '.js': 'text/javascript; charset=utf-8',
+  '.json': 'application/json; charset=utf-8', '.png': 'image/png', '.svg': 'image/svg+xml', '.webp': 'image/webp',
+  '.woff': 'font/woff', '.woff2': 'font/woff2',
+};
+
+async function serveStatic(staticDir: string, pathname: string, method: string, res: ServerResponse) {
+  let relative: string;
+  try {
+    const decoded = decodeURIComponent(pathname);
+    relative = decoded === '/' ? 'index.html' : decoded.slice(1);
+  } catch { throw new HttpError(400, 'INVALID_INPUT'); }
+  const root = path.resolve(staticDir);
+  let file = path.resolve(root, relative);
+  if (file !== root && !file.startsWith(`${root}${path.sep}`)) throw new HttpError(403, 'ORIGIN_DENIED');
+  try {
+    if (!(await stat(file)).isFile()) return false;
+  } catch {
+    if (path.extname(relative)) return false;
+    file = path.join(root, 'index.html');
+    try { if (!(await stat(file)).isFile()) return false; } catch { return false; }
+  }
+  const extension = path.extname(file).toLowerCase();
+  res.writeHead(200, {
+    'Content-Type': contentTypes[extension] ?? 'application/octet-stream',
+    'Cache-Control': extension === '.html' ? 'no-cache' : 'public, max-age=31536000, immutable',
+  });
+  if (method === 'HEAD') res.end();
+  else createReadStream(file).on('error', () => res.destroy()).pipe(res);
+  return true;
+}
+
+export function createApp(storage: MapStorage, auth: Auth, origins: string[], staticDir?: string) {
   const uploads = new Map<string, { count: number; reset: number }>();
   const server = createServer((req, res) => { void handle(req, res); });
   server.requestTimeout = 60_000; server.headersTimeout = 15_000;
@@ -32,7 +67,8 @@ export function createApp(storage: MapStorage, auth: Auth, origins: string[]) {
     try {
       const url = new URL(req.url ?? '/', 'http://localhost'); const method = req.method ?? 'GET';
       if (method !== 'GET' && method !== 'HEAD') {
-        if (!req.headers.origin || !origins.includes(req.headers.origin) || req.headers['x-atlas-request'] !== '1') throw new HttpError(403, 'ORIGIN_DENIED');
+        const ownOrigin = req.headers.host ? `http://${req.headers.host}` : '';
+        if (!req.headers.origin || (!origins.includes(req.headers.origin) && req.headers.origin !== ownOrigin) || req.headers['x-atlas-request'] !== '1') throw new HttpError(403, 'ORIGIN_DENIED');
       }
       if (url.pathname === '/api/health' && method === 'GET') return send({ status: 'ok' });
       if (url.pathname === '/api/session') {
@@ -71,6 +107,7 @@ export function createApp(storage: MapStorage, auth: Auth, origins: string[]) {
         if (method === 'POST') { const { revision } = z.object({ revision: z.number().int() }).parse(await jsonBody(req)); return send(await storage.publish(match[1], revision)); }
         if (method === 'DELETE') { const { revision } = z.object({ revision: z.number().int() }).parse(await jsonBody(req)); return send(await storage.unpublish(match[1], revision)); }
       }
+      if (staticDir && (method === 'GET' || method === 'HEAD') && await serveStatic(staticDir, url.pathname, method, res)) return;
       throw new HttpError(404, 'NOT_FOUND');
     } catch (error) {
       const status = error instanceof HttpError ? error.status : error instanceof ZodError ? 400 : 500;

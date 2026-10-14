@@ -18,11 +18,11 @@ async function titles(page: Page, text: string) {
   await dialog.getByRole('button', { name: /EN/ }).click(); await dialog.getByLabel('Título · EN').fill(text);
 }
 test('editor creates a real map, saves mixed-aspect layers, and controls public access', async ({ page, browser }) => {
-  await page.goto('/'); await expect(page.getByText('Todavía no hay mapas publicados.')).toBeVisible();
+  await page.goto('/', { waitUntil: 'domcontentloaded' }); await expect(page.getByText('Todavía no hay mapas publicados.')).toBeVisible();
   await expect(page.getByRole('button', { name: /Agregar mapa/ })).toHaveCount(0);
   await page.getByRole('button', { name: 'Área de edición' }).click();
-  await page.getByLabel('Usuario', { exact: true }).fill('test-editor');
-  await page.getByLabel('Contraseña', { exact: true }).fill(process.env.ATLAS_E2E_PASSWORD ?? '');
+  await page.getByLabel('Usuario', { exact: true }).fill('MuseoMalvinas');
+  await page.getByLabel('Contraseña', { exact: true }).fill('adminMM');
   await page.getByRole('button', { name: 'Ingresar', exact: true }).click();
   await page.getByRole('button', { name: /Agregar mapa/ }).click(); await titles(page, 'Mi mapa');
   await page.getByRole('dialog').locator('input[type=file]').setInputFiles(await image(page, 800, 400));
@@ -53,4 +53,15 @@ test('editor creates a real map, saves mixed-aspect layers, and controls public 
   await expect(page.getByText('Publicado', { exact: true })).toBeVisible();
   expect((await (await guest.request.get('http://localhost:5175/api/maps')).json()).length).toBe(1);
   await guest.close();
+});
+
+test('main menu shows the project information', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  await page.getByRole('button', { name: 'Acerca de Atlas Austral' }).click();
+  const dialog = page.getByRole('dialog', { name: 'Acerca de Atlas Austral' });
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByRole('img', { name: /creadores de Atlas Austral/ })).toBeVisible();
+  await expect(dialog.getByText('Agustín Caravá', { exact: true })).toBeVisible();
+  await expect(dialog.getByText('¡Gloria y honor a nuestros héroes de Malvinas!')).toBeVisible();
+  await expect(dialog.getByRole('link', { name: 'atlas.austral@gmail.com' })).toHaveAttribute('href', 'mailto:atlas.austral@gmail.com');
 });

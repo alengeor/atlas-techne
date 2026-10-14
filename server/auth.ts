@@ -1,14 +1,34 @@
 import { randomBytes, scrypt, timingSafeEqual } from 'node:crypto';
-import { readFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { z } from 'zod';
 import { HttpError } from './errors.js';
 
 const adminSchema = z.object({ username: z.string().min(1), salt: z.string().regex(/^[a-f0-9]{32}$/), hash: z.string().regex(/^[a-f0-9]{128}$/) });
+const EDITOR_USERNAME = 'MuseoMalvinas';
+const EDITOR_PASSWORD = 'adminMM';
+
 export function passwordHash(password: string, salt: string): Promise<Buffer> {
   return new Promise((resolve, reject) => scrypt(password, salt, 64, { N: 32768, r: 8, p: 1, maxmem: 128 * 1024 * 1024 }, (error, value) => error ? reject(error) : resolve(value)));
 }
+
+/** Garantiza que exista una única cuenta Editor con las credenciales institucionales. */
+export async function ensureEditorAccount(privateDir: string) {
+  const file = path.join(privateDir, 'admin.json');
+  try {
+    const current = adminSchema.parse(JSON.parse(await readFile(file, 'utf8')));
+    const expectedHash = await passwordHash(EDITOR_PASSWORD, current.salt);
+    if (current.username === EDITOR_USERNAME && timingSafeEqual(expectedHash, Buffer.from(current.hash, 'hex'))) return false;
+  } catch { /* Un archivo ausente o inválido se reemplaza con la cuenta institucional. */ }
+
+  const salt = randomBytes(16).toString('hex');
+  const hash = (await passwordHash(EDITOR_PASSWORD, salt)).toString('hex');
+  await mkdir(privateDir, { recursive: true });
+  await writeFile(file, `${JSON.stringify({ username: EDITOR_USERNAME, salt, hash }, null, 2)}\n`, { mode: 0o600 });
+  return true;
+}
+
 export class Auth {
   private sessions = new Map<string, { username: string; expires: number }>();
   private attempts = new Map<string, { count: number; reset: number }>();

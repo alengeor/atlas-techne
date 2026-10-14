@@ -5,6 +5,7 @@ import type { MapRecord, Session } from '../../shared/api';
 import { api, assetUrl } from '../api/client';
 import { Icon } from '../components/Icon';
 import { Dialog } from '../components/Dialog';
+import { AboutDialog } from '../components/AboutDialog';
 import { LanguageSelector, useLanguage } from '../i18n/Language';
 import { apiMessage } from '../i18n/apiErrors';
 import { LayerForm } from '../features/editor/LayerForm';
@@ -25,6 +26,7 @@ export function App() {
   const [mapId, setMapId] = useState(routeId);
   const [editing, setEditing] = useState(false);
   const [access, setAccess] = useState(false);
+  const [about, setAbout] = useState(false);
   const [create, setCreate] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<unknown>(null);
@@ -100,6 +102,7 @@ export function App() {
       onPublish={() => action(async () => { const saved = await saveMap(); acceptRecord(await api.publish(saved.map.id, saved.revision)); setSuccess('mapPublishedSuccessfully'); })}
       onReload={() => { if (dirty) setConfirmation('reload'); else action(reload); }} />
       : <main className="landing" id="main-content" tabIndex={-1} style={{ '--landing-background': `url("${identity.background}")` } as CSSProperties}>
+        <button className="about-button icon-button" aria-label="Acerca de Atlas Austral" title="Acerca de Atlas Austral" onClick={() => setAbout(true)}><Icon name="info" /></button>
         <div className="landing-backdrop" /><section className="catalog-panel surface">
           <header className="catalog-heading"><h1><img className="catalog-logo" src={atlasAustralLogo} alt="Atlas Austral" /></h1><p className="eyebrow">{t.subtitle}</p></header>
           {status === 'loading' && <div className="catalog-state" role="status"><span className="spinner" />{t.loading}</div>}
@@ -118,6 +121,7 @@ export function App() {
           {session.user && <footer className="catalog-footer"><Icon name="edit" /><span>{t.editor} · {session.user.username}</span></footer>}
         </section><div className="landing-language"><LanguageSelector /></div><div className="museum-branding"><p className="museum-credit">{t.developedFor}</p><img className="museum-logo" src={identity.logo} alt={identity.logoAlt} /></div>
       </main>}
+    {about && <AboutDialog onClose={() => setAbout(false)} />}
     {access && !session.user && <Login onClose={() => setAccess(false)} onSession={next => {
       setSession(next); setEditing(true); setAccess(false);
       action(async () => {

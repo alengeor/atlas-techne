@@ -2,28 +2,39 @@
   "name": "atlas-austral",
   "private": true,
   "version": "0.1.0",
+  "description": "Atlas Austral - aplicación cartográfica de escritorio",
+  "author": "Universidad Nacional de Río Negro",
+  "main": "electron/main.cjs",
   "type": "module",
   "engines": {
     "node": ">=24.0.0 <25"
   },
   "scripts": {
     "dev": "node scripts/run.mjs",
-    "build": "tsc --noEmit && vite build && esbuild server/index.ts --bundle --platform=node --format=esm --packages=external --outfile=dist-server/index.js",
+    "build": "npm run build:web && npm run build:backend",
+    "build:web": "tsc --noEmit && vite build",
+    "build:backend": "node scripts/build-electron.js",
     "preview": "node scripts/run.mjs --preview",
     "editor:create": "node --env-file-if-exists=.env scripts/create-editor.mjs",
+    "electron:rebuild": "electron-rebuild --force --only sharp --arch=x64 && node scripts/verify-sharp-electron.js",
+    "electron:prepare": "npm run build:web && npm run build:backend && npm run electron:rebuild",
+    "electron:start": "npm run build && electron .",
+    "electron:pack": "npm run electron:prepare && electron-builder --win dir --x64",
+    "electron:verify-package": "node scripts/verify-packaged-app.js",
+    "electron:dist": "npm run electron:prepare && electron-builder --win nsis --x64 && npm run electron:verify-package",
+    "postinstall": "electron-builder install-app-deps",
     "lint": "eslint . --max-warnings 0",
     "test": "vitest run",
     "test:e2e": "playwright test",
     "test:e2e:install": "playwright install chromium"
   },
   "dependencies": {
-    "lucide-react": "^1.41.0",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
-    "sharp": "^0.35.4",
-    "zod": "^4.5.4"
+    "bytenode": "1.7.0",
+    "sharp": "^0.35.4"
   },
   "devDependencies": {
+    "@electron/rebuild": "4.2.1",
+    "@electron/asar": "3.4.1",
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.63.0",
     "@types/node": "^24.13.3",
@@ -33,10 +44,16 @@
     "esbuild": "^0.28.2",
     "eslint": "^10.10.0",
     "eslint-plugin-react-hooks": "^7.1.1",
+    "electron": "44.6.0",
+    "electron-builder": "26.15.3",
+    "lucide-react": "^1.41.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
     "tsx": "^4.23.13",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.69.0",
     "vite": "^7.3.6",
-    "vitest": "^4.1.11"
+    "vitest": "^4.1.11",
+    "zod": "^4.5.4"
   }
 }

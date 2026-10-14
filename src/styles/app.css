@@ -24,6 +24,7 @@ button .icon { flex-shrink: 0; }
 .muted, small { color: var(--muted); }
 .access-button { position: fixed; z-index: var(--z-controls); right: 24px; top: 24px; width: 54px; height: 54px; padding: 14px; border-radius: 50%; background: rgba(20, 49, 78, .8); }
 .access-button.active { color: var(--focus); border-color: var(--focus); box-shadow: 0 0 18px #e6b65e30; }
+.about-button { position: fixed; z-index: var(--z-controls); right: 90px; top: 24px; width: 54px; height: 54px; padding: 14px; border-radius: 50%; color: var(--accent); background: rgba(20, 49, 78, .8); }
 .landing { height: 100dvh; min-height: 0; display: grid; align-items: center; justify-items: center; padding: 72px 36px 128px; isolation: isolate; position: relative; overflow: hidden; }
 .landing-backdrop { position: fixed; z-index: -2; inset: 0; background: linear-gradient(#14253890, #101b2ca0), var(--landing-background) center / cover; filter: blur(14px) saturate(.45); transform: scale(1.05); }
 .landing::after { content: ''; position: fixed; inset: 0; z-index: -1; background: radial-gradient(ellipse at center, transparent, #0c1c3270); }
@@ -183,6 +184,18 @@ legend { font-size: 14px; color: var(--muted); font-weight: 600; margin-bottom: 
 .file-button input, .file-drop input { position: absolute; width: 100%; height: 100%; inset: 0; opacity: 0; cursor: pointer; padding: 0; }
 .dialog { color: var(--text); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-panel); padding: 0; width: min(460px, calc(100vw - 32px)); max-height: calc(100dvh - 48px); overflow: auto; box-shadow: var(--shadow-modal); }
 .dialog-wide { width: min(540px, calc(100vw - 32px)); }
+.dialog.about-dialog { width: min(1160px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); overflow: hidden; }
+.about-content { display: block; min-height: 0; max-height: calc(100dvh - 110px); overflow: auto; }
+.about-figure { margin: 0; background: var(--surface); border: 0; }
+.about-figure img { display: block; width: 80%; height: auto; margin: 0 auto; }
+.about-copy { padding: 22px 34px 26px; columns: 2 360px; column-gap: 40px; color: var(--muted); font-size: 14px; line-height: 1.45; }
+.about-copy p { margin-bottom: 12px; break-inside: avoid; }
+.about-copy strong { color: var(--text); font-weight: 700; }
+.about-copy blockquote { margin: 16px 0; padding: 10px 16px; break-inside: avoid; border-left: 3px solid var(--accent); color: var(--text); background: #102a436e; font-style: italic; }
+.about-copy .about-honor { color: var(--accent); font-size: 18px; text-align: center; }
+.about-copy .about-honor strong { color: inherit; }
+.about-contact { margin: 26px 0 0; padding-top: 18px; border-top: 1px solid var(--border); }
+.about-contact a { color: var(--info); text-underline-offset: 3px; }
 .marker-details-dialog { width: min(660px, calc(100vw - 32px)); }
 .marker-details-dialog { max-height: min(780px, calc(100dvh - 24px)); }
 .marker-details-dialog { overflow: hidden; display: flex; flex-direction: column; }
@@ -321,6 +334,9 @@ progress { width: 100%; accent-color: var(--accent); }
   .map-screen:has(.map-panel) .map-info { display: none; } .map-screen:has(.map-panel) .map-info-group { bottom: auto; top: 148px; }
   .panel-tabs button { padding: 10px; font-size: 13px; } .panel-body { padding: 16px; }
   .access-button { top: 16px; right: 16px; width: 48px; height: 48px; }
+  .about-button { top: 16px; right: 76px; width: 48px; height: 48px; }
+  .about-figure img { width: 80%; }
+  .about-copy { padding: 18px 20px 24px; columns: 1; }
   .map-topline { top: 18px; left: 12px; right: 76px; flex-wrap: wrap; gap: 4px; } .wordmark-small { font-size: 12px; }
   .map-topline .session-badge { max-width: none; font-size: 10px; padding: 3px 9px; }
 

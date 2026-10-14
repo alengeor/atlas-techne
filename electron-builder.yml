@@ -1,0 +1,45 @@
+appId: ar.edu.unrn.atlasaustral
+productName: Atlas Austral
+artifactName: AtlasAustral-Setup.exe
+directories:
+  output: release
+electronDist: node_modules/electron/dist
+files:
+  - electron/main.cjs
+  - electron/backend-loader.cjs
+  - dist/**/*
+  - dist-electron/server.jsc
+  - maps-data/**/*
+  - maps-multimedia/**/*
+  - package.json
+  - node_modules/bytenode/**/*
+  - node_modules/sharp/**/*
+  - node_modules/@img/colour/**/*
+  - node_modules/@img/sharp-win32-x64/**/*
+  - node_modules/detect-libc/**/*
+  - node_modules/semver/**/*
+  - '!**/*.map'
+  - '!**/*.ts'
+  - '!config-private/**/*'
+asar: true
+asarUnpack:
+  - node_modules/sharp/**/*
+  - node_modules/@img/sharp-win32-x64/**/*
+win:
+  icon: atlas-icon-256.png
+  target:
+    - target: nsis
+      arch:
+        - x64
+  requestedExecutionLevel: asInvoker
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Atlas Austral
+  uninstallDisplayName: Atlas Austral
+compression: maximum
+npmRebuild: true
+buildDependenciesFromSource: false
