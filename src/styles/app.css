@@ -188,11 +188,11 @@ legend { font-size: 14px; color: var(--muted); font-weight: 600; margin-bottom: 
 .about-content { display: block; min-height: 0; max-height: calc(100dvh - 110px); overflow: auto; }
 .about-figure { margin: 0; background: var(--surface); border: 0; }
 .about-figure img { display: block; width: 80%; height: auto; margin: 0 auto; }
-.about-copy { padding: 22px 34px 26px; columns: 2 360px; column-gap: 40px; color: var(--muted); font-size: 14px; line-height: 1.45; }
+.about-copy { padding: 22px 34px 26px; columns: 2 360px; column-gap: 40px; color: var(--muted); font-size: 14px; line-height: 1.45; text-align: justify; text-justify: inter-word; hyphens: auto; }
 .about-copy p { margin-bottom: 12px; break-inside: avoid; }
 .about-copy strong { color: var(--text); font-weight: 700; }
 .about-copy blockquote { margin: 16px 0; padding: 10px 16px; break-inside: avoid; border-left: 3px solid var(--accent); color: var(--text); background: #102a436e; font-style: italic; }
-.about-copy .about-honor { color: var(--accent); font-size: 18px; text-align: center; }
+.about-copy .about-honor { color: var(--accent); font-size: 18px; }
 .about-copy .about-honor strong { color: inherit; }
 .about-contact { margin: 26px 0 0; padding-top: 18px; border-top: 1px solid var(--border); }
 .about-contact a { color: var(--info); text-underline-offset: 3px; }
